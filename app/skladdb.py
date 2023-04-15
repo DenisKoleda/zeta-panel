@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, render_template, request
 from flask_login import login_required, current_user
-from . import db, models
+from . import db, models, or_
 import json
 from urllib.parse import urlparse
 
@@ -11,8 +11,25 @@ skladdb = Blueprint('skladdb', __name__)
 @login_required
 def sklad_pc():
     page = request.args.get('page', 1, type=int)
-    data = models.PC.query.order_by(models.PC.id.asc()).paginate(page=page, per_page=5, error_out=False)
+    filter_value = request.args.get('search', '').lower()
+
+    # Получаем список всех доступных ключей в таблице PC
+    keys = [column.name for column in models.PC.__table__.columns]
+
+    query = models.PC.query.order_by(models.PC.id.asc())
+
+    if filter_value:
+        # Для каждого ключа в таблице PC добавляем фильтр
+        # и объединяем все фильтры с помощью оператора or_
+        filters = [getattr(models.PC, key).ilike(f'%{filter_value}%') for key in keys]
+        query = query.filter(or_(*filters))
+
+    data = query.paginate(page=page, per_page=5, error_out=False)
     return render_template('sklad/pc.html', data=data, page=page)
+
+
+
+
 
 @skladdb.route('/sklad/ram/')
 @login_required

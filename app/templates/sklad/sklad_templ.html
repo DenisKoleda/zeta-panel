@@ -31,7 +31,12 @@
         <div class="tab-pane fade show active" id="ram" role="tabpanel" aria-labelledby="ram-tab">
             <div class="input-group my-3">
                 <div class="col-md-6">
-                    <input type="text" class="form-control" id="filterInput" placeholder="Search...">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="filterInput" placeholder="Search...">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="searchButton">Search</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6 text-center">
                     <button type="button" class="btn btn-success mx-2" onclick="addRow(this)">Добавить строку</button>
