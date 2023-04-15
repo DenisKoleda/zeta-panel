@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function saveAllProducts() {
-        var rows = $('#productTableBody tr');
+        var rows = $('#TableBody tr');
         var data = [];
         rows.each(function(index, value) {
             var row = $(this);
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function addRow() {
-        var tableBody = document.getElementById("productTableBody");
+        var tableBody = document.getElementById("TableBody");
         var lastRow = tableBody.lastElementChild;
         var lastId = lastRow ? parseInt(lastRow.firstElementChild.innerHTML) : 0;
         var newRow = document.createElement("tr");
