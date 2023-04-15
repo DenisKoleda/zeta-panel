@@ -11,7 +11,17 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))  # Пароль
     username = db.Column(db.String(1000))  # Имя пользователя
 
-class Product(db.Model):
+class Ram(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(200))
+    
+class Motherboard(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(200))
+    
+class PC(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(200))

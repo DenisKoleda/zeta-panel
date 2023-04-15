@@ -6,7 +6,7 @@
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <li><a href="/" class="nav-link px-4 link-secondary">Главная</a></li>
           {% if current_user.is_authenticated %}
-              <li><a href="/sklad" class="nav-link px-4 link-dark">Склад</a></li>
+              <li><a href="/sklad/pc" class="nav-link px-4 link-dark">Склад</a></li>
               <li><a href="/tasks" class="nav-link px-4 link-dark">Задачи</a></li>
               <li><a href="/wiki" class="nav-link px-4 link-dark">База знаний</a></li>
               <li><a href="{{ url_for('main.profile') }}" class="nav-link px-2 link-dark">Профиль</a></li>

@@ -1,0 +1,13 @@
+{% extends "sklad/sklad_templ.html" %}
+{% block title %}Материнские платы{% endblock %}
+{% block sklad %}
+<tbody id="MotherboardTableBody">
+    {% for motherboard in motherboards %}
+    <tr>
+        <td>{{ motherboard.id }}</td>
+        <td contenteditable="false" class="editable" data-field="name">{{ motherboard.name }}</td>
+        <td contenteditable="false" class="editable" data-field="description">{{ motherboard.description }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+{% endblock %}

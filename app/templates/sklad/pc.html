@@ -1,0 +1,13 @@
+{% extends "sklad/sklad_templ.html" %}
+{% block title %}Компьютеры{% endblock %}
+{% block sklad %}
+<tbody id="ramTableBody">
+    {% for pc in pcs %}
+    <tr>
+        <td>{{ pc.id }}</td>
+        <td contenteditable="false" class="editable" data-field="name">{{ pc.name }}</td>
+        <td contenteditable="false" class="editable" data-field="description">{{ pc.description }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+{% endblock %}

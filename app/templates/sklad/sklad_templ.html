@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Склад{% endblock %}
+{% block stylesheet %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/filter_db.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/func_db.js') }}"></script>
+{% endblock %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="container">
+    <h1>Склад</h1>
+    <ul class="nav nav-tabs my-3" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button {% if request.path == '/sklad/pc' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} id="pc-tab" data-bs-toggle="tab" data-bs-target="#pc" type="button" role="tab" aria-controls="pc" onclick="window.location.href='/sklad/pc'">Сервера</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button {% if request.path == '/sklad/ram' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} id="ram-tab" data-bs-toggle="tab" data-bs-target="#ram" type="button" role="tab" aria-controls="ram" onclick="window.location.href='/sklad/ram'">Оперативная память</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button {% if request.path == '/sklad/motherboard' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} id="motherboard-tab" data-bs-toggle="tab" data-bs-target="#motherboard" type="button" role="tab" aria-controls="motherboard" onclick="window.location.href='/sklad/motherboard'">Материнские платы</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="ram" role="tabpanel" aria-labelledby="ram-tab">
+            <div class="input-group justify-content-between align-items-center my-3">
+                <input type="text" class="form-control" id="filterInput" placeholder="Search...">
+                <select class="form-select" id="filterColumn">
+                    <option value="0">ID</option>
+                    <option value="1">Имя</option>
+                    <option value="2">Описание</option>
+                </select>
+            </div>
+            <div class="justify-content-end d-flex my-3">
+                <button type="button" class="btn btn-success btn-sm mx-2" onclick="">Добавить строку</button>
+                <button type="button" class="btn btn-warning btn-sm mx-2" onclick="">Редактирование</button>
+                <button type="button" class="btn btn-primary btn-sm mx-2" onclick="">Сохранить все</button>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Описание</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            {% block sklad %}
+            {% endblock %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
