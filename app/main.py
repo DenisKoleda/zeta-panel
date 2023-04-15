@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
+from . import db, models
 
 main = Blueprint('main', __name__)
 
@@ -18,4 +19,5 @@ def profile():
 @main.route('/sklad')
 @login_required
 def sklad():
-    return render_template('sklad.html')
+    products = models.Product.query.all()
+    return render_template('sklad.html', products=products)

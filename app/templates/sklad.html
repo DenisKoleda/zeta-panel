@@ -1,2 +1,37 @@
 {% extends "base.html" %}
+{% block title %}Склад{% endblock %}
+{% block stylesheet %}
+<script src="{{ url_for('static', filename='js/filter_bd.js') }}"></script>
+{% endblock %}
+{% block content %}
 {% include "header.html" %}
+<div class="container">
+    <h1>Склад</h1>
+    <div>
+        <input type="text" id="filterInput" placeholder="Search...">
+        <select id="filterColumn">
+            <option value="0">ID</option>
+            <option value="1">Имя</option>
+            <option value="2">Описание</option>
+        </select>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody id="productTableBody">
+            {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
