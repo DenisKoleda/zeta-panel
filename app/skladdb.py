@@ -7,11 +7,12 @@ from urllib.parse import urlparse
 skladdb = Blueprint('skladdb', __name__)
 
 
-@skladdb.route('/sklad/pc')
+@skladdb.route('/sklad/pc/')
 @login_required
 def sklad_pc():
-    pcs = models.PC.query.all()
-    return render_template('sklad/pc.html', pcs=pcs)
+    page = request.args.get('page', 1, type=int)
+    pcs = models.PC.query.order_by(models.PC.id.asc()).paginate(page=page, per_page=5, error_out=False)
+    return render_template('sklad/pc.html', pcs=pcs, page=page)
 
 @skladdb.route('/sklad/ram')
 @login_required
@@ -24,6 +25,7 @@ def sklad_ram():
 def sklad_motherboard():
     motherboards = models.Motherboard.query.all()
     return render_template('sklad/motherboard.html', motherboards=motherboards)
+
 
 @skladdb.route('/sklad/save_all_products', methods=['POST'])
 def save_all_products():
