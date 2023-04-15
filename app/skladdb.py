@@ -11,23 +11,25 @@ skladdb = Blueprint('skladdb', __name__)
 @login_required
 def sklad_pc():
     page = request.args.get('page', 1, type=int)
-    pcs = models.PC.query.order_by(models.PC.id.asc()).paginate(page=page, per_page=5, error_out=False)
-    return render_template('sklad/pc.html', pcs=pcs, page=page)
+    data = models.PC.query.order_by(models.PC.id.asc()).paginate(page=page, per_page=5, error_out=False)
+    return render_template('sklad/pc.html', data=data, page=page)
 
-@skladdb.route('/sklad/ram')
+@skladdb.route('/sklad/ram/')
 @login_required
 def sklad_ram():
-    rams = models.Ram.query.all()
-    return render_template('sklad/ram.html', rams=rams)
+    page = request.args.get('page', 1, type=int)
+    data = models.Ram.query.order_by(models.Ram.id.asc()).paginate(page=page, per_page=5, error_out=False)
+    return render_template('sklad/ram.html', data=data, page=page)
 
-@skladdb.route('/sklad/motherboard')
+@skladdb.route('/sklad/motherboard/')
 @login_required
 def sklad_motherboard():
-    motherboards = models.Motherboard.query.all()
-    return render_template('sklad/motherboard.html', motherboards=motherboards)
+    page = request.args.get('page', 1, type=int)
+    data = models.Motherboard.query.order_by(models.Motherboard.id.asc()).paginate(page=page, per_page=5, error_out=False)
+    return render_template('sklad/motherboard.html', data=data, page=page)
 
 
-@skladdb.route('/sklad/save_all_products', methods=['POST'])
+@skladdb.route('/sklad/api/save_all_products', methods=['POST'])
 def save_all_products():
     try:
         data = json.loads(request.data)

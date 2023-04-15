@@ -13,7 +13,7 @@
         </tr>
       </thead>
     <tbody id="TableBody">
-        {% for pc in pcs.items %}
+        {% for pc in data.items %}
         <tr>
         <td data-column-id="id">{{ pc.id }}</td>
         <td data-column-id="name" contenteditable="false" class="editable" >{{ pc.name }}</td>
@@ -31,15 +31,15 @@
 </table>
 
 <nav class="pagination justify-content-center mt-4">
-  {% if pcs.has_prev %}
-      <a class="btn btn-outline-primary me-3 {% if pcs.prev_num == pcs.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_pc', page=pcs.prev_num) }}"><i class="bi bi-caret-left"></i> Предыдущая</a>
+  {% if data.has_prev %}
+      <a class="btn btn-outline-primary me-3 {% if data.prev_num == data.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_pc', page=data.prev_num) }}"><i class="bi bi-caret-left"></i> Предыдущая</a>
   {% else %}
       <span class="btn btn-outline-secondary disabled me-3">&laquo; Предыдущая</span>
   {% endif %}
-  {% for num in pcs.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+  {% for num in data.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
       {% if num %}
-          {% if num != pcs.page %}
-              <a class="btn btn-outline-primary me-3 {% if num == pcs.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_pc', page=num) }}">{{ num }}</a>
+          {% if num != data.page %}
+              <a class="btn btn-outline-primary me-3 {% if num == data.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_pc', page=num) }}">{{ num }}</a>
           {% else %}
               <span class="btn btn-outline-info current me-3">{{ num }}</span>
           {% endif %}
@@ -47,8 +47,8 @@
           <span class="btn btn-outline-secondary ellipsis me-3">&hellip;</span>
       {% endif %}
   {% endfor %}
-  {% if pcs.has_next %}
-      <a class="btn btn-outline-primary me-3 {% if pcs.next_num == pcs.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_pc', page=pcs.next_num) }}">Следующая <i class="bi bi-caret-right"></i></a>
+  {% if data.has_next %}
+      <a class="btn btn-outline-primary me-3 {% if data.next_num == data.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_pc', page=data.next_num) }}">Следующая <i class="bi bi-caret-right"></i></a>
   {% else %}
       <span class="btn btn-outline-secondary disabled me-3">Следующая &raquo;</span>
   {% endif %}

@@ -12,7 +12,7 @@
         </tr>
       </thead>
     <tbody id="TableBody">
-        {% for ram in rams %}
+        {% for ram in data.items %}
         <tr>
         <td data-column-id="id">{{ ram.id }}</td>
         <td data-column-id="name" contenteditable="false" class="editable" >{{ ram.name }}</td>
@@ -27,4 +27,29 @@
         {% endfor %}
     </tbody>
 </table>
+
+<nav class="pagination justify-content-center mt-4">
+  {% if data.has_prev %}
+      <a class="btn btn-outline-primary me-3 {% if data.prev_num == data.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_ram', page=data.prev_num) }}"><i class="bi bi-caret-left"></i> Предыдущая</a>
+  {% else %}
+      <span class="btn btn-outline-secondary disabled me-3">&laquo; Предыдущая</span>
+  {% endif %}
+  {% for num in data.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+      {% if num %}
+          {% if num != data.page %}
+              <a class="btn btn-outline-primary me-3 {% if num == data.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_ram', page=num) }}">{{ num }}</a>
+          {% else %}
+              <span class="btn btn-outline-info current me-3">{{ num }}</span>
+          {% endif %}
+      {% else %}
+          <span class="btn btn-outline-secondary ellipsis me-3">&hellip;</span>
+      {% endif %}
+  {% endfor %}
+  {% if data.has_next %}
+      <a class="btn btn-outline-primary me-3 {% if data.next_num == data.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_ram', page=data.next_num) }}">Следующая <i class="bi bi-caret-right"></i></a>
+  {% else %}
+      <span class="btn btn-outline-secondary disabled me-3">Следующая &raquo;</span>
+  {% endif %}
+</nav>
+
 {% endblock %}
