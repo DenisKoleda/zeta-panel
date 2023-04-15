@@ -21,4 +21,5 @@ document.addEventListener('DOMContentLoaded', function() {
     filterColumn.addEventListener('change', function() {
         filterInput.dispatchEvent(new Event('keyup'));
     });
+
 });

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, jsonify, render_template, request
 from flask_login import login_required, current_user
 from . import db, models
 
@@ -16,8 +16,3 @@ def profile():
     return render_template('profile.html', name=current_user.username)
 
 
-@main.route('/sklad')
-@login_required
-def sklad():
-    products = models.Product.query.all()
-    return render_template('sklad.html', products=products)
