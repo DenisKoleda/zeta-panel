@@ -6,11 +6,6 @@ from urllib.parse import urlparse
 
 skladdb = Blueprint('skladdb', __name__)
 
-@skladdb.route('/sklad')
-@login_required
-def sklad_pc():
-    return render_template('sklad/network.html')
-
 
 @skladdb.route('/sklad/pc')
 @login_required
