@@ -20,6 +20,12 @@
         <li class="nav-item" role="presentation">
             <button {% if request.path == '/sklad/motherboard' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} id="motherboard-tab" data-bs-toggle="tab" data-bs-target="#motherboard" type="button" role="tab" aria-controls="motherboard" onclick="window.location.href='/sklad/motherboard'">Материнские платы</button>
         </li>
+        <li class="nav-item" role="presentation">
+            <button {% if request.path == '/sklad/harddrive' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} id="harddrive-tab" data-bs-toggle="tab" data-bs-target="#harddrive" type="button" role="tab" aria-controls="harddrive" onclick="window.location.href='/sklad/harddrive'">Диски</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button {% if request.path == '/sklad/network' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} id="network-tab" data-bs-toggle="tab" data-bs-target="#network" type="button" role="tab" aria-controls="network" onclick="window.location.href='/sklad/network'">Диски</button>
+        </li>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="ram" role="tabpanel" aria-labelledby="ram-tab">
@@ -32,22 +38,12 @@
                 </select>
             </div>
             <div class="justify-content-end d-flex my-3">
-                <button type="button" class="btn btn-success btn-sm mx-2" onclick="">Добавить строку</button>
-                <button type="button" class="btn btn-warning btn-sm mx-2" onclick="">Редактирование</button>
-                <button type="button" class="btn btn-primary btn-sm mx-2" onclick="">Сохранить все</button>
+                <button type="button" class="btn btn-success btn-sm mx-2" onclick="addRow(this)">Добавить строку</button>
+                <button type="button" class="btn btn-warning btn-sm mx-2" onclick="toggleEditable(this)">Включить Редактирование</button>
+                <button type="button" class="btn btn-primary btn-sm mx-2" onclick="saveAllProducts()">Сохранить все</button>
             </div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Имя</th>
-                        <th>Описание</th>
-                        <th></th>
-                    </tr>
-                </thead>
             {% block sklad %}
             {% endblock %}
-            </table>
         </div>
     </div>
 </div>

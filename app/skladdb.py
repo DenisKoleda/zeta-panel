@@ -1,8 +1,15 @@
 from flask import Blueprint, jsonify, render_template, request
 from flask_login import login_required, current_user
 from . import db, models
+import json
+from urllib.parse import urlparse
 
 skladdb = Blueprint('skladdb', __name__)
+
+@skladdb.route('/sklad')
+@login_required
+def sklad_pc():
+    return render_template('sklad/network.html')
 
 
 @skladdb.route('/sklad/pc')
@@ -24,44 +31,46 @@ def sklad_motherboard():
     return render_template('sklad/motherboard.html', motherboards=motherboards)
 
 @skladdb.route('/sklad/save_all_products', methods=['POST'])
-def save():
+def save_all_products():
     try:
-        data = request.json
+        data = json.loads(request.data)
+        print(f"data: {data}")
+        page_url = request.headers.get('Referer')
+        print(f"page_url: {page_url}")
+        path = urlparse(page_url).path
+        print(f"path: {path}")
+        page_name = path.split('/')[-1]
+        print(f"page_name: {page_name}")
+        switcher = {
+            'ram': models.Ram,
+            'motherboard': models.Motherboard,
+            'pc': models.PC
+        }
         for product_data in data:
-            product = models.Product.query.get(product_data['id'])
-            if product is not None:
-                product.name = product_data['name']
-                product.description = product_data['description']
-            else:
-                product = models.Product(
-                    id=product_data['id'],
-                    name=product_data['name'],
-                    description=product_data['description']
-                )
-                db.session.add(product)
-        ram_data = request.form.get('ram')
-        if ram_data:
-            product = models.Product.query.filter_by(name='RAM').first()
-            if product is not None:
-                product.description = ram_data
-            else:
-                product = models.Product(
-                    name='RAM',
-                    description=ram_data
-                )
-                db.session.add(product)
-        motherboard_data = request.form.get('motherboard')
-        if motherboard_data:
-            product = models.Product.query.filter_by(name='Motherboard').first()
-            if product is not None:
-                product.description = motherboard_data
-            else:
-                product = models.Product(
-                    name='Motherboard',
-                    description=motherboard_data
-                )
-                db.session.add(product)
-        db.session.commit()
+            table = switcher.get(page_name.lower(), None)
+            if table is not None:
+                product = table.query.get(product_data.get('id'))
+                if product is not None:
+                    for key in product_data:
+                        if key not in ['id']:
+                            if hasattr(product, key):
+                                setattr(product, key, product_data[key])
+                            else:
+                                print(f'Error: {key} is not a valid column in table {table.__tablename__}!')
+                    db.session.commit()
+                else:
+                    new_product_data = {'id': product_data.get('id')}
+                    for key in product_data:
+                        if key not in ['id']:
+                            if hasattr(table, key):
+                                new_product_data[key] = product_data[key]
+                            else:
+                                print(f'Error: {key} is not a valid column in table {table.__tablename__}!')
+                    new_product = table(**new_product_data)
+                    db.session.add(new_product)
+                    db.session.commit()
+                print(f"product_data: {product_data}")
         return jsonify({'success': True})
-    except:
-        return jsonify({'success': False})
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'success': False, 'message': 'Произошла ошибка при сохранении данных!'})

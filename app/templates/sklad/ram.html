@@ -1,13 +1,30 @@
 {% extends "sklad/sklad_templ.html" %}
 {% block title %}ОЗУ{% endblock %}
 {% block sklad %}
-<tbody id="TableBody">
-    {% for ram in rams %}
-    <tr>
-        <td>{{ ram.id }}</td>
-        <td contenteditable="false" class="editable" data-field="name">{{ ram.name }}</td>
-        <td contenteditable="false" class="editable" data-field="description">{{ ram.description }}</td>
-    </tr>
-    {% endfor %}
-</tbody>
+<table class="table table-striped">
+    <thead>
+        <tr>
+          <th data-column-id="id">ID</th>
+          <th data-column-id="name">Название</th>
+          <th data-column-id="conf">Тип</th>
+          <th data-column-id="freq">Частота</th>
+          <th data-column-id="amount">Количество</th>
+        </tr>
+      </thead>
+    <tbody id="TableBody">
+        {% for ram in rams %}
+        <tr>
+        <td data-column-id="id">{{ ram.id }}</td>
+        <td data-column-id="name" contenteditable="false" class="editable" >{{ ram.name }}</td>
+        <td data-column-id="conf" contenteditable="false" class="editable" >{{ ram.conf }}</td>
+        <td data-column-id="freq" contenteditable="false" class="editable" >{{ ram.freq }}</td>
+        <td data-column-id="amount" contenteditable="false" class="editable" >{{ ram.amount }}</td>
+        <td class="text-end">
+            <button class="btn btn-outline-success" onclick="saveRow(this)">Сохранить</button>
+            <button class="btn btn-outline-danger" onclick="deleteRow(this)">Удалить</button>
+        </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

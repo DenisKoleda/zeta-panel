@@ -13,15 +13,22 @@ class User(UserMixin, db.Model):
 
 class Ram(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(200))
+    name = db.Column(db.String(50))
+    conf = db.Column(db.String(200))
+    freq = db.Column(db.String(200))
+    amount = db.Column(db.String(200))
     
 class Motherboard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(200))
+    name = db.Column(db.String(50))
+    ram = db.Column(db.String(200))
+    m2 = db.Column(db.String(200))
+    amount = db.Column(db.String(200))
     
 class PC(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(200))
+    name = db.Column(db.String(50))
+    conf = db.Column(db.String(200))
+    ip = db.Column(db.String(200))
+    user = db.Column(db.String(200))
+    smart = db.Column(db.String(200))

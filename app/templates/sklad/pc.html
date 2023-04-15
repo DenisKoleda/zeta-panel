@@ -1,13 +1,32 @@
 {% extends "sklad/sklad_templ.html" %}
 {% block title %}Компьютеры{% endblock %}
 {% block sklad %}
-<tbody id="TableBody">
-    {% for pc in pcs %}
-    <tr>
-        <td>{{ pc.id }}</td>
-        <td contenteditable="false" class="editable" data-field="name">{{ pc.name }}</td>
-        <td contenteditable="false" class="editable" data-field="description">{{ pc.description }}</td>
-    </tr>
-    {% endfor %}
-</tbody>
+<table class="table table-striped">
+    <thead>
+        <tr>
+          <th data-column-id="id">ID</th>
+          <th data-column-id="name">Имя</th>
+          <th data-column-id="conf">Конфигурация</th>
+          <th data-column-id="ip">IP Адрес</th>
+          <th data-column-id="ip">Пользователь</th>
+          <th data-column-id="smart">Смарт</th>
+        </tr>
+      </thead>
+    <tbody id="TableBody">
+        {% for pc in pcs %}
+        <tr>
+        <td data-column-id="id">{{ pc.id }}</td>
+        <td data-column-id="name" contenteditable="false" class="editable" >{{ pc.name }}</td>
+        <td data-column-id="conf" contenteditable="false" class="editable" >{{ pc.conf }}</td>
+        <td data-column-id="ip" contenteditable="false" class="editable" >{{ pc.ip }}</td>
+        <td data-column-id="user" contenteditable="false" class="editable" >{{ pc.user }}</td>
+        <td data-column-id="smart" contenteditable="false" class="editable"  >{{ pc.smart }}</td>
+        <td class="text-end">
+            <button class="btn btn-outline-success" onclick="saveRow(this)">Сохранить</button>
+            <button class="btn btn-outline-danger" onclick="deleteRow(this)">Удалить</button>
+        </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

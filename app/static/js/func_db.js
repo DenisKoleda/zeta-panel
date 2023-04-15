@@ -1,65 +1,75 @@
-document.addEventListener('DOMContentLoaded', function() {
-    function toggleEditable() {
-        var elements = document.getElementsByClassName("editable");
-        for (var i = 0; i < elements.length; i++) {
-            if (elements[i].contentEditable == "true") {
-                elements[i].contentEditable = "false";
-            } else {
-                elements[i].contentEditable = "true";
-            }
+function toggleEditable(button) {
+    var elements = document.getElementsByClassName("editable");
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i].contentEditable == "true") {
+            elements[i].contentEditable = "false";
+        } else {
+            elements[i].contentEditable = "true";
         }
     }
-    
-    function saveAllProducts() {
-        var rows = $('#TableBody tr');
-        var data = [];
-        rows.each(function(index, value) {
-            var row = $(this);
-            var id = row.find('td:eq(0)').text();
-            var name = row.find('td:eq(1)').text();
-            var description = row.find('td:eq(2)').text();
-            var product = {
-                id: id,
-                name: name,
-                description: description
-            };
-            data.push(product);
+    if (button.classList.contains("btn-warning")) {
+        button.classList.replace("btn-warning", "btn-danger");
+        button.innerHTML = "Выключить Редактирование";
+    } else {
+        button.classList.replace("btn-danger", "btn-warning");
+        button.innerHTML = "Включить Редактирование";
+    }
+}
+
+function saveAllProducts() {
+    var rows = $('#TableBody tr');
+    var data = [];
+    rows.each(function(index, value) {
+        var row = $(this);
+        var product = {};
+        row.find('td:not(.text-end)').each(function(index, value) {
+            var columnId = $(this).data('column-id');
+            var value = $(this).text();
+            product[columnId] = value;
         });
-        $.ajax({
-            type: 'POST',
-            url: '/sklad/save_all_products',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            success: function(response) {
+        data.push(product);
+    });
+    $.ajax({
+        type: 'POST',
+        url: '/sklad/save_all_products',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(response) {
+            if (response.success) {
                 alert('Данные успешно сохранены!');
                 window.location.reload();
-            },
-            error: function(response) {
-                alert('Произошла ошибка при сохранении данных!');
+            } else {
+                alert(response.message);
             }
-        });
-    }
-    
-    function addRow() {
-        var tableBody = document.getElementById("TableBody");
-        var lastRow = tableBody.lastElementChild;
-        var lastId = lastRow ? parseInt(lastRow.firstElementChild.innerHTML) : 0;
-        var newRow = document.createElement("tr");
-        newRow.innerHTML = `
-            <td>${lastId + 1}</td>
-            <td contenteditable="true" class="editable" data-field="name"></td>
-            <td contenteditable="true" class="editable" data-field="description"></td>
-        `;
-        if (lastRow) {
-            tableBody.appendChild(newRow);
-        } else {
-            tableBody.innerHTML = newRow.outerHTML;
+        },
+        error: function(response) {
+            alert('Произошла ошибка при сохранении данных!');
         }
-    }
-    
-    document.querySelector(".btn-primary").addEventListener("click", saveAllProducts);
-    document.querySelector(".btn-success").addEventListener("click", addRow);
-    document.querySelector(".btn-warning").addEventListener("click", toggleEditable);
-    
-    
-});
+    });
+}
+
+
+function addRow() {
+
+    // выбираем последнюю строку таблицы
+    var lastRow = $('#TableBody tr:last-child');
+
+    // клонируем последнюю строку и устанавливаем пустые значения в ячейках, кроме первой (id)
+    var newRow = lastRow.clone();
+    newRow.find('td').not(':first').text('');
+
+    // увеличиваем значение в первой ячейке на 1
+    var currentId = parseInt(newRow.find('td:first').text());
+    newRow.find('td:first').text(currentId + 1);
+
+    // включаем атрибут contenteditable="true" для всех ячеек, кроме первой (id) и последней (кнопок)
+    newRow.find('td').not(':first, :last').attr('contenteditable', 'true');
+
+    // добавляем скопированную строку в таблицу
+    $('#TableBody').append(newRow);
+
+    // сохраняем кнопки в последней ячейке и отключаем атрибут contenteditable для кнопок
+    var lastCell = lastRow.find('td:last-child');
+    newRow.find('td:last-child').html(lastCell.html()).find('button').removeAttr('contenteditable');
+}
+
