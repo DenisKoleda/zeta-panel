@@ -29,8 +29,6 @@ def sklad_pc():
 
 
 
-
-
 @skladdb.route('/sklad/ram/')
 @login_required
 def sklad_ram():
