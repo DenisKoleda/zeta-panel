@@ -17,9 +17,11 @@ $(document).ready(function() {
             newRow.append($('<td>').attr('data-column-id', $('th:eq(3)').attr('data-column-id')).addClass('border-end').attr('contentEditable', false).text(row.ip));
             newRow.append($('<td>').attr('data-column-id', $('th:eq(4)').attr('data-column-id')).addClass('border-end').attr('contentEditable', false).text(row.user));
             newRow.append($('<td>').attr('data-column-id', $('th:eq(5)').attr('data-column-id')).attr('contentEditable', false).text(row.smart));
+            newRow.append($('<td>').addClass('text-center').append($('<button>').addClass('btn btn-outline-success mx-2').attr('onclick', 'saveRow(this)').text('Сохранить')).append($('<button>').addClass('btn btn-outline-danger ms-2').attr('onclick', 'deleteRow(this)').text('Удалить')));
             $('#TableBody').append(newRow);
         });
     });
+    
     
 
 
