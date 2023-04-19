@@ -1,9 +1,9 @@
-from flask import Flask
+import os
+from flask import Flask, jsonify, request
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
-
 
 db = SQLAlchemy()
 mail = Mail()
@@ -47,7 +47,10 @@ def create_app():
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    from .skladdb import skladdb as skladdb_blueprint
+    from .db_sklad.skladdb import skladdb as skladdb_blueprint
     app.register_blueprint(skladdb_blueprint)
+    
+    from .db_sklad.skladdb_api import skladdb_api as skladdb_api_blueprint
+    app.register_blueprint(skladdb_api_blueprint)
 
     return app

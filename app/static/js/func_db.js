@@ -1,5 +1,5 @@
 function toggleEditable(button) {
-    var elements = document.getElementsByClassName("editable");
+    var elements = document.querySelectorAll('[contenteditable]');
     for (var i = 0; i < elements.length; i++) {
         if (elements[i].contentEditable == "true") {
             elements[i].contentEditable = "false";

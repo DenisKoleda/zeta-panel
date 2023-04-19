@@ -1,50 +1,24 @@
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from . import db, models, or_
+from app import db, models, or_
 import json
 from urllib.parse import urlparse
 
-skladdb = Blueprint('skladdb', __name__)
+skladdb_api = Blueprint('skladdb_api', __name__)
 
 
-@skladdb.route('/sklad/pc/')
-@login_required
-def sklad_pc():
-    page = request.args.get('page', 1, type=int)
-    filter_value = request.args.get('search', '').lower()
+@skladdb_api.route('/api/sklad/get_ram', methods=['GET'])
+def api_get_ram():
+    ram_list = models.Ram.query.all()
+    return jsonify([ram.serialize() for ram in ram_list])
 
-    # Получаем список всех доступных ключей в таблице PC
-    keys = [column.name for column in models.PC.__table__.columns]
-
-    query = models.PC.query.order_by(models.PC.id.asc())
-
-    if filter_value:
-        # Для каждого ключа в таблице PC добавляем фильтр
-        # и объединяем все фильтры с помощью оператора or_
-        filters = [getattr(models.PC, key).ilike(f'%{filter_value}%') for key in keys]
-        query = query.filter(or_(*filters))
-
-    data = query.paginate(page=page, per_page=5, error_out=False)
-    return render_template('sklad/pc.html', data=data, page=page)
+@skladdb_api.route('/api/sklad/get_pc', methods=['GET'])
+def api_get_pc():
+    pc_list = models.PC.query.all()
+    return jsonify([pc.serialize() for pc in pc_list])
 
 
-
-@skladdb.route('/sklad/ram/')
-@login_required
-def sklad_ram():
-    page = request.args.get('page', 1, type=int)
-    data = models.Ram.query.order_by(models.Ram.id.asc()).paginate(page=page, per_page=5, error_out=False)
-    return render_template('sklad/ram.html', data=data, page=page)
-
-@skladdb.route('/sklad/motherboard/')
-@login_required
-def sklad_motherboard():
-    page = request.args.get('page', 1, type=int)
-    data = models.Motherboard.query.order_by(models.Motherboard.id.asc()).paginate(page=page, per_page=5, error_out=False)
-    return render_template('sklad/motherboard.html', data=data, page=page)
-
-
-@skladdb.route('/sklad/api/save_all_products', methods=['POST'])
+@skladdb_api.route('/api/sklad/save_all_products', methods=['POST'])
 def save_all_products():
     try:
         data = json.loads(request.data)

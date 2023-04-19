@@ -4,55 +4,16 @@
 <table class="table table-striped">
     <thead>
         <tr>
-          <th data-column-id="id">ID</th>
-          <th data-column-id="name">Имя</th>
-          <th data-column-id="conf">Конфигурация</th>
-          <th data-column-id="ip">IP Адрес</th>
-          <th data-column-id="user">Пользователь</th>
-          <th data-column-id="smart">Смарт</th>
-        </tr>
+            <th data-column-id="id" class="border-end">ID</th>
+            <th data-column-id="name" class="border-end">Имя</th>
+            <th data-column-id="conf" class="border-end">Конфигурация</th>
+            <th data-column-id="ip" class="border-end">IP Адрес</th>
+            <th data-column-id="user" class="border-end">Пользователь</th>
+            <th data-column-id="smart">Смарт</th>
+          </tr>
       </thead>
     <tbody id="TableBody">
-        {% for pc in data.items %}
-        <tr>
-        <td data-column-id="id">{{ pc.id }}</td>
-        <td data-column-id="name" contenteditable="false" class="editable" >{{ pc.name }}</td>
-        <td data-column-id="conf" contenteditable="false" class="editable" >{{ pc.conf }}</td>
-        <td data-column-id="ip" contenteditable="false" class="editable" >{{ pc.ip }}</td>
-        <td data-column-id="user" contenteditable="false" class="editable" >{{ pc.user }}</td>
-        <td data-column-id="smart" contenteditable="false" class="editable"  >{{ pc.smart }}</td>
-        <td class="text-end">
-            <button class="btn btn-outline-success" onclick="saveRow(this)">Сохранить</button>
-            <button class="btn btn-outline-danger" onclick="deleteRow(this)">Удалить</button>
-        </td>
-        </tr>
-        {% endfor %}
     </tbody>
 </table>
-
-<nav class="pagination justify-content-center mt-4">
-  {% if data.has_prev %}
-      <a class="btn btn-outline-primary me-3 {% if data.prev_num == data.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_pc', page=data.prev_num) }}"><i class="bi bi-caret-left"></i> Предыдущая</a>
-  {% else %}
-      <span class="btn btn-outline-secondary disabled me-3">&laquo; Предыдущая</span>
-  {% endif %}
-  {% for num in data.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
-      {% if num %}
-          {% if num != data.page %}
-              <a class="btn btn-outline-primary me-3 {% if num == data.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_pc', page=num) }}">{{ num }}</a>
-          {% else %}
-              <span class="btn btn-outline-info current me-3">{{ num }}</span>
-          {% endif %}
-      {% else %}
-          <span class="btn btn-outline-secondary ellipsis me-3">&hellip;</span>
-      {% endif %}
-  {% endfor %}
-  {% if data.has_next %}
-      <a class="btn btn-outline-primary me-3 {% if data.next_num == data.page %}active btn-primary{% endif %}" href="{{ url_for('skladdb.sklad_pc', page=data.next_num) }}">Следующая <i class="bi bi-caret-right"></i></a>
-  {% else %}
-      <span class="btn btn-outline-secondary disabled me-3">Следующая &raquo;</span>
-  {% endif %}
-</nav>
-
 
 {% endblock %}
