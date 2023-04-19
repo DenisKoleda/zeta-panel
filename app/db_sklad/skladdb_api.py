@@ -27,7 +27,7 @@ def save_all_products():
         print(f"page_url: {page_url}")
         path = urlparse(page_url).path
         print(f"path: {path}")
-        page_name = path.split('/')[-2]
+        page_name = path.split('/')[-1]
         print(f"page_name: {page_name}")
         switcher = {
             'ram': models.Ram,

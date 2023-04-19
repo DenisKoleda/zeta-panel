@@ -22,7 +22,7 @@ function saveAllProducts() {
     rows.each(function(index, value) {
         var row = $(this);
         var product = {};
-        row.find('td:not(.text-end)').each(function(index, value) {
+        row.find('td:not(.text-end):not(:last-child)').each(function(index, value) {
             var columnId = $(this).data('column-id');
             var value = $(this).text();
             product[columnId] = value;
@@ -31,7 +31,7 @@ function saveAllProducts() {
     });
     $.ajax({
         type: 'POST',
-        url: '/sklad/api/save_all_products',
+        url: '/api/sklad/save_all_products',
         data: JSON.stringify(data),
         contentType: 'application/json',
         success: function(response) {
@@ -47,6 +47,7 @@ function saveAllProducts() {
         }
     });
 }
+
 
 
 function addRow() {
