@@ -6,43 +6,93 @@ $(document).ready(function() {
     } else if (url.indexOf('ram') !== -1) {
         apiEndpoint = '/api/sklad/get_ram';
     }
+
+
+    // $('#filter').on('keyup', function() {
+    //     table.column(0).search($(this).val()).draw();
+    //   });
+
+    $('#myTable thead tr')
+        .clone(true)
+        .addClass('filters')
+        .appendTo('#myTable thead');
+
+
     // отправляем GET запрос на сервер и получаем данные
     $.get(apiEndpoint, function(data) {
-        // проходимся по каждой строке данных и добавляем их в таблицу
-        $.each(data, function(index, row) {
-            var newRow = $('<tr>');
-            newRow.append($('<td>').attr('data-column-id', $('th:eq(0)').attr('data-column-id')).addClass('border-end').attr('contentEditable', false).text(row.id));
-            newRow.append($('<td>').attr('data-column-id', $('th:eq(1)').attr('data-column-id')).addClass('border-end').attr('contentEditable', false).text(row.name));
-            newRow.append($('<td>').attr('data-column-id', $('th:eq(2)').attr('data-column-id')).addClass('border-end').attr('contentEditable', false).text(row.conf));
-            newRow.append($('<td>').attr('data-column-id', $('th:eq(3)').attr('data-column-id')).addClass('border-end').attr('contentEditable', false).text(row.ip));
-            newRow.append($('<td>').attr('data-column-id', $('th:eq(4)').attr('data-column-id')).addClass('border-end').attr('contentEditable', false).text(row.user));
-            newRow.append($('<td>').attr('data-column-id', $('th:eq(5)').attr('data-column-id')).attr('contentEditable', false).text(row.smart));
-            newRow.append($('<td>').addClass('text-center').append($('<button>').addClass('btn btn-outline-success mx-2').attr('onclick', 'saveRow(this)').text('Сохранить')).append($('<button>').addClass('btn btn-outline-danger ms-2').attr('onclick', 'deleteRow(this)').text('Удалить')));
-            $('#TableBody').append(newRow);
-        });
-    });
-    
-    
-
-
-    $('#table').DataTable({
-        // добавляем кнопки фильтрации в заголовки столбцов
-        initComplete: function() {
-            this.api().columns().every(function() {
-                var column = this;
-                var header = $(column.header());
-                var select = $('<select><option value=""></option></select>')
-                    .appendTo(header)
-                    .on('change', function() {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
-                        column.search(val ? '^' + val + '$' : '', true, false).draw();
-                    });
-                column.data().unique().sort().each(function(d, j) {
-                    select.append('<option value="' + d + '">' + d + '</option>')
+        var table = $('#myTable').DataTable({
+        orderCellsTop: true,
+        // fixedHeader: true,
+          "paging": true,
+          "searching": true,
+          "ordering": true,
+          "data": data,
+          "columns": [
+            {"data": "id"},
+            {"data": "name"},
+            {"data": "conf"},
+            {"data": "ip"},
+            {"data": "user"},
+            {"data": "smart"},
+            {
+              "render": function(data, type, row, meta) {
+                return '<button class="btn btn-outline-success mx-2" onclick="saveRow(this)">Сохранить</button>' +
+                       '<button class="btn btn-outline-danger mx-2" onclick="deleteRow(this)">Удалить</button>';
+              },
+              "className": "text-center",
+              "searchable": false, // add this line to make the column not searchable
+              "orderable": false // add this line to make the column not orderable
+            }
+          ],
+          initComplete: function () {
+            var api = this.api();
+ 
+            // For each column
+            api
+                .columns()
+                .eq(0)
+                .each(function (colIdx) {
+                    // Set the header cell to contain the input element
+                    var cell = $('.filters th').eq(
+                        $(api.column(colIdx).header()).index()
+                    );
+                    var title = $(cell).text();
+                    $(cell).html('<input type="text" placeholder="' + title + '" />');
+ 
+                    // On every keypress in this input
+                    $(
+                        'input',
+                        $('.filters th').eq($(api.column(colIdx).header()).index())
+                    )
+                        .off('keyup change')
+                        .on('change', function (e) {
+                            // Get the search value
+                            $(this).attr('title', $(this).val());
+                            var regexr = '({search})'; //$(this).parents('th').find('select').val();
+ 
+                            var cursorPosition = this.selectionStart;
+                            // Search the column for that value
+                            api
+                                .column(colIdx)
+                                .search(
+                                    this.value != ''
+                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                        : '',
+                                    this.value != '',
+                                    this.value == ''
+                                )
+                                .draw();
+                        })
+                        .on('keyup', function (e) {
+                            e.stopPropagation();
+ 
+                            $(this).trigger('change');
+                            $(this)
+                                .focus()[0]
+                                .setSelectionRange(cursorPosition, cursorPosition);
+                        });
                 });
-            });
-        }
-    });
+            },
+        });
+      });
 });
