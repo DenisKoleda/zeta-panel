@@ -33,16 +33,7 @@ $(document).ready(function() {
             {"data": "conf"},
             {"data": "ip"},
             {"data": "user"},
-            {"data": "smart"},
-            {
-              "render": function(data, type, row, meta) {
-                return '<button class="btn btn-outline-success mx-2" onclick="saveRow(this)">Сохранить</button>' +
-                       '<button class="btn btn-outline-danger mx-2" onclick="deleteRow(this)">Удалить</button>';
-              },
-              "className": "text-center",
-              "searchable": false, // add this line to make the column not searchable
-              "orderable": false // add this line to make the column not orderable
-            }
+            {"data": "smart"}
           ],
           initComplete: function () {
             var api = this.api();

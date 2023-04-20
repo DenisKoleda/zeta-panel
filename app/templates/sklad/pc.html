@@ -1,21 +1,28 @@
 {% extends "sklad/sklad_templ.html" %}
 {% block title %}Сервера{% endblock %}
 {% block sklad %}
-<table id="myTable" class="table table-striped display">
+<table id="myTable" class="table table-striped" style="width:100%">
     <thead>
         <tr>
-            <th data-column-id="id" class="border-end">ID</th>
-            <th data-column-id="name" class="border-end">Имя</th>
-            <th data-column-id="conf" class="border-end">Конфигурация</th>
-            <th data-column-id="ip" class="border-end">IP Адрес</th>
-            <th data-column-id="user" class="border-end">Пользователь</th>
-            <th data-column-id="smart">Смарт</th>
-            <th class="text-center" data-column-id="function">Действия</th>
+            <th data-column-id="id" > ID </th>
+            <th data-column-id="name" > Имя </th>
+            <th data-column-id="conf" > Конфигурация </th>
+            <th data-column-id="ip" > IP Адрес </th>
+            <th data-column-id="user" > Пользователь </th>
+            <th data-column-id="smart"> Смарт </th>
           </tr>
       </thead>
     <tbody id="TableBody">
     </tbody>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Конфигурация</th>
+            <th>IP Адрес</th>
+            <th>Пользователь</th>
+            <th>Смарт</th>
+        </tr>
+    </tfoot>
 </table>
-
-
 {% endblock %}
