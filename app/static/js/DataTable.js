@@ -22,11 +22,15 @@ $(document).ready(function() {
     $.get(apiEndpoint, function(data) {
         var table = $('#myTable').DataTable({
         orderCellsTop: true,
+        select: true,
         // fixedHeader: true,
           "paging": true,
           "searching": true,
           "ordering": true,
           "data": data,
+          "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+          },
           "columns": [
             {"data": "id"},
             {"data": "name"},
