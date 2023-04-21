@@ -1,0 +1,218 @@
+$(document).ready(function() {
+    var url = window.location.href;
+    var apiEndpoint = '/api/sklad/get_pc';
+
+    $('#myTable thead tr')
+        .clone(true)
+        .addClass('filters')
+        .appendTo('#myTable thead');
+
+    // отправляем GET запрос на сервер и получаем данные
+    $.get(apiEndpoint, function(data) {
+        var table = $('#myTable').DataTable({
+        orderCellsTop: true,
+        select: true,
+        // fixedHeader: true,
+          "paging": true,
+          "searching": true,
+          "ordering": true,
+          "data": data,
+          "language": {
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+          },
+          "columns": [
+            {"data": "id"},
+            {"data": "name"},
+            {"data": "conf"},
+            {"data": "ip"},
+            {"data": "user"},
+            {"data": "smart"}
+          ],
+          initComplete: function () {
+            var api = this.api();
+ 
+            // For each column
+            api
+                .columns()
+                .eq(0)
+                .each(function (colIdx) {
+                    // Set the header cell to contain the input element
+                    var cell = $('.filters th').eq(
+                        $(api.column(colIdx).header()).index()
+                    );
+                    var title = $(cell).text();
+                    $(cell).html('<input type="text" placeholder="' + title + '" />');
+ 
+                    // On every keypress in this input
+                    $(
+                        'input',
+                        $('.filters th').eq($(api.column(colIdx).header()).index())
+                    )
+                        .off('keyup change')
+                        .on('change', function (e) {
+                            // Get the search value
+                            $(this).attr('title', $(this).val());
+                            var regexr = '({search})'; //$(this).parents('th').find('select').val();
+ 
+                            var cursorPosition = this.selectionStart;
+                            // Search the column for that value
+                            api
+                                .column(colIdx)
+                                .search(
+                                    this.value != ''
+                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                        : '',
+                                    this.value != '',
+                                    this.value == ''
+                                )
+                                .draw();
+                        })
+                        .on('keyup', function (e) {
+                            e.stopPropagation();
+ 
+                            $(this).trigger('change');
+                            $(this)
+                                .focus()[0]
+                                .setSelectionRange(cursorPosition, cursorPosition);
+                        });
+                });
+            },
+        });
+
+        $('#addForm').submit(function(event) {
+            event.preventDefault();
+        
+            // Получение данных из формы
+            var name = $('#name').val();
+            var conf = $('#conf').val();
+            var ip = $('#ip').val();
+            var user = $('#user').val();
+            var smart = $('#smart').val();
+        
+            // AJAX запрос для добавления строки в базу данных
+            $.ajax({
+                url: '/api/sklad/add_row_pc',
+                type: 'POST',
+                data: {
+                  'name': name,
+                  'conf': conf,
+                  'ip': ip,
+                  'user': user,
+                  'smart': smart
+                },
+                success: function(response) {
+                  // Добавление новой строки в таблицу DataTable со сгенерированным ID
+                  table.row.add({
+                    "id": response.id,
+                    "name": name,
+                    "conf": conf,
+                    "ip": ip,
+                    "user": user,
+                    "smart": smart
+                  }).draw(false);
+          
+                  // Очистка формы и закрытие модального окна
+                  $('#addForm')[0].reset();
+                  $('#addModal').modal('hide');
+                },
+                error: function(error) {
+                  console.log(error);
+                }
+              });
+        });
+        $('#editModal').on('show.bs.modal', function() {
+            $.ajax({
+              url: '/api/sklad/get_pc_items',
+              type: 'GET',
+              success: function(response) {
+                // Очищаем список и добавляем опции для каждого элемента
+                $('#idSelectEdit').empty();
+                response.forEach(function(item) {
+                  $('#idSelectEdit').append($('<option>', {
+                    value: item.id,
+                    text: item.id
+                  }));
+                });
+          
+                // Выполняем запрос для получения данных об элементе с выбранным ID
+                var itemId = $('#idSelectEdit').val();
+                $.ajax({
+                  url: '/api/sklad/get_pc_item',
+                  type: 'GET',
+                  data: { id: itemId },
+                  success: function(response) {
+                    // Заполняем поля формы данными об элементе
+                    $('#nameEdit').val(response.name);
+                    $('#confEdit').val(response.conf);
+                    $('#ipEdit').val(response.ip_address);
+                    $('#userEdit').val(response.username);
+                    $('#smartEdit').val(response.is_smart);
+                  },
+                  error: function(error) {
+                    console.log(error);
+                  }
+                });
+              },
+              error: function(error) {
+                console.log(error);
+              }
+            });
+          });
+          
+          
+          // Обновляем данные об элементе при изменении выбранного ID
+          $('#idSelectEdit').change(function() {
+            var itemId = $(this).val();
+            $.ajax({
+              url: '/api/sklad/get_pc_item',
+              type: 'GET',
+              data: { id: itemId },
+              success: function(response) {
+                // Заполняем поля формы данными об элементе
+                $('#nameEdit').val(response.name);
+                $('#confEdit').val(response.conf);
+                $('#ipEdit').val(response.ip_address);
+                $('#userEdit').val(response.username);
+                $('#smartEdit').val(response.is_smart);
+              },
+              error: function(error) {
+                console.log(error);
+              }
+            });
+          });
+          $('#editForm').submit(function(event) {
+            event.preventDefault();
+          
+            var id = $('#idSelectEdit').val();
+            var name = $('#nameEdit').val();
+            var conf = $('#confEdit').val();
+            var ip = $('#ipEdit').val();
+            var user = $('#userEdit').val();
+            var smart = $('#smartEdit').val();
+          
+            $.ajax({
+              url: '/api/sklad/update_pc_item',
+              type: 'POST',
+              data: { id: id, name: name, conf: conf, ip: ip, user: user, smart: smart },
+              success: function(response) {
+                // Обновляем данные в выпадающем списке и в форме
+                $('#idSelectEdit option[value="' + response.id + '"]').text(response.id);
+                $('#nameEdit').val(response.name);
+                $('#confEdit').val(response.conf);
+                $('#ipEdit').val(response.ip);
+                $('#userEdit').val(response.user);
+                $('#smartEdit').val(response.smart);
+          
+                // Перезагружаем страницу после обновления элемента
+                location.reload();
+              },
+              error: function(error) {
+                console.log(error);
+              }
+            });
+          });
+          
+          
+    });
+});
+

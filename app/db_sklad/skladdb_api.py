@@ -17,6 +17,59 @@ def api_get_pc():
     pc_list = models.PC.query.all()
     return jsonify([pc.serialize() for pc in pc_list])
 
+@skladdb_api.route('/api/sklad/add_row_pc', methods=['POST'])
+def add_row_pc():
+    name = request.form['name']
+    conf = request.form['conf']
+    ip = request.form['ip']
+    user = request.form['user']
+    smart = request.form['smart']
+    last_id = models.PC.query.order_by(models.PC.id.desc()).first().id
+    new_row = models.PC(name=name, conf=conf, ip=ip, user=user, smart=smart)
+    db.session.add(new_row)
+    db.session.commit()
+    return jsonify({
+        'id': last_id + 1,
+        'name': name,
+        'conf': conf,
+        'ip': ip,
+        'user': user,
+        'smart': smart
+    })
+
+@skladdb_api.route('/api/sklad/get_pc_items')
+def get_pc_items():
+    items = models.PC.query.all()
+    items_dict = [{'id': item.id, 'name': item.name, 'conf': item.conf, 'ip': item.ip, 'user': item.user, 'smart': item.smart} for item in items]
+    return jsonify(items_dict)
+
+@skladdb_api.route('/api/sklad/get_pc_item')
+def get_pc_item():
+    id = request.args.get('id')
+    if id is not None:
+        item = models.PC.query.filter_by(id=id).first()
+        if item:
+            return jsonify({'name': item.name, 'conf': item.conf, 'ip_address': item.ip, 'username': item.user, 'is_smart': item.smart})
+    return jsonify({'error': 'Item not found'})
+
+
+@skladdb_api.route('/api/sklad/update_pc_item', methods=['POST'])
+def update_item():
+    id = request.form['id']
+    name = request.form['name']
+    conf = request.form['conf']
+    ip = request.form['ip']
+    user = request.form['user']
+    smart = request.form['smart']
+    item = models.PC.query.get(id)
+    item.name = name
+    item.conf = conf
+    item.ip = ip
+    item.user = user
+    item.smart = smart
+    db.session.commit()
+    return jsonify({'id': item.id, 'name': item.name, 'conf': item.conf, 'ip': item.ip, 'user': item.user, 'smart': item.smart})
+
 
 @skladdb_api.route('/api/sklad/save_all_products', methods=['POST'])
 def save_all_products():

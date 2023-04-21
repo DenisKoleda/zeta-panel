@@ -3,7 +3,7 @@
 {% block stylesheet %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/func_db.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/DataTable.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/DataTable_PC.js') }}"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
@@ -34,8 +34,8 @@
         <div class="tab-pane fade show active">
             <div class="input-group my-3">
                 <div class="col-md-12 text-end">
-                    <button type="button" class="btn btn-success mx-2" onclick="addRow(this)">Добавить строку</button>
-                    <button type="button" class="btn btn-warning mx-2" onclick="toggleEditable(this)">Включить Редактирование</button>
+                    <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#addModal">Добавить строку</button>
+                    <button type="button" class="btn btn-warning mx-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактирование</button>
                     <button type="button" class="btn btn-primary mx-2" onclick="saveAllProducts()">Сохранить все</button>
                 </div>
             </div>
