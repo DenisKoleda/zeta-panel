@@ -4,8 +4,9 @@
 <script src="{{ url_for('static', filename='js/DataTable_PC.js') }}"></script>
 {% endblock %}
 {% block sklad %}
+<div class="table-container">
 <div class="table-responsive">
-  <table id="myTable" class="table table-hover" style="width:100%">
+  <table id="myTable" class="table table-hover table-bordered" style="width:100%">
       <thead>
           <tr>
               <th data-column-id="id" > ID </th>
@@ -30,6 +31,8 @@
       </tfoot>
   </table>
 </div>
+</div>
+
 
 
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
