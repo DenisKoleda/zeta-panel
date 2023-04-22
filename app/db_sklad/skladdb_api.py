@@ -37,10 +37,10 @@ def add_row_pc():
         'smart': smart
     })
 
-@skladdb_api.route('/api/sklad/get_pc_items')
+@skladdb_api.route('/api/sklad/get_pc_items_id')
 def get_pc_items():
     items = models.PC.query.all()
-    items_dict = [{'id': item.id, 'name': item.name, 'conf': item.conf, 'ip': item.ip, 'user': item.user, 'smart': item.smart} for item in items]
+    items_dict = [{'id': item.id} for item in items]
     return jsonify(items_dict)
 
 @skladdb_api.route('/api/sklad/get_pc_item')
