@@ -27,35 +27,35 @@ $(document).ready(function () {
         { "data": "user" },
         { "data": "smart" }
       ],
-      initComplete: function() {
+      initComplete: function () {
         var dataTable = this.api();
-      
+
         // Add input elements to table headers
-        dataTable.columns().eq(0).each(function(colIndex) {
+        dataTable.columns().eq(0).each(function (colIndex) {
           var columnHeader = $('.filters th').eq($(dataTable.column(colIndex).header()).index());
           var title = $(columnHeader).text();
           $(columnHeader).html('<input type="text" placeholder="' + title + '" />');
-      
+
           // Handle input change event
-          $('input', $(columnHeader)).off('keyup change').on('change', function(event) {
+          $('input', $(columnHeader)).off('keyup change').on('change', function (event) {
             // Get the search value
             $(this).attr('title', $(this).val());
             var regexr = '({search})'; //$(this).parents('th').find('select').val();
             var searchValue = this.value != '' ? '(((' + this.value + ')))' : '';
-      
+
             // Search the column for the search value
             dataTable.column(colIndex)
               .search(searchValue, this.value != '', this.value == '')
               .draw();
-          }).on('keyup', function(event) {
+          }).on('keyup', function (event) {
             event.stopPropagation();
-      
+
             $(this).trigger('change');
             $(this).focus()[0];
           });
         });
       },
-      
+
     });
     // Форма добавления элемента
     $('#addForm').submit(function (event) {

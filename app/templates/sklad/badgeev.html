@@ -1,36 +1,33 @@
 {% extends "sklad/sklad_templ.html" %}
 {% block title %}Сервера{% endblock %}
 {% block sklad_js %}
-<script src="{{ url_for('static', filename='js/DataTable_PC.js') }}"></script>
+<script src="{{ url_for('static', filename='js/DataTable_Badgeev.js') }}"></script>
 {% endblock %}
 {% block sklad %}
-<div class="table-responsive">
-  <table id="myTable" class="table table-hover" style="width:100%">
-      <thead>
-          <tr>
-              <th data-column-id="id" > ID </th>
-              <th data-column-id="name" > Имя </th>
-              <th data-column-id="conf" > Конфигурация </th>
-              <th data-column-id="ip" > IP Адрес </th>
-              <th data-column-id="user" > Пользователь </th>
-              <th data-column-id="smart"> Смарт </th>
-            </tr>
-        </thead>
-      <tbody id="TableBody">
-      </tbody>
-      <tfoot>
-          <tr>
-              <th> ID </th>
-              <th> Имя </th>
-              <th> Конфигурация </th>
-              <th> IP Адрес </th>
-              <th> Пользователь </th>
-              <th> Смарт </th>
+<table id="myTable" class="table table-hover table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th data-column-id="id" > ID </th>
+            <th data-column-id="name" > Имя </th>
+            <th data-column-id="conf" > Конфигурация </th>
+            <th data-column-id="ip" > IP Адрес </th>
+            <th data-column-id="user" > Пользователь </th>
+            <th data-column-id="smart"> Смарт </th>
           </tr>
-      </tfoot>
-  </table>
-</div>
-
+      </thead>
+    <tbody id="TableBody">
+    </tbody>
+    <tfoot>
+        <tr>
+            <th> ID </th>
+            <th> Имя </th>
+            <th> Конфигурация </th>
+            <th> IP Адрес </th>
+            <th> Пользователь </th>
+            <th> Смарт </th>
+        </tr>
+    </tfoot>
+</table>
 
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
