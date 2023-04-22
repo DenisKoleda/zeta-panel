@@ -1,8 +1,6 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required, current_user
-from app import db, models, or_
-import json
-from urllib.parse import urlparse
+from flask_login import login_required
+from app import db, models
 
 skladdb_api = Blueprint('skladdb_api', __name__)
 

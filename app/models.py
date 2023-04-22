@@ -55,3 +55,35 @@ class PC(db.Model):
             'user': self.user,
             'smart': self.smart
         }
+        
+class Tasks(db.Model):
+    #TODO добавить вырезанные элементы в работу
+    __tablename__ = 'tasks'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(200))
+    user_init = db.Column(db.String(200))
+    ticket = db.Column(db.String(200))
+    ticket_comment = db.Column(db.String(200))
+    priority = db.Column(db.String(200))
+    status = db.Column(db.String(200))
+    executor = db.Column(db.String(200))
+    # files = db.Column(db.String(200)) 
+    deadline = db.Column(db.String(200))
+    comment = db.Column(db.String(200))
+    # time_started = db.Column(db.Integer(200))
+    # time_finished = db.Column(db.Integer(200))
+    # time_wasted = db.Column(db.Integer(200))
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'date': self.date,
+            'user_init': self.user_init,
+            'ticket': self.ticket,
+            'ticket_comment': self.ticket_comment,
+            'priority': self.priority,
+            'status': self.status,
+            'executor': self.executor,
+            'deadline': self.deadline,
+            'comment': self.comment
+        }

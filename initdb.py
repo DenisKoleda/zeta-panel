@@ -38,6 +38,23 @@ class Ram(Base):
     conf = Column(String(200))
     freq = Column(String(200))
     amount = Column(String(200))
+    
+class Tasks(Base):
+    __tablename__ = 'tasks'
+    id = Column(Integer, primary_key=True)
+    date = Column(String(200))
+    user_init = Column(String(200))
+    ticket = Column(String(200))
+    ticket_comment = Column(String(200))
+    priority = Column(String(200))
+    status = Column(String(200))
+    executor = Column(String(200))
+    # files = Column(String(200)) 
+    deadline = Column(String(200))
+    comment = Column(String(200))
+    # time_started = Column(Integer(200))
+    # time_finished = Column(Integer(200))
+    # time_wasted = Column(Integer(200))
 
 engine = create_engine('sqlite:///' + db_path)
 Base.metadata.create_all(engine)

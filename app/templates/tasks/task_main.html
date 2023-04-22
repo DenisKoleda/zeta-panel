@@ -1,0 +1,179 @@
+{% extends "tasks/task_templ.html" %}
+{% block title %}Сервера{% endblock %}
+{% block tasks_js %}
+<script src="{{ url_for('static', filename='js/tasks_main.js') }}"></script>
+{% endblock %}
+{% block tasks %}
+  <table id="myTable" class="table table-hover table-bordered" style="width:100%">
+      <thead>
+          <tr>
+              <th data-column-id="id" > ID </th>
+              <th data-column-id="date" > Дата </th>
+              <th data-column-id="user_init" > Заказчик </th>
+              <th data-column-id="ticket" > Задача </th>
+              <th data-column-id="ticket_comment" > Описание </th>
+              <th data-column-id="priority"> Приоритет </th>
+              <th data-column-id="status"> Статус </th>
+              <th data-column-id="executor"> Исполнитель </th>
+              <th data-column-id="deadline"> Дедлайн </th>
+              <th data-column-id="comment"> Комментарий </th>
+            </tr>
+        </thead>
+      <tbody id="TableBody">
+      </tbody>
+      <tfoot>
+          <tr>
+              <th> ID </th>
+              <th> Дата </th>
+              <th> Заказчик </th>
+              <th> Задача </th>
+              <th> Описание </th>
+              <th> Приоритет </th>
+              <th> Статус </th>
+              <th> Исполнитель </th>
+              <th> Дедлайн </th>
+              <th> Комментарий </th>
+          </tr>
+      </tfoot>
+  </table>
+
+
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Добавить задачу</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addForm">
+            <div class="mb-3">
+              <label for="date" class="form-label">Дата:</label>
+              <input type="text" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="mb-3">
+              <label for="user_init" class="form-label">Заказчик:</label>
+              <input type="text" class="form-control" id="user_init" name="user_init" required>
+            </div>
+            <div class="mb-3">
+              <label for="ticket" class="form-label">Задача:</label>
+              <input type="text" class="form-control" id="ticket" name="ticket" required>
+            </div>
+            <div class="mb-3">
+              <label for="ticket_comment" class="form-label">Описание:</label>
+              <input type="text" class="form-control" id="ticket_comment" name="ticket_comment" required>
+            </div>
+            <div class="mb-3">
+              <label for="priority" class="form-label">Приоритет:</label>
+              <input type="text" class="form-control" id="priority" name="priority" required>
+            </div>
+            <div class="mb-3">
+              <label for="status" class="form-label">Статус:</label>
+              <input type="text" class="form-control" id="status" name="status" required>
+            </div>
+            <div class="mb-3">
+              <label for="executor" class="form-label">Исполнитель:</label>
+              <input type="text" class="form-control" id="executor" name="executor" required>
+            </div>
+            <div class="mb-3">
+              <label for="deadline" class="form-label">Дедлайн:</label>
+              <input type="text" class="form-control" id="deadline" name="deadline" required>
+            </div>
+            <div class="mb-3">
+              <label for="comment" class="form-label">Комментарий:</label>
+              <input type="text" class="form-control" id="comment" name="comment" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="submit" form="addForm" class="btn btn-primary">Добавить</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Редактирование задачи</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="mb-3">
+                        <label for="idSelectEdit" class="form-label">ID</label>
+                        <select class="form-select" id="idSelectEdit" name="id">
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateEdit" class="form-label">Дата</label>
+                        <input type="text" class="form-control" id="dateEdit" name="date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_initEdit" class="form-label">Заказчик</label>
+                        <input type="text" class="form-control" id="user_initEdit" name="user_init">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketEdit" class="form-label">Задача</label>
+                        <input type="text" class="form-control" id="ticketEdit" name="ticket">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticket_commentEdit" class="form-label">Описание</label>
+                        <input type="text" class="form-control" id="ticket_commentEdit" name="ticket_comment">
+                    </div>
+                    <div class="mb-3">
+                        <label for="priorityEdit" class="form-label">Приоритет</label>
+                        <input type="text" class="form-control" id="priorityEdit" name="priority">
+                    </div>
+                    <div class="mb-3">
+                        <label for="statusEdit" class="form-label">Статус</label>
+                        <input type="text" class="form-control" id="statusEdit" name="status">
+                    </div>
+                    <div class="mb-3">
+                        <label for="executorEdit" class="form-label">Исполнитель</label>
+                        <input type="text" class="form-control" id="executorEdit" name="executor">
+                    </div>
+                    <div class="mb-3">
+                        <label for="deadlineEdit" class="form-label">Дедлайн</label>
+                        <input type="text" class="form-control" id="deadlineEdit" name="deadline">
+                    </div>
+                    <div class="mb-3">
+                        <label for="commentEdit" class="form-label">Комментарий</label>
+                        <input type="text" class="form-control" id="commentEdit" name="comment">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Удалить элемент</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteForm">
+          <div class="form-group">
+            <label for="idSelectDelete">Выберите ID для удаления:</label>
+            <select class="form-control mt-2" id="idSelectDelete"></select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

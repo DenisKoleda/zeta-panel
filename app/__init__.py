@@ -52,5 +52,8 @@ def create_app():
     
     from .db_sklad.skladdb_api import skladdb_api as skladdb_api_blueprint
     app.register_blueprint(skladdb_api_blueprint)
+    
+    from .tasks.tasks_main import tasks_main as tasks_main_blueprint
+    app.register_blueprint(tasks_main_blueprint)
 
     return app
