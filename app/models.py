@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(200), unique=True)  # Адрес электронной почты
     password = db.Column(db.String(200))  # Пароль
     username = db.Column(db.String(200))  # Имя пользователя
-    role = db.Columtn(db.String(200))  # Роль пользователя
+    role = db.Column(db.String(200))  # Роль пользователя
 
 class Ram(db.Model):
     __tablename__ = 'sklad_ram'
