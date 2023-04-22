@@ -8,11 +8,13 @@ skladdb_api = Blueprint('skladdb_api', __name__)
 
 
 @skladdb_api.route('/api/sklad/get_pc', methods=['GET'])
+@login_required
 def api_get_pc():
     pc_list = models.PC.query.all()
     return jsonify([pc.serialize() for pc in pc_list])
 
 @skladdb_api.route('/api/sklad/add_row_pc', methods=['POST'])
+@login_required
 def add_row_pc():
     name = request.form['name']
     conf = request.form['conf']
@@ -36,12 +38,14 @@ def add_row_pc():
     })
 
 @skladdb_api.route('/api/sklad/get_pc_items_id')
+@login_required
 def get_pc_items():
     items = models.PC.query.all()
     items_dict = [{'id': item.id} for item in items]
     return jsonify(items_dict)
 
 @skladdb_api.route('/api/sklad/get_pc_item')
+@login_required
 def get_pc_item():
     id = request.args.get('id')
     if id is not None:
@@ -52,6 +56,7 @@ def get_pc_item():
 
 
 @skladdb_api.route('/api/sklad/update_pc_item', methods=['POST'])
+@login_required
 def update_item():
     id = request.form['id']
     name = request.form['name']
@@ -69,6 +74,7 @@ def update_item():
     return jsonify({'id': item.id, 'name': item.name, 'conf': item.conf, 'ip': item.ip, 'user': item.user, 'smart': item.smart})
 
 @skladdb_api.route('/api/sklad/delete_pc_item', methods=['POST'])
+@login_required
 def api_delete_pc_item():
     pc_id = request.form.get('id')
     pc_item = models.PC.query.filter_by(id=pc_id).first()
@@ -89,6 +95,7 @@ def api_delete_pc_item():
         return jsonify({ 'success': False, 'error': 'Элемент не найден' })
 
 @skladdb_api.route('/api/sklad/get_ram', methods=['GET'])
+@login_required
 def api_get_ram():
     ram_list = models.Ram.query.all()
     return jsonify([ram.serialize() for ram in ram_list])

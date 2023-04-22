@@ -237,5 +237,10 @@ $(document).ready(function () {
 
 
   });
+  setTimeout(function() {
+    // Получаем элемент таблицы и обертываем его в контейнер с классом "table-responsive"
+    $("#myTable").wrap('<div class="table-responsive"></div>');
+}, 1000);
+
 });
 
