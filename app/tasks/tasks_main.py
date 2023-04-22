@@ -28,23 +28,26 @@ def add_row_task():
     priority = request.form['priority']
     status = request.form['status']
     executor = request.form['executor']
-    deadline = request.form['deadline']    
+    deadline = request.form['deadline']
+    comment = request.form['comment']    
     try:
         last_id = models.Tasks.query.order_by(models.Tasks.id.desc()).first().id
     except:
         last_id = 0
-    new_row = models.Tasks(date=date, user_init=user_init, ticket=ticket, ticket_comment=ticket_comment, priority=priority, status=status, executor=executor, deadline=deadline)
+    new_row = models.Tasks(date=date, user_init=user_init, ticket=ticket, ticket_comment=ticket_comment, priority=priority, status=status, executor=executor, deadline=deadline, comment=comment)
     db.session.add(new_row)
     db.session.commit()
     return jsonify({
         'id': last_id + 1,
         'date': date,
+        'user_init': user_init,
         'ticket': ticket,
         'ticket_comment': ticket_comment,
         'priority': priority,
         'status': status,
         'executor': executor,
-        'deadline': deadline
+        'deadline': deadline,
+        'comment': comment
     })
 
 @tasks_main.route('/api/tasks/get_tasks_id')
@@ -61,13 +64,14 @@ def get_task_item():
     if id is not None:
         item = models.Tasks.query.filter_by(id=id).first()
         if item:
-            return jsonify({'date': item.date, 'ticket': item.ticket, 'ticket_comment': item.ticket_comment, 'priority': item.priority, 'status': item.status, 'executor': item.executor, 'deadline': item.deadline})
+            return jsonify({'date': item.date, 'user_init': item.user_init, 'ticket': item.ticket, 'ticket_comment': item.ticket_comment, 'priority': item.priority, 'status': item.status, 'executor': item.executor, 'deadline': item.deadline , 'comment': item.comment})
     return jsonify({'error': 'Item not found'})
 
 
 @tasks_main.route('/api/tasks/update_task_item', methods=['POST'])
 @login_required
 def update_task_item():
+    id = request.form['id']
     date = request.form['date']
     user_init = request.form['user_init']
     ticket = request.form['ticket']
@@ -75,7 +79,8 @@ def update_task_item():
     priority = request.form['priority']
     status = request.form['status']
     executor = request.form['executor']
-    deadline = request.form['deadline']   
+    deadline = request.form['deadline']
+    comment = request.form['comment']   
     item = models.Tasks.query.get(id)
     item.date = date
     item.user_init = user_init
@@ -85,6 +90,7 @@ def update_task_item():
     item.status = status
     item.executor = executor
     item.deadline = deadline
+    item.comment = comment
     db.session.commit()
     return jsonify({'success': True})
 

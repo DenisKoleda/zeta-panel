@@ -205,7 +205,7 @@ $(document).ready(function () {
       $.ajax({
         url: '/api/tasks/update_task_item',
         type: 'POST',
-        data: { id: id, date: date, user_init: user_init, ticket: ticket, ticket_comment: ticket_comment, priority: priority, status: status, executor: executor, deadline: deadline },
+        data: { id: id, date: date, user_init: user_init, ticket: ticket, ticket_comment: ticket_comment, priority: priority, status: status, executor: executor, deadline: deadline, comment: comment },
         success: function (response) {
           // Перезагружаем страницу после обновления элемента
           location.reload();
