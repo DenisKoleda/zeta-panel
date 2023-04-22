@@ -19,7 +19,10 @@ def add_row_pc():
     ip = request.form['ip']
     user = request.form['user']
     smart = request.form['smart']
-    last_id = models.PC.query.order_by(models.PC.id.desc()).first().id
+    try:
+        last_id = models.PC.query.order_by(models.PC.id.desc()).first().id
+    except:
+        last_id = 0
     new_row = models.PC(name=name, conf=conf, ip=ip, user=user, smart=smart)
     db.session.add(new_row)
     db.session.commit()
