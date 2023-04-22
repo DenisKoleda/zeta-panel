@@ -13,6 +13,7 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     username = Column(String, nullable=False)
     password = Column(String, nullable=False)
+    role = Column(String, nullable=False)
     
 class Motherboard(Base):
     __tablename__ = 'sklad_motherboard'

@@ -87,6 +87,7 @@ def signup_post():
     email = request.form.get('email')
     username = request.form.get('username')
     password = request.form.get('password')
+    role = 'User'
 
     user = User.query.filter_by(
         email=email).first()
@@ -95,7 +96,7 @@ def signup_post():
         flash('Адрес электронной почты уже существует')
         return redirect(url_for('auth.signup'))
 
-    new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
+    new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256') , role=role)
 
     db.session.add(new_user)
     db.session.commit()

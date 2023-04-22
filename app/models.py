@@ -8,14 +8,15 @@ from flask import current_app
 class User(UserMixin, db.Model):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)  # Идентификатор пользователя
-    email = db.Column(db.String(100), unique=True)  # Адрес электронной почты
-    password = db.Column(db.String(100))  # Пароль
-    username = db.Column(db.String(1000))  # Имя пользователя
+    email = db.Column(db.String(200), unique=True)  # Адрес электронной почты
+    password = db.Column(db.String(200))  # Пароль
+    username = db.Column(db.String(200))  # Имя пользователя
+    role = db.Columtn(db.String(200))  # Роль пользователя
 
 class Ram(db.Model):
     __tablename__ = 'sklad_ram'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(200))
     conf = db.Column(db.String(200))
     freq = db.Column(db.String(200))
     amount = db.Column(db.String(200))
