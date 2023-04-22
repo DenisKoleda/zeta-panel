@@ -18,6 +18,9 @@
             <button {% if request.path == '/sklad/pc' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/pc'">Сервера</button>
         </li>
         <li class="nav-item" role="presentation">
+            <button {% if request.path == '/sklad/badgeev' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/badgeev'">Бадгеев</button>
+        </li>
+        <li class="nav-item" role="presentation">
             <button {% if request.path == '/sklad/ram' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/ram'">Оперативная память</button>
         </li>
         <li class="nav-item" role="presentation">
@@ -27,16 +30,16 @@
             <button {% if request.path == '/sklad/harddrive' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/harddrive'">Диски</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button {% if request.path == '/sklad/network' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/network'">Диски</button>
+            <button {% if request.path == '/sklad/network' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/network'">Сетевое оборудование</button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active">
             <div class="input-group my-3">
                 <div class="col-md-12 text-end">
-                    <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#addModal">Добавить строку</button>
-                    <button type="button" class="btn btn-warning mx-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактирование</button>
-                    <button type="button" class="btn btn-primary mx-2" onclick="saveAllProducts()">Сохранить все</button>
+                    <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#addModal">Добавить строку</button>
+                    <button type="button" class="btn btn-warning ms-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактирование</button>
+                    <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</button>
                 </div>
             </div>
             {% block sklad %}

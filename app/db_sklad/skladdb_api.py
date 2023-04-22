@@ -7,11 +7,6 @@ from urllib.parse import urlparse
 skladdb_api = Blueprint('skladdb_api', __name__)
 
 
-@skladdb_api.route('/api/sklad/get_ram', methods=['GET'])
-def api_get_ram():
-    ram_list = models.Ram.query.all()
-    return jsonify([ram.serialize() for ram in ram_list])
-
 @skladdb_api.route('/api/sklad/get_pc', methods=['GET'])
 def api_get_pc():
     pc_list = models.PC.query.all()
@@ -70,48 +65,27 @@ def update_item():
     db.session.commit()
     return jsonify({'id': item.id, 'name': item.name, 'conf': item.conf, 'ip': item.ip, 'user': item.user, 'smart': item.smart})
 
+@skladdb_api.route('/api/sklad/delete_pc_item', methods=['POST'])
+def api_delete_pc_item():
+    pc_id = request.form.get('id')
+    pc_item = models.PC.query.filter_by(id=pc_id).first()
 
-@skladdb_api.route('/api/sklad/save_all_products', methods=['POST'])
-def save_all_products():
-    try:
-        data = json.loads(request.data)
-        print(f"data: {data}")
-        page_url = request.headers.get('Referer')
-        print(f"page_url: {page_url}")
-        path = urlparse(page_url).path
-        print(f"path: {path}")
-        page_name = path.split('/')[-1]
-        print(f"page_name: {page_name}")
-        switcher = {
-            'ram': models.Ram,
-            'motherboard': models.Motherboard,
-            'pc': models.PC
-        }
-        for product_data in data:
-            table = switcher.get(page_name.lower(), None)
-            if table is not None:
-                product = table.query.get(product_data.get('id'))
-                if product is not None:
-                    for key in product_data:
-                        if key not in ['id']:
-                            if hasattr(product, key):
-                                setattr(product, key, product_data[key])
-                            else:
-                                print(f'Error: {key} is not a valid column in table {table.__tablename__}!')
-                    db.session.commit()
-                else:
-                    new_product_data = {'id': product_data.get('id')}
-                    for key in product_data:
-                        if key not in ['id']:
-                            if hasattr(table, key):
-                                new_product_data[key] = product_data[key]
-                            else:
-                                print(f'Error: {key} is not a valid column in table {table.__tablename__}!')
-                    new_product = table(**new_product_data)
-                    db.session.add(new_product)
-                    db.session.commit()
-                print(f"product_data: {product_data}")
-        return jsonify({'success': True})
-    except Exception as e:
-        print(f"Error: {e}")
-        return jsonify({'success': False, 'message': 'Произошла ошибка при сохранении данных!'})
+    if pc_item:
+        db.session.delete(pc_item)
+        db.session.commit()
+
+        # Сдвигаем ID других элементов, чтобы избежать проблем с отсутствующими ID
+        pc_items = models.PC.query.all()
+        for i in range(len(pc_items)):
+            pc_items[i].id = i + 1
+
+        db.session.commit()
+
+        return jsonify({ 'success': True })
+    else:
+        return jsonify({ 'success': False, 'error': 'Элемент не найден' })
+
+@skladdb_api.route('/api/sklad/get_ram', methods=['GET'])
+def api_get_ram():
+    ram_list = models.Ram.query.all()
+    return jsonify([ram.serialize() for ram in ram_list])

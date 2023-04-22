@@ -108,4 +108,27 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Удалить элемент</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteForm">
+          <div class="form-group">
+            <label for="idSelectDelete">Выберите ID для удаления:</label>
+            <select class="form-control mt-2" id="idSelectDelete"></select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
