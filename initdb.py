@@ -15,7 +15,7 @@ class User(Base):
     password = Column(String, nullable=False)
     
 class Motherboard(Base):
-    __tablename__ = 'motherboard'
+    __tablename__ = 'sklad_motherboard'
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
     ram = Column(String(200))
@@ -23,7 +23,7 @@ class Motherboard(Base):
     amount = Column(String(200))
     
 class PC(Base):
-    __tablename__ = 'pc'
+    __tablename__ = 'sklad_pc'
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
     conf = Column(String(200))
@@ -32,7 +32,7 @@ class PC(Base):
     smart = Column(String(200))
 
 class Ram(Base):
-    __tablename__ = 'ram'
+    __tablename__ = 'sklad_ram'
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
     conf = Column(String(200))

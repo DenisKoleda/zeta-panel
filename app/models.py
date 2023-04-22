@@ -6,12 +6,14 @@ from flask import current_app
 
 
 class User(UserMixin, db.Model):
+    __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)  # Идентификатор пользователя
     email = db.Column(db.String(100), unique=True)  # Адрес электронной почты
     password = db.Column(db.String(100))  # Пароль
     username = db.Column(db.String(1000))  # Имя пользователя
 
 class Ram(db.Model):
+    __tablename__ = 'sklad_ram'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     conf = db.Column(db.String(200))
@@ -28,6 +30,7 @@ class Ram(db.Model):
         }
     
 class Motherboard(db.Model):
+    __tablename__ = 'sklad_motherboard'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     ram = db.Column(db.String(200))
@@ -35,6 +38,7 @@ class Motherboard(db.Model):
     amount = db.Column(db.String(200))
     
 class PC(db.Model):
+    __tablename__ = 'sklad_pc'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     conf = db.Column(db.String(200))
