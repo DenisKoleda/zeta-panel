@@ -10,7 +10,7 @@ $(document).ready(function () {
   $.get(apiEndpoint, function (data) {
     var table = $('#myTable').DataTable({
       orderCellsTop: true,
-      //select: true,
+      // select: true,
       // fixedHeader: true,
       "paging": true,
       "searching": true,
