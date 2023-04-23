@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var apiEndpoint = '/api/sklad/motherboad/get';
+  var apiEndpoint = '/api/sklad/motherboard/get';
   // Клонирование thead таблицы
   $('#myTable thead tr')
     .clone(true)
@@ -21,16 +21,10 @@ $(document).ready(function () {
       },
       columns: [
         { data: "id" },
-        { data: "ip" },
-        { data: "vlan" },
-        { data: "cores" },
-        { data: "config" },
-        { data: "status" },
-        { data: "smart" },
-        { data: "switch" },
-        { data: "switch_port" },
-        { data: "rack" },
-        { data: "comment" },
+        { data: "name" },
+        { data: "ram" },
+        { data: "m2" },
+        { data: "count" },
       ],
       initComplete: function () {
         var dataTable = this.api();
@@ -72,7 +66,7 @@ $(document).ready(function () {
     var formData = $('#addForm').serialize();
     // AJAX запрос для добавления строки в базу данных
     $.ajax({
-      url: '/api/sklad/motherboad/add',
+      url: '/api/sklad/motherboard/add',
       type: 'POST',
       data: formData,
       success: function (response) {
@@ -91,7 +85,7 @@ $(document).ready(function () {
   // Форма редактирования
   $('#editModal').on('show.bs.modal', function () {
     $.ajax({
-      url: '/api/sklad/motherboad/get_id',
+      url: '/api/sklad/motherboard/get_id',
       type: 'GET',
       success: function (response) {
         $('#idSelectEdit').empty();
@@ -102,7 +96,7 @@ $(document).ready(function () {
           }));
         });
         $.ajax({
-          url: '/api/sklad/motherboad/get_item',
+          url: '/api/sklad/motherboard/get_item',
           type: 'GET',
           data: { id: $('#idSelectEdit').val() },
           success: function (response) {
@@ -132,7 +126,7 @@ $(document).ready(function () {
   // Обновляем данные об элементе при изменении выбранного ID
   $('#idSelectEdit').change(function () {
     var itemId = $(this).val();
-    $.get('/api/sklad/motherboad/get_item', { id: itemId }, function (response) {
+    $.get('/api/sklad/motherboard/get_item', { id: itemId }, function (response) {
       // Проходим по всем элементам формы, имена которых заканчиваются на "Edit"
       $('*[id$="Edit"]').each(function () {
         // Получаем имя элемента формы
@@ -153,7 +147,7 @@ $(document).ready(function () {
   $('#editForm').submit(function (event) {
     event.preventDefault();
     var data = $(this).serialize();
-    $.post('/api/sklad/motherboad/update_item', data, function (response) {
+    $.post('/api/sklad/motherboard/update_item', data, function (response) {
       location.reload();
     }).fail(function (error) {
       console.log(error);
@@ -165,7 +159,7 @@ $(document).ready(function () {
   $('#deleteModal').on('show.bs.modal', function (event) {
     var select = $('#idSelectDelete').empty();
 
-    $.get('/api/sklad/motherboad/get_id', function (response) {
+    $.get('/api/sklad/motherboard/get_id', function (response) {
       response.forEach(function (item) {
         select.append($('<option>', { value: item.id, text: item.id }));
       });
@@ -178,7 +172,7 @@ $(document).ready(function () {
   $('#deleteForm').submit(function (event) {
     event.preventDefault();
 
-    $.post('/api/sklad/motherboad/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
+    $.post('/api/sklad/motherboard/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
       $('#deleteModal').modal('hide');
       location.reload();
     }).fail(function (error) {

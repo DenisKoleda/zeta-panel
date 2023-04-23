@@ -5,13 +5,13 @@ from app import db, models
 skladdb_api_motherboard = Blueprint('skladdb_api_motherboard', __name__)
 
 
-@skladdb_api_motherboard.route('/api/sklad/motherboad/get', methods=['GET'])
+@skladdb_api_motherboard.route('/api/sklad/motherboard/get', methods=['GET'])
 @login_required
 def api_get_pc():
     item_list = models.Motherboard.query.all()
     return jsonify([item.serialize() for item in item_list])
 
-@skladdb_api_motherboard.route('/api/sklad/motherboad/add', methods=['POST'])
+@skladdb_api_motherboard.route('/api/sklad/motherboard/add', methods=['POST'])
 @login_required
 def add_row_pc():
     data = request.form.to_dict()
@@ -24,14 +24,14 @@ def add_row_pc():
     db.session.commit()
     return jsonify({'id': last_id + 1, **data})
 
-@skladdb_api_motherboard.route('/api/sklad/motherboad/get_id')
+@skladdb_api_motherboard.route('/api/sklad/motherboard/get_id')
 @login_required
 def get_pc_items():
     items = models.Motherboard.query.all()
     items_dict = [{'id': item.id} for item in items]
     return jsonify(items_dict)
 
-@skladdb_api_motherboard.route('/api/sklad/motherboad/get_item')
+@skladdb_api_motherboard.route('/api/sklad/motherboard/get_item')
 @login_required
 def get_pc_item():
     id = request.args.get('id')
@@ -42,7 +42,7 @@ def get_pc_item():
     return jsonify({'error': 'Item not found'})
 
 
-@skladdb_api_motherboard.route('/api/sklad/motherboad/update_item', methods=['POST'])
+@skladdb_api_motherboard.route('/api/sklad/motherboard/update_item', methods=['POST'])
 @login_required
 def update_item():
     data = request.form.to_dict()
@@ -54,7 +54,7 @@ def update_item():
     db.session.commit()
     return jsonify({'success': True})
 
-@skladdb_api_motherboard.route('/api/sklad/motherboad/delete_item', methods=['POST'])
+@skladdb_api_motherboard.route('/api/sklad/motherboard/delete_item', methods=['POST'])
 @login_required
 def api_delete_pc_item():
     item_id = request.form.get('id')

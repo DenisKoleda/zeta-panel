@@ -35,7 +35,16 @@ class Motherboard(db.Model):
     name = db.Column(db.String(50))
     ram = db.Column(db.String(200))
     m2 = db.Column(db.String(200))
-    amount = db.Column(db.String(200))
+    count = db.Column(db.String(200))
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'ram': self.ram,
+            'm2': self.m2,
+            'count': self.count
+        }
     
 class PC(db.Model):
     __tablename__ = 'sklad_pc'

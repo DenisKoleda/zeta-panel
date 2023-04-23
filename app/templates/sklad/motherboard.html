@@ -1,18 +1,17 @@
 {% extends "sklad/sklad_templ.html" %}
-{% block title %}Оперативная память{% endblock %}
+{% block title %}Материнские платы{% endblock %}
 {% block sklad_js %}
-<script src="{{ url_for('static', filename='js/DataTable_RAM.js') }}"></script>
+<script src="{{ url_for('static', filename='js/DataTable_Motherboard.js') }}"></script>
 {% endblock %}
 {% block sklad %}
   <table id="myTable" class="table table-hover table-bordered" style="width:100%">
       <thead>
-          <tr>
-            <th> ID </th>
-            <th> Вендор </th>
-            <th> Тип </th>
-            <th> Объем </th>
-            <th> Частота </th>
-            <th> Колличество </th>
+        <tr>
+          <th> ID </th>
+          <th> Модель </th>
+          <th> Слоты ОЗУ </th>
+          <th> Слоты M2 </th>
+          <th> Колличество </th>
         </tr>
       </thead>
       <tbody id="TableBody">
@@ -20,12 +19,11 @@
       <tfoot>
         <tr>
           <th> ID </th>
-          <th> Вендор </th>
-          <th> Тип </th>
-          <th> Объем </th>
-          <th> Частота </th>
+          <th> Модель </th>
+          <th> Слоты ОЗУ </th>
+          <th> Слоты M2 </th>
           <th> Колличество </th>
-      </tr>
+        </tr>
       </tfoot>
   </table>
 
@@ -41,20 +39,16 @@
         <div class="modal-body">
           <form id="addForm">
             <div class="mb-3">
-              <label for="name" class="form-label">Вендор:</label>
+              <label for="name" class="form-label">Модель:</label>
               <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="mb-3">
-              <label for="type" class="form-label">Тип:</label>
-              <input type="text" class="form-control" id="type" name="type" required>
+              <label for="ram" class="form-label">Слоты ОЗУ:</label>
+              <input type="text" class="form-control" id="ram" name="ram" required>
             </div>
             <div class="mb-3">
-              <label for="size" class="form-label">Объем:</label>
-              <input type="text" class="form-control" id="size" name="size" required>
-            </div>
-            <div class="mb-3">
-              <label for="frequency" class="form-label">Частота:</label>
-              <input type="text" class="form-control" id="frequency" name="frequency" required>
+              <label for="m2" class="form-label">Слоты M2:</label>
+              <input type="text" class="form-control" id="m2" name="m2" required>
             </div>
             <div class="mb-3">
               <label for="count" class="form-label">Колличество:</label>
@@ -85,20 +79,16 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="nameEdit" class="form-label">Название</label>
+                        <label for="nameEdit" class="form-label">Модель</label>
                         <input type="text" class="form-control" id="nameEdit" name="name">
                     </div>
                     <div class="mb-3">
-                        <label for="typeEdit" class="form-label">Тип</label>
-                        <input type="text" class="form-control" id="typeEdit" name="type">
+                        <label for="ramEdit" class="form-label">Слоты ОЗУ</label>
+                        <input type="text" class="form-control" id="ramEdit" name="ram">
                     </div>
                     <div class="mb-3">
-                        <label for="sizeEdit" class="form-label">Объем</label>
-                        <input type="text" class="form-control" id="sizeEdit" name="size">
-                    </div>
-                    <div class="mb-3">
-                        <label for="frequencyEdit" class="form-label">Частота</label>
-                        <input type="text" class="form-control" id="frequencyEdit" name="frequency">
+                        <label for="m2Edit" class="form-label">Слоты M2</label>
+                        <input type="text" class="form-control" id="m2Edit" name="m2">
                     </div>
                     <div class="mb-3">
                         <label for="countEdit" class="form-label">Колличество</label>

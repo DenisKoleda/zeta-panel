@@ -21,7 +21,7 @@ class Motherboard(Base):
     name = Column(String(50))
     ram = Column(String(200))
     m2 = Column(String(200))
-    amount = Column(String(200))
+    count = Column(String(200))
     
 class PC(Base):
     __tablename__ = 'sklad_pc'
