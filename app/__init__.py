@@ -14,10 +14,10 @@ def create_app():
 
     # Конфигурация приложения:
     app.config.update(
-        MAIL_SERVER='smtp.gmail.com',
-        MAIL_PORT=587,
-        MAIL_USERNAME='thekolesnikovkirill@gmail.com',
-        MAIL_PASSWORD='ynmfpimpqkhrdugs',
+        MAIL_SERVER='smtp.yandex.ru',
+        MAIL_PORT=465,
+        MAIL_USERNAME='info@zetalink.ru',
+        MAIL_PASSWORD='datacenter13',
         MAIL_USE_TLS=True,
         MAIL_USE_SSL=False,
         SECRET_KEY='0f0809b30cb03b7c90d77ecfb35a10a4',
