@@ -91,5 +91,3 @@ class Badgeev(Base):
 
 engine = create_engine('sqlite:///' + db_path)
 Base.metadata.create_all(engine)
-
-print('База данных создана', encode="UTF-8")
