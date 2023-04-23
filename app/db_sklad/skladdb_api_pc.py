@@ -5,13 +5,13 @@ from app import db, models
 skladdb_api_pc = Blueprint('skladdb_api_pc', __name__)
 
 
-@skladdb_api_pc.route('/api/sklad/get_pc', methods=['GET'])
+@skladdb_api_pc.route('/api/sklad/pc/get', methods=['GET'])
 @login_required
 def api_get_pc():
     pc_list = models.PC.query.all()
     return jsonify([pc.serialize() for pc in pc_list])
 
-@skladdb_api_pc.route('/api/sklad/add_pc', methods=['POST'])
+@skladdb_api_pc.route('/api/sklad/pc/add', methods=['POST'])
 @login_required
 def add_row_pc():
     data = request.form.to_dict()
@@ -21,14 +21,14 @@ def add_row_pc():
     db.session.commit()
     return jsonify({'id': last_id + 1, **data})
 
-@skladdb_api_pc.route('/api/sklad/get_pc_id')
+@skladdb_api_pc.route('/api/sklad/pc/get_id')
 @login_required
 def get_pc_items():
     items = models.PC.query.all()
     items_dict = [{'id': item.id} for item in items]
     return jsonify(items_dict)
 
-@skladdb_api_pc.route('/api/sklad/get_pc_item')
+@skladdb_api_pc.route('/api/sklad/pc/get_item')
 @login_required
 def get_pc_item():
     id = request.args.get('id')
@@ -39,7 +39,7 @@ def get_pc_item():
     return jsonify({'error': 'Item not found'})
 
 
-@skladdb_api_pc.route('/api/sklad/update_pc_item', methods=['POST'])
+@skladdb_api_pc.route('/api/sklad/pc/update_item', methods=['POST'])
 @login_required
 def update_item():
     id, name, conf, ip, user, smart = [request.form.get(field) for field in ['id', 'name', 'conf', 'ip', 'user', 'smart']]
@@ -48,7 +48,7 @@ def update_item():
     db.session.commit()
     return jsonify({'success': True})
 
-@skladdb_api_pc.route('/api/sklad/delete_pc_item', methods=['POST'])
+@skladdb_api_pc.route('/api/sklad/pc/delete_item', methods=['POST'])
 @login_required
 def api_delete_pc_item():
     pc_id = request.form.get('id')
