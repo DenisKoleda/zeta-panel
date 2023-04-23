@@ -60,7 +60,7 @@ def forgot_password_post():
     reset_link = url_for('auth.reset_password', token=token, _external=True)
     html_body = render_template('reset_password_email.html', reset_link=reset_link)
     send_email('Восстановление пароля', [email], None, html_body)
-    flash('Проверьте вашу электронную почту для получения инструкций по восстановлению пароля')
+    flash('Проверьте вашу электронную почту')
     return redirect(url_for('auth.login'))
 
 

@@ -1,33 +1,45 @@
 {% extends "sklad/sklad_templ.html" %}
-{% block title %}Сервера{% endblock %}
+{% block title %}Бадгеев{% endblock %}
 {% block sklad_js %}
 <script src="{{ url_for('static', filename='js/DataTable_Badgeev.js') }}"></script>
 {% endblock %}
 {% block sklad %}
-<table id="myTable" class="table table-hover table-bordered" style="width:100%">
-    <thead>
-        <tr>
-            <th data-column-id="id" > ID </th>
-            <th data-column-id="name" > Имя </th>
-            <th data-column-id="conf" > Конфигурация </th>
-            <th data-column-id="ip" > IP Адрес </th>
-            <th data-column-id="user" > Пользователь </th>
-            <th data-column-id="smart"> Смарт </th>
+  <table id="myTable" class="table table-hover table-bordered" style="width:100%">
+      <thead>
+          <tr>
+              <th> ID </th>
+              <th> IP </th>
+              <th> VLAN </th>
+              <th> Ядра </th>
+              <th> Конфигурация </th>
+              <th> Статус </th>
+              <th> Смарт </th>
+              <th> Коммутатор </th>
+              <th> Порт </th>
+              <th> Стойка </th>
+              <th> Комментарий </th>
           </tr>
       </thead>
-    <tbody id="TableBody">
-    </tbody>
-    <tfoot>
-        <tr>
-            <th> ID </th>
-            <th> Имя </th>
-            <th> Конфигурация </th>
-            <th> IP Адрес </th>
-            <th> Пользователь </th>
-            <th> Смарт </th>
-        </tr>
-    </tfoot>
-</table>
+      <tbody id="TableBody">
+      </tbody>
+      <tfoot>
+          <tr>
+              <th> ID </th>
+              <th> IP </th>
+              <th> VLAN </th>
+              <th> Ядра </th>
+              <th> Конфигурация </th>
+              <th> Статус </th>
+              <th> Смарт </th>
+              <th> Коммутатор </th>
+              <th> Порт </th>
+              <th> Стойка </th>
+              <th> Комментарий </th>
+          </tr>
+      </tfoot>
+  </table>
+
+
 
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -39,24 +51,44 @@
         <div class="modal-body">
           <form id="addForm">
             <div class="mb-3">
-              <label for="name" class="form-label">Название:</label>
-              <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-              <label for="conf" class="form-label">Конфигурация:</label>
-              <input type="text" class="form-control" id="conf" name="conf" required>
-            </div>
-            <div class="mb-3">
-              <label for="ip" class="form-label">IP-адрес:</label>
+              <label for="ip" class="form-label">IP:</label>
               <input type="text" class="form-control" id="ip" name="ip" required>
             </div>
             <div class="mb-3">
-              <label for="user" class="form-label">Пользователь:</label>
-              <input type="text" class="form-control" id="user" name="user" required>
+              <label for="vlan" class="form-label">VLAN:</label>
+              <input type="text" class="form-control" id="vlan" name="vlan" required>
+            </div>
+            <div class="mb-3">
+              <label for="cores" class="form-label">Ядра:</label>
+              <input type="text" class="form-control" id="cores" name="cores" required>
+            </div>
+            <div class="mb-3">
+              <label for="config" class="form-label">Конфигурация:</label>
+              <input type="text" class="form-control" id="config" name="config" required>
+            </div>
+            <div class="mb-3">
+              <label for="status" class="form-label">Статус:</label>
+              <input type="text" class="form-control" id="status" name="status" required>
             </div>
             <div class="mb-3">
               <label for="smart" class="form-label">Смарт:</label>
-              <input type="text" class="form-control" id="smart" name="smart" required>
+              <input type="text" class="form-control" id="smart" name="smart">
+            </div>
+            <div class="mb-3">
+              <label for="switch" class="form-label">Коммутатор:</label>
+              <input type="text" class="form-control" id="switch" name="switch" required>
+            </div>
+            <div class="mb-3">
+              <label for="switch_port" class="form-label">Порт:</label>
+              <input type="text" class="form-control" id="switch_port" name="switch_port" required>
+            </div>
+            <div class="mb-3">
+              <label for="rack" class="form-label">Стойка:</label>
+              <input type="text" class="form-control" id="rack" name="rack" required>
+            </div>
+            <div class="mb-3">
+              <label for="comment" class="form-label">Комментарий:</label>
+              <input type="text" class="form-control" id="comment" name="comment">
             </div>
           </form>
         </div>
@@ -83,24 +115,44 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="nameEdit" class="form-label">Название</label>
-                        <input type="text" class="form-control" id="nameEdit" name="name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="confEdit" class="form-label">Конфигурация</label>
-                        <input type="text" class="form-control" id="confEdit" name="conf">
-                    </div>
-                    <div class="mb-3">
-                        <label for="ipEdit" class="form-label">IP-адрес</label>
+                        <label for="ipEdit" class="form-label">IP</label>
                         <input type="text" class="form-control" id="ipEdit" name="ip">
                     </div>
                     <div class="mb-3">
-                        <label for="userEdit" class="form-label">Пользователь</label>
-                        <input type="text" class="form-control" id="userEdit" name="user">
+                        <label for="vlanEdit" class="form-label">VLAN</label>
+                        <input type="text" class="form-control" id="vlanEdit" name="vlan">
+                    </div>
+                    <div class="mb-3">
+                        <label for="coresEdit" class="form-label">Ядра</label>
+                        <input type="text" class="form-control" id="coresEdit" name="cores">
+                    </div>
+                    <div class="mb-3">
+                        <label for="configEdit" class="form-label">Конфигурация</label>
+                        <input type="text" class="form-control" id="configEdit" name="config">
+                    </div>
+                    <div class="mb-3">
+                        <label for="statusEdit" class="form-label">Статус</label>
+                        <input type="text" class="form-control" id="statusEdit" name="status">
                     </div>
                     <div class="mb-3">
                         <label for="smartEdit" class="form-label">Смарт</label>
                         <input type="text" class="form-control" id="smartEdit" name="smart">
+                    </div>
+                    <div class="mb-3">
+                        <label for="switchEdit" class="form-label">Коммутатор</label>
+                        <input type="text" class="form-control" id="switchEdit" name="switch">
+                    </div>
+                    <div class="mb-3">
+                        <label for="switch_portEdit" class="form-label">Порт</label>
+                        <input type="text" class="form-control" id="switch_portEdit" name="switch_port">
+                    </div>
+                    <div class="mb-3">
+                        <label for="rackEdit" class="form-label">Стойка</label>
+                        <input type="text" class="form-control" id="rackEdit" name="rack">
+                    </div>
+                    <div class="mb-3">
+                        <label for="commentEdit" class="form-label">Комментарий</label>
+                        <input type="text" class="form-control" id="commentEdit" name="comment">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>

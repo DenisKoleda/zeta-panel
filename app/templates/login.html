@@ -9,7 +9,7 @@
       <h1 class="h3 mb-4 fw-normal text-center">Панель управления</h1>
       {% with messages = get_flashed_messages() %}
         {% if messages %}
-          {% if "Проверьте вашу электронную почту для получения инструкций по восстановлению пароля" or "Ваш пароль успешно изменен!" in messages[0] %}
+          {% if "Проверьте вашу электронную почту" or "Ваш пароль успешно изменен!" in messages[0] %}
           <div class="alert alert-success text-center">{{ messages[0] }}</div>
           {% else %}
           <div class="alert alert-danger text-center">{{ messages[0] }}</div>

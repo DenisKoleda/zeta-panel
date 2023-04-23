@@ -15,7 +15,10 @@ def api_get_pc():
 @login_required
 def add_row_pc():
     data = request.form.to_dict()
-    last_id = models.PC.query.order_by(models.PC.id.desc()).first().id or 0
+    try:
+        last_id = models.PC.query.order_by(models.PC.id.desc()).first().id
+    except:
+        last_id = 0
     new_row = models.PC(**data)
     db.session.add(new_row)
     db.session.commit()

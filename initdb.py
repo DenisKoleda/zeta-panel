@@ -56,6 +56,18 @@ class Tasks(Base):
     # time_started = Column(Integer(200))
     # time_finished = Column(Integer(200))
     # time_wasted = Column(Integer(200))
+    
+class Badgeev(Base):
+    __tablename__ = 'sklad_badgeev'
+    id = Column(Integer, primary_key=True)
+    ip = Column(String(200))
+    vlan = Column(Integer)
+    cores = Column(String(200))
+    config = Column(String(200))
+    switch = Column(String(200))
+    switch_port = Column(String(200))
+    rack = Column(String(200))
+    comment = Column(String(200))
 
 engine = create_engine('sqlite:///' + db_path)
 Base.metadata.create_all(engine)

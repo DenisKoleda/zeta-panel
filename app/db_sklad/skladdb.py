@@ -12,6 +12,11 @@ skladdb = Blueprint('skladdb', __name__)
 def sklad_pc():
     return render_template('sklad/pc.html')
 
+@skladdb.route('/sklad/badgeev')
+@login_required
+def sklad_badgeev():
+    return render_template('sklad/badgeev.html')
+
 @skladdb.route('/sklad/ram')
 @login_required
 def sklad_ram():

@@ -88,3 +88,32 @@ class Tasks(db.Model):
             'deadline': self.deadline,
             'comment': self.comment
         }
+        
+class Badgeev(db.Model):
+    __tablename__ = 'sklad_badgeev'
+    id = db.Column(db.Integer, primary_key=True)
+    ip = db.Column(db.String(200))
+    vlan = db.Column(db.Integer)
+    cores = db.Column(db.String(200))
+    config = db.Column(db.String(200))
+    status = db.Column(db.String(200))
+    smart = db.Column(db.String(200))
+    switch = db.Column(db.String(200))
+    switch_port = db.Column(db.String(200))
+    rack = db.Column(db.String(200))
+    comment = db.Column(db.String(200))
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'ip': self.ip,
+            'vlan': self.vlan,
+            'cores': self.cores,
+            'config': self.config,
+            'status': self.status,
+            'smart': self.smart,
+            'switch': self.switch,
+            'switch_port': self.switch_port,
+            'rack': self.rack,
+            'comment': self.comment
+        }
