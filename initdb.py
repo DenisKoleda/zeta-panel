@@ -1,6 +1,6 @@
 import os
 from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(basedir, 'instance', 'db.sqlite')
@@ -42,6 +42,22 @@ class Ram(Base):
     frequency = Column(String(200))
     count = Column(String(200))
     
+class Harddrive(Base):
+    __tablename__ = 'sklad_harddrive'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    type = Column(String(200))
+    ports = Column(String(200))
+    count = Column(String(200))
+
+class Network(Base):
+    __tablename__ = 'sklad_harddrive'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    type = Column(String(200))
+    size = Column(String(200))
+    count = Column(String(200))
+    
 class Tasks(Base):
     __tablename__ = 'tasks'
     id = Column(Integer, primary_key=True)
@@ -75,3 +91,5 @@ class Badgeev(Base):
 
 engine = create_engine('sqlite:///' + db_path)
 Base.metadata.create_all(engine)
+
+print('База данных создана')

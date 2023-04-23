@@ -1,7 +1,7 @@
 {% extends "sklad/sklad_templ.html" %}
-{% block title %}Оперативная память{% endblock %}
+{% block title %}Сетевое оборудование{% endblock %}
 {% block sklad_js %}
-<script src="{{ url_for('static', filename='js/DataTable_RAM.js') }}"></script>
+<script src="{{ url_for('static', filename='js/DataTable_Network.js') }}"></script>
 {% endblock %}
 {% block sklad %}
   <table id="myTable" class="table table-hover table-bordered" style="width:100%">
@@ -10,10 +10,9 @@
             <th> ID </th>
             <th> Вендор </th>
             <th> Тип </th>
-            <th> Объем </th>
-            <th> Частота </th>
+            <th> Порты </th>
             <th> Колличество </th>
-        </tr>
+          </tr>
       </thead>
       <tbody id="TableBody">
       </tbody>
@@ -22,10 +21,9 @@
           <th> ID </th>
           <th> Вендор </th>
           <th> Тип </th>
-          <th> Объем </th>
-          <th> Частота </th>
+          <th> Порты </th>
           <th> Колличество </th>
-      </tr>
+        </tr>
       </tfoot>
   </table>
 
@@ -49,12 +47,8 @@
               <input type="text" class="form-control" id="type" name="type" required>
             </div>
             <div class="mb-3">
-              <label for="size" class="form-label">Объем:</label>
-              <input type="text" class="form-control" id="size" name="size" required>
-            </div>
-            <div class="mb-3">
-              <label for="frequency" class="form-label">Частота:</label>
-              <input type="text" class="form-control" id="frequency" name="frequency" required>
+              <label for="ports" class="form-label">Порты:</label>
+              <input type="text" class="form-control" id="ports" name="ports" required>
             </div>
             <div class="mb-3">
               <label for="count" class="form-label">Колличество:</label>
@@ -93,12 +87,8 @@
                         <input type="text" class="form-control" id="typeEdit" name="type">
                     </div>
                     <div class="mb-3">
-                        <label for="sizeEdit" class="form-label">Объем</label>
-                        <input type="text" class="form-control" id="sizeEdit" name="size">
-                    </div>
-                    <div class="mb-3">
-                        <label for="frequencyEdit" class="form-label">Частота</label>
-                        <input type="text" class="form-control" id="frequencyEdit" name="frequency">
+                        <label for="portsEdit" class="form-label">Порты</label>
+                        <input type="text" class="form-control" id="portsEdit" name="ports">
                     </div>
                     <div class="mb-3">
                         <label for="countEdit" class="form-label">Колличество</label>

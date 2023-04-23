@@ -28,6 +28,40 @@ class Ram(db.Model):
             'frequency': self.frequency,
             'count': self.count
         }
+
+class Network(db.Model):
+    __tablename__ = 'sklad_network'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200))
+    type = db.Column(db.String(200))
+    ports = db.Column(db.String(200))
+    count = db.Column(db.Integer)
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'type': self.type,
+            'ports': self.ports,
+            'count': self.count
+        }
+    
+class Harddrive(db.Model):
+    __tablename__ = 'sklad_harddrive'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200))
+    type = db.Column(db.String(200))
+    size = db.Column(db.String(200))
+    count = db.Column(db.Integer)
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'type': self.type,
+            'size': self.size,
+            'count': self.count
+        }
     
 class Motherboard(db.Model):
     __tablename__ = 'sklad_motherboard'

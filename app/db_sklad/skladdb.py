@@ -27,4 +27,12 @@ def sklad_ram():
 def sklad_motherboard():
     return render_template('sklad/motherboard.html')
 
+@skladdb.route('/sklad/harddrive')
+@login_required
+def sklad_harddrive():
+    return render_template('sklad/harddrive.html')
 
+@skladdb.route('/sklad/network')
+@login_required
+def sklad_network():
+    return render_template('sklad/network.html')

@@ -62,6 +62,12 @@ def create_app():
     from .db_sklad.skladdb_api_motherboard import skladdb_api_motherboard as skladdb_api_motherboard_blueprint
     app.register_blueprint(skladdb_api_motherboard_blueprint)
     
+    from .db_sklad.skladdb_api_harddrive import skladdb_api_harddrive as skladdb_api_harddrive_blueprint
+    app.register_blueprint(skladdb_api_harddrive_blueprint)
+    
+    from .db_sklad.skladdb_api_network import skladdb_api_network as skladdb_api_network_blueprint
+    app.register_blueprint(skladdb_api_network_blueprint)
+    
     from .tasks.tasks_main import tasks_main as tasks_main_blueprint
     app.register_blueprint(tasks_main_blueprint)
     
