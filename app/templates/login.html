@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+  <div class="card p-5">
+    <div class="card-body">
+      <img class="mb-4 mx-auto d-block" src="{{ url_for('static', filename='png/logo_small.png') }}" alt="Logo" width="158" height="40" style="filter: invert(1) hue-rotate(180deg);">
+      <h1 class="h3 mb-4 fw-normal text-center">Панель управления</h1>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% if "Проверьте вашу электронную почту" or "Ваш пароль успешно изменен!" in messages[0] %}
+          <div class="alert alert-success text-center">{{ messages[0] }}</div>
+          {% else %}
+          <div class="alert alert-danger text-center">{{ messages[0] }}</div>
+          {% endif %}
+        {% endif %}
+      {% endwith %}
+      <form method="POST" action="/login">
+        <div class="form-floating mb-2">
+          <input type="email" class="form-control" name="email" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">Электронная почта</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Пароль</label>
+        </div>
+        <div class="checkbox mb-3 text-center">
+          <label>
+            <input type="checkbox" name="remember" value="remember-me"> Запомнить меня
+          </label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Войти</button>
+        <p class="text-center">
+          <a href={{ url_for('auth.forgot_password') }}>Восстановление пароля</a>
+        </p>
+      </form>
+    </div>
+    <p class="text-center mt-5">ZetaPanel &copy; 2023</p>
+  </div>
+</div>
+{% block footer %}
+{% endblock %}
+{% endblock %}

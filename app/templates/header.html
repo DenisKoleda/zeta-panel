@@ -1,0 +1,32 @@
+<div class="container mb-4">
+    <header class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div class="container-fluid mb-2">
+            <a href="/" class="navbar-brand">
+                <img src="{{ url_for('static', filename='png/logo_small.png') }}" alt="Logo" width="158" height="40" style="filter: invert(1) hue-rotate(180deg);">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse mt-2" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a href="/" class="nav-link px-4 fw-bold">Главная</a></li>
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a href="/sklad/pc" class="nav-link px-4 fw-bold">Склад</a></li>
+                    <li class="nav-item"><a href="/tasks" class="nav-link px-4 fw-bold">Задачи</a></li>
+                    <li class="nav-item"><a href="/wiki" class="nav-link px-4 fw-bold">База знаний</a></li>
+                    <li class="nav-item"><a href="{{ url_for('main.profile') }}" class="nav-link px-4 fw-bold">Профиль</a></li>
+                    {% endif %}
+                </ul>
+                <div class="text-end">
+                    {% if not current_user.is_authenticated %}
+                    <button onclick="window.location.href = '{{ url_for('auth.login') }}'" type="button" class="btn btn-outline-primary me-2">Войти</button>
+                    <button onclick="window.location.href ='{{ url_for('auth.signup') }}'" type="button" class="btn btn-primary">Регистрация</button>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                    <button onclick="window.location.href ='{{ url_for('auth.logout') }}'" type="button" class="btn btn-outline-primary me-2">Выйти</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+</div>

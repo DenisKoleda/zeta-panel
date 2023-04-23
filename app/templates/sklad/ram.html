@@ -1,0 +1,139 @@
+{% extends "sklad/sklad_templ.html" %}
+{% block title %}Оперативная память{% endblock %}
+{% block sklad_js %}
+<script src="{{ url_for('static', filename='js/DataTable_RAM.js') }}"></script>
+{% endblock %}
+{% block sklad %}
+  <table id="myTable" class="table table-hover table-bordered" style="width:100%">
+      <thead>
+          <tr>
+            <th> ID </th>
+            <th> Вендор </th>
+            <th> Тип </th>
+            <th> Объем </th>
+            <th> Частота </th>
+            <th> Колличество </th>
+        </tr>
+      </thead>
+      <tbody id="TableBody">
+      </tbody>
+      <tfoot>
+        <tr>
+          <th> ID </th>
+          <th> Вендор </th>
+          <th> Тип </th>
+          <th> Объем </th>
+          <th> Частота </th>
+          <th> Колличество </th>
+      </tr>
+      </tfoot>
+  </table>
+
+
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Добавить строку в таблицу</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Вендор:</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="type" class="form-label">Тип:</label>
+              <input type="text" class="form-control" id="type" name="type" required>
+            </div>
+            <div class="mb-3">
+              <label for="size" class="form-label">Объем:</label>
+              <input type="text" class="form-control" id="size" name="size" required>
+            </div>
+            <div class="mb-3">
+              <label for="frequency" class="form-label">Частота:</label>
+              <input type="text" class="form-control" id="frequency" name="frequency" required>
+            </div>
+            <div class="mb-3">
+              <label for="count" class="form-label">Колличество:</label>
+              <input type="text" class="form-control" id="count" name="count" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="submit" form="addForm" class="btn btn-primary">Добавить</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Редактирование элемента</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="mb-3">
+                        <label for="idSelectEdit" class="form-label">ID</label>
+                        <select class="form-select" id="idSelectEdit" name="id">
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameEdit" class="form-label">Вендор</label>
+                        <input type="text" class="form-control" id="nameEdit" name="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="typeEdit" class="form-label">Тип</label>
+                        <input type="text" class="form-control" id="typeEdit" name="type">
+                    </div>
+                    <div class="mb-3">
+                        <label for="sizeEdit" class="form-label">Объем</label>
+                        <input type="text" class="form-control" id="sizeEdit" name="size">
+                    </div>
+                    <div class="mb-3">
+                        <label for="frequencyEdit" class="form-label">Частота</label>
+                        <input type="text" class="form-control" id="frequencyEdit" name="frequency">
+                    </div>
+                    <div class="mb-3">
+                        <label for="countEdit" class="form-label">Колличество</label>
+                        <input type="text" class="form-control" id="countEdit" name="count">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Удалить элемент</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteForm">
+          <div class="form-group">
+            <label for="idSelectDelete">Выберите ID для удаления:</label>
+            <select class="form-control mt-2" id="idSelectDelete"></select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

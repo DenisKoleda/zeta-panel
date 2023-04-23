@@ -1,0 +1,149 @@
+{% extends "sklad/sklad_templ.html" %}
+{% block title %}Сервера{% endblock %}
+{% block sklad_js %}
+<script src="{{ url_for('static', filename='js/DataTable_PC.js') }}"></script>
+{% endblock %}
+{% block sklad %}
+  <table id="myTable" class="table table-hover table-bordered" style="width:100%">
+      <thead>
+          <tr>
+            <th> ID </th>
+            <th> Имя </th>
+            <th> Конфигурация </th>
+            <th> IP Адрес </th>
+            <th> Пользователь </th>
+            <th> Смарт </th>
+            <th> Комментарий </th>
+        </tr>
+      </thead>
+      <tbody id="TableBody">
+      </tbody>
+      <tfoot>
+          <tr>
+              <th> ID </th>
+              <th> Имя </th>
+              <th> Конфигурация </th>
+              <th> IP Адрес </th>
+              <th> Пользователь </th>
+              <th> Смарт </th>
+              <th> Комментарий </th>
+          </tr>
+      </tfoot>
+  </table>
+
+
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Добавить строку в таблицу</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Название:</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="conf" class="form-label">Конфигурация:</label>
+              <input type="text" class="form-control" id="conf" name="conf" required>
+            </div>
+            <div class="mb-3">
+              <label for="ip" class="form-label">IP-адрес:</label>
+              <input type="text" class="form-control" id="ip" name="ip" required>
+            </div>
+            <div class="mb-3">
+              <label for="user" class="form-label">Пользователь:</label>
+              <input type="text" class="form-control" id="user" name="user" required>
+            </div>
+            <div class="mb-3">
+              <label for="smart" class="form-label">Смарт:</label>
+              <input type="text" class="form-control" id="smart" name="smart" required>
+            </div>
+            <div class="mb-3">
+              <label for="comment" class="form-label">Комментарий:</label>
+              <input type="text" class="form-control" id="comment" name="comment">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="submit" form="addForm" class="btn btn-primary">Добавить</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Редактирование элемента</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="mb-3">
+                        <label for="idSelectEdit" class="form-label">ID</label>
+                        <select class="form-select" id="idSelectEdit" name="id">
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameEdit" class="form-label">Название</label>
+                        <input type="text" class="form-control" id="nameEdit" name="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confEdit" class="form-label">Конфигурация</label>
+                        <input type="text" class="form-control" id="confEdit" name="conf">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ipEdit" class="form-label">IP-адрес</label>
+                        <input type="text" class="form-control" id="ipEdit" name="ip">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userEdit" class="form-label">Пользователь</label>
+                        <input type="text" class="form-control" id="userEdit" name="user">
+                    </div>
+                    <div class="mb-3">
+                        <label for="smartEdit" class="form-label">Смарт</label>
+                        <input type="text" class="form-control" id="smartEdit" name="smart">
+                    </div>
+                    <div class="mb-3">
+                        <label for="commentEdit" class="form-label">Комментарий</label>
+                        <input type="text" class="form-control" id="commentEdit" name="comment">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Удалить элемент</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteForm">
+          <div class="form-group">
+            <label for="idSelectDelete">Выберите ID для удаления:</label>
+            <select class="form-control mt-2" id="idSelectDelete"></select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
