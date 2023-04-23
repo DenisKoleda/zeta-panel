@@ -25,7 +25,8 @@ $(document).ready(function () {
         { data: "conf" },
         { data: "ip" },
         { data: "user" },
-        { data: "smart" }
+        { data: "smart" },
+        { data: "comment" },
       ],
       initComplete: function() {
         var dataTable = this.api();
@@ -104,6 +105,7 @@ $(document).ready(function () {
               $('#ipEdit').val(response.ip_address);
               $('#userEdit').val(response.username);
               $('#smartEdit').val(response.is_smart);
+              $('#commentEdit').val(response.comment);
             },
             error: function (error) {
               console.log(error);
@@ -125,6 +127,7 @@ $(document).ready(function () {
           $('#ipEdit').val(response.ip_address);
           $('#userEdit').val(response.username);
           $('#smartEdit').val(response.is_smart);
+          $('#commentEdit').val(response.comment);
         }).fail(function (error) {
         console.log(error);
       });

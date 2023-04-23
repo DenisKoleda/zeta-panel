@@ -1,8 +1,5 @@
 from . import db
 from flask_login import UserMixin
-import jwt
-from time import time
-from flask import current_app
 
 
 class User(UserMixin, db.Model):
@@ -17,7 +14,8 @@ class Ram(db.Model):
     __tablename__ = 'sklad_ram'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
-    conf = db.Column(db.String(200))
+    type = db.Column(db.String(200))
+    size = db.Column(db.String(200))
     freq = db.Column(db.String(200))
     amount = db.Column(db.String(200))
     
@@ -25,7 +23,8 @@ class Ram(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'conf': self.conf,
+            'type': self.type,
+            'size': self.size,
             'freq': self.freq,
             'amount': self.amount
         }
@@ -46,6 +45,7 @@ class PC(db.Model):
     ip = db.Column(db.String(200))
     user = db.Column(db.String(200))
     smart = db.Column(db.String(200))
+    comment = db.Column(db.String(200))
     
     def serialize(self):
         return {
@@ -54,7 +54,8 @@ class PC(db.Model):
             'conf': self.conf,
             'ip': self.ip,
             'user': self.user,
-            'smart': self.smart
+            'smart': self.smart,
+            'comment': self.comment
         }
         
 class Tasks(db.Model):

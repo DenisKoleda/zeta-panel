@@ -58,5 +58,8 @@ def create_app():
     
     from .tasks.tasks_main import tasks_main as tasks_main_blueprint
     app.register_blueprint(tasks_main_blueprint)
+    
+    from .wiki.wiki_main import wiki_main as wiki_main_blueprint
+    app.register_blueprint(wiki_main_blueprint)
 
     return app

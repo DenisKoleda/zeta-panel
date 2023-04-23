@@ -31,6 +31,7 @@ class PC(Base):
     ip = Column(String(200))
     user = Column(String(200))
     smart = Column(String(200))
+    comment = Column(String(200))
 
 class Ram(Base):
     __tablename__ = 'sklad_ram'
@@ -64,6 +65,8 @@ class Badgeev(Base):
     vlan = Column(Integer)
     cores = Column(String(200))
     config = Column(String(200))
+    status = Column(String(200))
+    smart = Column(String(200))
     switch = Column(String(200))
     switch_port = Column(String(200))
     rack = Column(String(200))
