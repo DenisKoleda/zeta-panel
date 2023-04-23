@@ -149,9 +149,6 @@ $(document).ready(function () {
       event.preventDefault();
     
       var data = $(this).serialize();
-
-      console.log(data);
-    
       $.post('/api/sklad/badgeev/update_item', data, function (response) {
         location.reload();
       }).fail(function (error) {
