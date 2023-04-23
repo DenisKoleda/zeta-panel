@@ -47,7 +47,7 @@ class Harddrive(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
     type = Column(String(200))
-    ports = Column(String(200))
+    size = Column(String(200))
     count = Column(String(200))
 
 class Network(Base):
@@ -55,7 +55,7 @@ class Network(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
     type = Column(String(200))
-    size = Column(String(200))
+    ports = Column(String(200))
     count = Column(String(200))
     
 class Tasks(Base):
