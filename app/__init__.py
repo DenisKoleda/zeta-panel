@@ -50,8 +50,8 @@ def create_app():
     from .db_sklad.skladdb import skladdb as skladdb_blueprint
     app.register_blueprint(skladdb_blueprint)
     
-    from .db_sklad.skladdb_api import skladdb_api as skladdb_api_blueprint
-    app.register_blueprint(skladdb_api_blueprint)
+    from .db_sklad.skladdb_api_pc import skladdb_api_pc as skladdb_api_pc_blueprint
+    app.register_blueprint(skladdb_api_pc_blueprint)
     
     from .tasks.tasks_main import tasks_main as tasks_main_blueprint
     app.register_blueprint(tasks_main_blueprint)
