@@ -8,8 +8,8 @@ skladdb_api_badgeev = Blueprint('skladdb_api_badgeev', __name__)
 @skladdb_api_badgeev.route('/api/sklad/badgeev/get', methods=['GET'])
 @login_required
 def api_get_badgeev():
-    badgeev_list = models.Badgeev.query.all()
-    return jsonify([badgeev.serialize() for badgeev in badgeev_list])
+    item_list = models.Badgeev.query.all()
+    return jsonify([item.serialize() for item in item_list])
 
 @skladdb_api_badgeev.route('/api/sklad/badgeev/add', methods=['POST'])
 @login_required
@@ -38,29 +38,32 @@ def get_badgeev_item():
     if id is not None:
         item = models.Badgeev.query.filter_by(id=id).first()
         if item:
-            return jsonify({'ip': item.ip, 'vlan': item.vlan, 'cores': item.cores, 'config': item.config, 'status': item.status, 'smart': item.smart, 'switch': item.switch, 'switch_port': item.switch_port, 'rack': item.rack, 'comment': item.comment})
+            return jsonify(item.serialize())
     return jsonify({'error': 'Item not found'})
 
 
 @skladdb_api_badgeev.route('/api/sklad/badgeev/update_item', methods=['POST'])
 @login_required
 def update_item():
-    id, ip, vlan, cores, config, status, smart, switch, switch_port, rack, comment = [request.form.get(field) for field in ['id', 'ip', 'vlan', 'cores', 'config', 'status', 'smart', 'switch', 'switch_port', 'rack', 'comment']]
-    item = models.Badgeev.query.get(id)
-    item.ip, item.vlan, item.cores, item.config, item.status, item.smart, item.switch, item.switch_port, item.rack, item.comment = ip, vlan, cores, config, status, smart, switch, switch_port, rack, comment
+    data = request.form.to_dict()
+    item = models.Badgeev.query.get(data['id'])
+    for attribute in models.Badgeev.__table__.columns.keys():
+        # Если атрибут есть в request.form, обновляем его значение
+        if attribute in request.form:
+            setattr(item, attribute, request.form[attribute])
     db.session.commit()
     return jsonify({'success': True})
 
 @skladdb_api_badgeev.route('/api/sklad/badgeev/delete_item', methods=['POST'])
 @login_required
 def api_delete_badgeev_item():
-    badgeev_id = request.form.get('id')
-    badgeev_item = models.Badgeev.query.filter_by(id=badgeev_id).first()
+    item_id = request.form.get('id')
+    item = models.Badgeev.query.filter_by(id=item_id).first()
 
-    if not badgeev_item:
+    if not item:
         return jsonify({ 'success': False, 'error': 'Элемент не найден' })
     
-    db.session.delete(badgeev_item)
+    db.session.delete(item)
     db.session.commit()
 
     # Сдвигаем ID других элементов, чтобы избежать проблем с отсутствующими ID

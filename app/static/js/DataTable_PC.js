@@ -86,9 +86,9 @@ $(document).ready(function () {
       $.ajax({
         url: '/api/sklad/pc/get_id',
         type: 'GET',
-        success: function(response) {
+        success: function (response) {
           $('#idSelectEdit').empty();
-          response.forEach(function(item) {
+          response.forEach(function (item) {
             $('#idSelectEdit').append($('<option>', {
               value: item.id,
               text: item.id
@@ -100,12 +100,15 @@ $(document).ready(function () {
             data: { id: $('#idSelectEdit').val() },
             success: function (response) {
               // Заполняем поля формы данными об элементе
-              $('#nameEdit').val(response.name);
-              $('#confEdit').val(response.conf);
-              $('#ipEdit').val(response.ip_address);
-              $('#userEdit').val(response.username);
-              $('#smartEdit').val(response.is_smart);
-              $('#commentEdit').val(response.comment);
+              $('*[id$="Edit"]').each(function () {
+                // Получаем имя элемента формы
+                var fieldName = $(this).attr('id').replace('Edit', '');
+  
+                // Если имя поля формы соответствует имени свойства в объекте response, заполняем его значением
+                if (fieldName in response) {
+                  $(this).val(response[fieldName]);
+                }
+              });
             },
             error: function (error) {
               console.log(error);
@@ -122,13 +125,18 @@ $(document).ready(function () {
     $('#idSelectEdit').change(function () {
       var itemId = $(this).val();
       $.get('/api/sklad/pc/get_item', { id: itemId }, function (response) {
-          $('#nameEdit').val(response.name);
-          $('#confEdit').val(response.conf);
-          $('#ipEdit').val(response.ip_address);
-          $('#userEdit').val(response.username);
-          $('#smartEdit').val(response.is_smart);
-          $('#commentEdit').val(response.comment);
-        }).fail(function (error) {
+        // Проходим по всем элементам формы, имена которых заканчиваются на "Edit"
+        $('*[id$="Edit"]').each(function () {
+          // Получаем имя элемента формы
+          var fieldName = $(this).attr('id').replace('Edit', '');
+  
+          // Если имя поля формы соответствует имени свойства в объекте response, заполняем его значением
+          if (fieldName in response) {
+            $(this).val(response[fieldName]);
+          }
+        });
+  
+      }).fail(function (error) {
         console.log(error);
       });
     });

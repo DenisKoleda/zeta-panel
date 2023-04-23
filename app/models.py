@@ -16,8 +16,8 @@ class Ram(db.Model):
     name = db.Column(db.String(200))
     type = db.Column(db.String(200))
     size = db.Column(db.String(200))
-    freq = db.Column(db.String(200))
-    amount = db.Column(db.String(200))
+    frequency = db.Column(db.String(200))
+    count = db.Column(db.Integer)
     
     def serialize(self):
         return {
@@ -25,8 +25,8 @@ class Ram(db.Model):
             'name': self.name,
             'type': self.type,
             'size': self.size,
-            'freq': self.freq,
-            'amount': self.amount
+            'frequency': self.frequency,
+            'count': self.count
         }
     
 class Motherboard(db.Model):

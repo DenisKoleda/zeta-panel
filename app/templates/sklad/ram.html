@@ -8,26 +8,24 @@
       <thead>
           <tr>
             <th> ID </th>
-            <th> Имя </th>
-            <th> Конфигурация </th>
-            <th> IP Адрес </th>
-            <th> Пользователь </th>
-            <th> Смарт </th>
-            <th> Комментарий </th>
+            <th> Вендор </th>
+            <th> Тип </th>
+            <th> Объем </th>
+            <th> Частота </th>
+            <th> Колличество </th>
         </tr>
       </thead>
       <tbody id="TableBody">
       </tbody>
       <tfoot>
-          <tr>
-              <th> ID </th>
-              <th> Имя </th>
-              <th> Конфигурация </th>
-              <th> IP Адрес </th>
-              <th> Пользователь </th>
-              <th> Смарт </th>
-              <th> Комментарий </th>
-          </tr>
+        <tr>
+          <th> ID </th>
+          <th> Вендор </th>
+          <th> Тип </th>
+          <th> Объем </th>
+          <th> Частота </th>
+          <th> Колличество </th>
+      </tr>
       </tfoot>
   </table>
 
@@ -43,28 +41,25 @@
         <div class="modal-body">
           <form id="addForm">
             <div class="mb-3">
-              <label for="name" class="form-label">Название:</label>
+              <label for="name" class="form-label">Вендор:</label>
               <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="mb-3">
-              <label for="conf" class="form-label">Конфигурация:</label>
-              <input type="text" class="form-control" id="conf" name="conf" required>
+              <label for="type" class="form-label">Тип:</label>
+              <input type="text" class="form-control" id="type" name="type" required>
             </div>
             <div class="mb-3">
-              <label for="ip" class="form-label">IP-адрес:</label>
-              <input type="text" class="form-control" id="ip" name="ip" required>
+              <label for="size" class="form-label">Объем:</label>
+              <input type="text" class="form-control" id="size" name="size" required>
             </div>
             <div class="mb-3">
-              <label for="user" class="form-label">Пользователь:</label>
-              <input type="text" class="form-control" id="user" name="user" required>
+              <label for="frequency" class="form-label">Частота:</label>
+              <input type="text" class="form-control" id="frequency" name="frequency" required>
             </div>
             <div class="mb-3">
-              <label for="smart" class="form-label">Смарт:</label>
-              <input type="text" class="form-control" id="smart" name="smart" required>
+              <label for="count" class="form-label">Колличество:</label>
+              <input type="text" class="form-control" id="count" name="count" required>
             </div>
-            <div class="mb-3">
-              <label for="comment" class="form-label">Комментарий:</label>
-              <input type="text" class="form-control" id="comment" name="comment">
           </form>
         </div>
         <div class="modal-footer">
@@ -94,24 +89,20 @@
                         <input type="text" class="form-control" id="nameEdit" name="name">
                     </div>
                     <div class="mb-3">
-                        <label for="confEdit" class="form-label">Конфигурация</label>
-                        <input type="text" class="form-control" id="confEdit" name="conf">
+                        <label for="typeEdit" class="form-label">Тип</label>
+                        <input type="text" class="form-control" id="typeEdit" name="type">
                     </div>
                     <div class="mb-3">
-                        <label for="ipEdit" class="form-label">IP-адрес</label>
-                        <input type="text" class="form-control" id="ipEdit" name="ip">
+                        <label for="sizeEdit" class="form-label">Объем</label>
+                        <input type="text" class="form-control" id="sizeEdit" name="size">
                     </div>
                     <div class="mb-3">
-                        <label for="userEdit" class="form-label">Пользователь</label>
-                        <input type="text" class="form-control" id="userEdit" name="user">
+                        <label for="frequencyEdit" class="form-label">Частота</label>
+                        <input type="text" class="form-control" id="frequencyEdit" name="frequency">
                     </div>
                     <div class="mb-3">
-                        <label for="smartEdit" class="form-label">Смарт</label>
-                        <input type="text" class="form-control" id="smartEdit" name="smart">
-                    </div>
-                    <div class="mb-3">
-                        <label for="commentEdit" class="form-label">Комментарий</label>
-                        <input type="text" class="form-control" id="commentEdit" name="comment">
+                        <label for="countEdit" class="form-label">Колличество</label>
+                        <input type="text" class="form-control" id="countEdit" name="count">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>

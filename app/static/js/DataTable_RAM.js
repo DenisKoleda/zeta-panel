@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var apiEndpoint = '/api/sklad/badgeev/get';
+  var apiEndpoint = '/api/sklad/ram/get';
   // Клонирование thead таблицы
   $('#myTable thead tr')
     .clone(true)
@@ -21,16 +21,11 @@ $(document).ready(function () {
       },
       columns: [
         { data: "id" },
-        { data: "ip" },
-        { data: "vlan" },
-        { data: "cores" },
-        { data: "config" },
-        { data: "status" },
-        { data: "smart" },
-        { data: "switch" },
-        { data: "switch_port" },
-        { data: "rack" },
-        { data: "comment" },
+        { data: "name" },
+        { data: "type" },
+        { data: "size" },
+        { data: "frequency" },
+        { data: "count" },
       ],
       initComplete: function () {
         var dataTable = this.api();
@@ -64,15 +59,16 @@ $(document).ready(function () {
     }
   });
 
-
   // Форма добавления элемента
   $('#addForm').submit(function (event) {
     event.preventDefault();
+
     // Получение данных из формы
     var formData = $('#addForm').serialize();
+
     // AJAX запрос для добавления строки в базу данных
     $.ajax({
-      url: '/api/sklad/badgeev/add',
+      url: '/api/sklad/ram/add',
       type: 'POST',
       data: formData,
       success: function (response) {
@@ -91,7 +87,7 @@ $(document).ready(function () {
   // Форма редактирования
   $('#editModal').on('show.bs.modal', function () {
     $.ajax({
-      url: '/api/sklad/badgeev/get_id',
+      url: '/api/sklad/ram/get_id',
       type: 'GET',
       success: function (response) {
         $('#idSelectEdit').empty();
@@ -102,7 +98,7 @@ $(document).ready(function () {
           }));
         });
         $.ajax({
-          url: '/api/sklad/badgeev/get_item',
+          url: '/api/sklad/ram/get_item',
           type: 'GET',
           data: { id: $('#idSelectEdit').val() },
           success: function (response) {
@@ -131,29 +127,20 @@ $(document).ready(function () {
 
   // Обновляем данные об элементе при изменении выбранного ID
   $('#idSelectEdit').change(function () {
-    var itemId = $(this).val();
-    $.get('/api/sklad/badgeev/get_item', { id: itemId }, function (response) {
-      // Проходим по всем элементам формы, имена которых заканчиваются на "Edit"
-      $('*[id$="Edit"]').each(function () {
-        // Получаем имя элемента формы
-        var fieldName = $(this).attr('id').replace('Edit', '');
-
-        // Если имя поля формы соответствует имени свойства в объекте response, заполняем его значением
-        if (fieldName in response) {
-          $(this).val(response[fieldName]);
-        }
-      });
-
+    var data = $(this).serialize();
+    $.post('/api/sklad/ram/update_item', data, function (response) {
+      location.reload();
     }).fail(function (error) {
       console.log(error);
     });
   });
 
-  // Обновляем данные об элементе при изменении выбранного ID
+  // Обновляем данные об элементе
   $('#editForm').submit(function (event) {
     event.preventDefault();
+
     var data = $(this).serialize();
-    $.post('/api/sklad/badgeev/update_item', data, function (response) {
+    $.post('/api/sklad/ram/update_item', data, function (response) {
       location.reload();
     }).fail(function (error) {
       console.log(error);
@@ -165,7 +152,7 @@ $(document).ready(function () {
   $('#deleteModal').on('show.bs.modal', function (event) {
     var select = $('#idSelectDelete').empty();
 
-    $.get('/api/sklad/badgeev/get_id', function (response) {
+    $.get('/api/sklad/ram/get_id', function (response) {
       response.forEach(function (item) {
         select.append($('<option>', { value: item.id, text: item.id }));
       });
@@ -173,12 +160,10 @@ $(document).ready(function () {
       console.log(error);
     });
   });
-
-
   $('#deleteForm').submit(function (event) {
     event.preventDefault();
 
-    $.post('/api/sklad/badgeev/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
+    $.post('/api/sklad/ram/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
       $('#deleteModal').modal('hide');
       location.reload();
     }).fail(function (error) {

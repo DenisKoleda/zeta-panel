@@ -37,9 +37,10 @@ class Ram(Base):
     __tablename__ = 'sklad_ram'
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
-    conf = Column(String(200))
-    freq = Column(String(200))
-    amount = Column(String(200))
+    type = Column(String(200))
+    size = Column(String(200))
+    frequency = Column(String(200))
+    count = Column(String(200))
     
 class Tasks(Base):
     __tablename__ = 'tasks'
