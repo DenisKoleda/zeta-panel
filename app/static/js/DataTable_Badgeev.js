@@ -38,30 +38,30 @@ $(document).ready(function () {
         // Add input elements to table headers
         dataTable.columns().eq(0).each(function(colIndex) {
           var columnHeader = $('.filters th').eq($(dataTable.column(colIndex).header()).index());
-          var title = $(columnHeader).text();
-          $(columnHeader).html('<input type="text" placeholder="' + title + '" />');
+          addInputToHeader(columnHeader);
       
           // Handle input change event
-          $('input', $(columnHeader)).off('keyup change').on('change', function(event) {
-            // Get the search value
-            $(this).attr('title', $(this).val());
-            var regexr = '({search})'; //$(this).parents('th').find('select').val();
-            var searchValue = this.value != '' ? '(((' + this.value + ')))' : '';
-      
-            // Search the column for the search value
-            dataTable.column(colIndex)
-              .search(searchValue, this.value != '', this.value == '')
-              .draw();
-          }).on('keyup', function(event) {
-            event.stopPropagation();
-      
-            $(this).trigger('change');
-            $(this).focus()[0];
+          $('input', columnHeader).on('input', function(event) {
+            handleInputChange(dataTable, colIndex, this.value);
           });
         });
-      },
-      
+      },        
     });
+    function addInputToHeader(header) {
+      var title = $(header).text();
+      $(header).html(`
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="${title}" />
+        </div>
+      `);
+    }
+    
+    function handleInputChange(dataTable, colIndex, value) {
+      var searchValue = value != '' ? '(((' + value + ')))' : '';
+      dataTable.column(colIndex)
+        .search(searchValue, true, false)
+        .draw();
+    }
     // Форма добавления элемента
     $('#addForm').submit(function (event) {
       event.preventDefault();
