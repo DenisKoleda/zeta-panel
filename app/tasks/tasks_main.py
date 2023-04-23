@@ -18,16 +18,12 @@ def api_get_tasks():
     return jsonify([task.serialize() for task in task_list])
 
 
-@tasks_main.route('/api/tasks/add_row_task', methods=['POST'])
+@tasks_main.route('/api/tasks/add_task', methods=['POST'])
 @login_required
-def add_row_task():
+def add_ask():
     data = request.form.to_dict()
-    last_id = models.Tasks.query.order_by(models.Tasks.id.desc()).first().id or 0
-    new_row = models.Tasks(**data)
-    db.session.add(new_row)
-    db.session.commit()
-    return jsonify({'id': last_id + 1, **data})
-
+    output_data = models.Tasks.add(data)
+    return jsonify(output_data)
 
 
 @tasks_main.route('/api/tasks/get_tasks_id')

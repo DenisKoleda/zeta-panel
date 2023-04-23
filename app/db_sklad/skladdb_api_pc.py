@@ -11,7 +11,7 @@ def api_get_pc():
     pc_list = models.PC.query.all()
     return jsonify([pc.serialize() for pc in pc_list])
 
-@skladdb_api_pc.route('/api/sklad/add_row_pc', methods=['POST'])
+@skladdb_api_pc.route('/api/sklad/add_pc', methods=['POST'])
 @login_required
 def add_row_pc():
     data = request.form.to_dict()
@@ -21,7 +21,7 @@ def add_row_pc():
     db.session.commit()
     return jsonify({'id': last_id + 1, **data})
 
-@skladdb_api_pc.route('/api/sklad/get_pc_items_id')
+@skladdb_api_pc.route('/api/sklad/get_pc_id')
 @login_required
 def get_pc_items():
     items = models.PC.query.all()

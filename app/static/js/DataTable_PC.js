@@ -66,7 +66,7 @@ $(document).ready(function () {
     
       // AJAX запрос для добавления строки в базу данных
       $.ajax({
-        url: '/api/sklad/add_row_pc',
+        url: '/api/sklad/add_pc',
         type: 'POST',
         data: formData,
         success: function (response) {    
@@ -83,7 +83,7 @@ $(document).ready(function () {
     // Форма редактирования
     $('#editModal').on('show.bs.modal', function() {
       $.ajax({
-        url: '/api/sklad/get_pc_items_id',
+        url: '/api/sklad/get_pc_id',
         type: 'GET',
         success: function(response) {
           $('#idSelectEdit').empty();
@@ -145,7 +145,7 @@ $(document).ready(function () {
     $('#deleteModal').on('show.bs.modal', function (event) {
       var select = $('#idSelectDelete').empty();
     
-      $.get('/api/sklad/get_pc_items_id', function (response) {
+      $.get('/api/sklad/get_pc_id', function (response) {
         response.forEach(function (item) {
           select.append($('<option>', { value: item.id, text: item.id }));
         });

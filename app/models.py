@@ -75,6 +75,14 @@ class Tasks(db.Model):
     # time_finished = db.Column(db.Integer(200))
     # time_wasted = db.Column(db.Integer(200))
     
+    @classmethod
+    def add(cls, data):
+        last_id = cls.query.order_by(cls.id.desc()).first().id or 0
+        new_row = cls(**data)
+        db.session.add(new_row)
+        db.session.commit()
+        return {'id': last_id + 1, **data}
+    
     def serialize(self):
         return {
             'id': self.id,

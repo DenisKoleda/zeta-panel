@@ -71,7 +71,7 @@ $(document).ready(function () {
     
       // AJAX запрос для добавления строки в базу данных
       $.ajax({
-        url: '/api/tasks/add_row_task',
+        url: '/api/tasks/add_task',
         type: 'POST',
         data: formData,
         success: function (response) {    
