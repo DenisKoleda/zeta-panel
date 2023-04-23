@@ -11,14 +11,14 @@ def tasks_maim_page():
     return render_template('tasks/task_main.html')
 
 
-@tasks_main.route('/api/tasks/get_tasks', methods=['GET'])
+@tasks_main.route('/api/tasks/get', methods=['GET'])
 @login_required
 def api_get_tasks():
     task_list = models.Tasks.query.all()
     return jsonify([task.serialize() for task in task_list])
 
 
-@tasks_main.route('/api/tasks/add_task', methods=['POST'])
+@tasks_main.route('/api/tasks/add', methods=['POST'])
 @login_required
 def add_task():
     data = request.form.to_dict()
@@ -30,14 +30,14 @@ def add_task():
 
 
 
-@tasks_main.route('/api/tasks/get_tasks_id')
+@tasks_main.route('/api/tasks/get_id')
 @login_required
 def get_tasks_id():
     items = models.Tasks.query.all()
     items_dict = [{'id': item.id} for item in items]
     return jsonify(items_dict)
 
-@tasks_main.route('/api/tasks/get_task_item')
+@tasks_main.route('/api/tasks/get_item')
 @login_required
 def get_task_item():
     id = request.args.get('id')
@@ -48,7 +48,7 @@ def get_task_item():
     return jsonify({'error': 'Item not found'})
 
 
-@tasks_main.route('/api/tasks/update_task_item', methods=['POST'])
+@tasks_main.route('/api/tasks/update_item', methods=['POST'])
 @login_required
 def update_task_item():
     id, date, user_init, ticket, ticket_comment, priority, status, executor, deadline, comment = [request.form.get(field) for field in ['id', 'date', 'user_init', 'ticket', 'ticket_comment', 'priority', 'status', 'executor', 'deadline', 'comment']]
@@ -58,7 +58,7 @@ def update_task_item():
     return jsonify({'success': True})
 
 
-@tasks_main.route('/api/sklad/delete_task_item', methods=['POST'])
+@tasks_main.route('/api/tasks/delete_item', methods=['POST'])
 @login_required
 def delete_task_item():
     tasks_id = request.form.get('id')

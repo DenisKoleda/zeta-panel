@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var apiEndpoint = '/api/tasks/get_tasks';
+  var apiEndpoint = '/api/tasks/get';
   // Клонирование thead таблицы
   $('#myTable thead tr')
     .clone(true)
@@ -71,7 +71,7 @@ $(document).ready(function () {
     
       // AJAX запрос для добавления строки в базу данных
       $.ajax({
-        url: '/api/tasks/add_task',
+        url: '/api/tasks/add',
         type: 'POST',
         data: formData,
         success: function (response) {    
@@ -89,7 +89,7 @@ $(document).ready(function () {
     // Форма редактирования
     $('#editModal').on('show.bs.modal', function() {
       $.ajax({
-        url: '/api/tasks/get_tasks_id',
+        url: '/api/tasks/get_id',
         type: 'GET',
         success: function(response) {
           $('#idSelectEdit').empty();
@@ -100,7 +100,7 @@ $(document).ready(function () {
             }));
           });
           $.ajax({
-            url: '/api/tasks/get_task_item',
+            url: '/api/tasks/get_item',
             type: 'GET',
             data: { id: $('#idSelectEdit').val() },
             success: function(response) {
@@ -129,7 +129,7 @@ $(document).ready(function () {
     // Обновляем данные об элементе при изменении выбранного ID
     $('#idSelectEdit').change(function () {
       var itemId = $(this).val();
-      $.get('/api/tasks/get_task_item', { id: itemId }, function (response) {
+      $.get('/api/tasks/get_item', { id: itemId }, function (response) {
         $('#dateEdit').val(response.date);
         $('#user_initEdit').val(response.user_init);
         $('#ticketEdit').val(response.ticket);
@@ -149,7 +149,7 @@ $(document).ready(function () {
     
       var data = $(this).serialize();
     
-      $.post('/api/tasks/update_task_item', data, function (response) {
+      $.post('/api/tasks/update_item', data, function (response) {
         location.reload();
       }).fail(function (error) {
         console.log(error);
@@ -160,7 +160,7 @@ $(document).ready(function () {
     $('#deleteModal').on('show.bs.modal', function (event) {
       var select = $('#idSelectDelete').empty();
     
-      $.get('/api/tasks/get_tasks_id', function (response) {
+      $.get('/api/tasks/get_id', function (response) {
         response.forEach(function (item) {
           select.append($('<option>', { value: item.id, text: item.id }));
         });
@@ -172,7 +172,7 @@ $(document).ready(function () {
     $('#deleteForm').submit(function (event) {
       event.preventDefault();
     
-      $.post('/api/sklad/delete_task_item', { id: $('#idSelectDelete').val() }, function (response) {
+      $.post('/api/tasks/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
         $('#deleteModal').modal('hide');
         location.reload();
       }).fail(function (error) {
