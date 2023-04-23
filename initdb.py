@@ -1,5 +1,4 @@
 import os
-from tqdm import tqdm
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base
 
@@ -93,10 +92,4 @@ class Badgeev(Base):
 engine = create_engine('sqlite:///' + db_path)
 Base.metadata.create_all(engine)
 
-with tqdm(total=Base.metadata.tables.keys()) as pbar:
-    for table_name in Base.metadata.tables.keys():
-        pbar.set_description(f'Создание базы данных {table_name}')
-        engine.execute(Base.metadata.tables[table_name].create(bind=engine))
-        pbar.update()
-        
 print('База данных создана')

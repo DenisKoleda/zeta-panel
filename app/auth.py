@@ -38,11 +38,6 @@ def login_post():
     return redirect(url_for('main.profile'))
 
 
-@auth.route('/signup')
-def signup():
-    return render_template('signup.html')
-
-
 @auth.route('/forgot_password')
 def forgot_password():
     return render_template('forgot_password.html')
@@ -81,27 +76,34 @@ def reset_password(token):
         return redirect(url_for('auth.login'))
     return render_template('reset_password.html', token=token)
 
+# @auth.route('/signup')
+# def signup():
+#     return render_template('signup.html')
 
-@auth.route('/signup', methods=['POST'])
-def signup_post():
-    email = request.form.get('email')
-    username = request.form.get('username')
-    password = request.form.get('password')
-    role = 'User'
+# @auth.route('/signup', methods=['POST'])
+# def signup_post():
+#     email = request.form.get('email')
+#     username = request.form.get('username')
+#     password = request.form.get('password')
+#     role = 'User'
 
-    user = User.query.filter_by(
-        email=email).first()
+#     user = User.query.filter_by(
+#         email=email).first()
 
-    if user:
-        flash('Адрес электронной почты уже существует')
-        return redirect(url_for('auth.signup'))
+#     if user:
+#         flash('Адрес электронной почты уже существует')
+#         return redirect(url_for('auth.signup'))
 
-    new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256') , role=role)
+#     new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256') , role=role)
 
-    db.session.add(new_user)
-    db.session.commit()
+#     db.session.add(new_user)
+#     db.session.commit()
 
-    return redirect(url_for('auth.login'))
+#     return redirect(url_for('auth.login'))
+
+# <p class="text-center">
+#     <a href={{ url_for('auth.signup') }}>Регистрация</a>
+# </p>
 
 
 @auth.route('/logout')
