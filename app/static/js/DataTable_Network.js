@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var apiEndpoint = '/api/sklad/pc/get';
+  var apiEndpoint = '/api/sklad/network/get';
   // Клонирование thead таблицы
   $('#myTable thead tr')
     .clone(true)
@@ -22,11 +22,9 @@ $(document).ready(function () {
       columns: [
         { data: "id" },
         { data: "name" },
-        { data: "conf" },
-        { data: "ip" },
-        { data: "user" },
-        { data: "smart" },
-        { data: "comment" },
+        { data: "type" },
+        { data: "ports" },
+        { data: "count" },
       ],
       initComplete: function() {
         var dataTable = this.api();
@@ -67,7 +65,7 @@ $(document).ready(function () {
     
       // AJAX запрос для добавления строки в базу данных
       $.ajax({
-        url: '/api/sklad/pc/add',
+        url: '/api/sklad/network/add',
         type: 'POST',
         data: formData,
         success: function (response) {    
@@ -84,7 +82,7 @@ $(document).ready(function () {
     // Форма редактирования
     $('#editModal').on('show.bs.modal', function() {
       $.ajax({
-        url: '/api/sklad/pc/get_id',
+        url: '/api/sklad/network/get_id',
         type: 'GET',
         success: function (response) {
           $('#idSelectEdit').empty();
@@ -95,7 +93,7 @@ $(document).ready(function () {
             }));
           });
           $.ajax({
-            url: '/api/sklad/pc/get_item',
+            url: '/api/sklad/network/get_item',
             type: 'GET',
             data: { id: $('#idSelectEdit').val() },
             success: function (response) {
@@ -124,7 +122,7 @@ $(document).ready(function () {
     // Обновляем данные об элементе при изменении выбранного ID
     $('#idSelectEdit').change(function () {
       var itemId = $(this).val();
-      $.get('/api/sklad/pc/get_item', { id: itemId }, function (response) {
+      $.get('/api/sklad/network/get_item', { id: itemId }, function (response) {
         // Проходим по всем элементам формы, имена которых заканчиваются на "Edit"
         $('*[id$="Edit"]').each(function () {
           // Получаем имя элемента формы
@@ -146,7 +144,7 @@ $(document).ready(function () {
     
       var data = $(this).serialize();
     
-      $.post('/api/sklad/pc/update_item', data, function (response) {
+      $.post('/api/sklad/network/update_item', data, function (response) {
         location.reload();
       }).fail(function (error) {
         console.log(error);
@@ -156,7 +154,7 @@ $(document).ready(function () {
     $('#deleteModal').on('show.bs.modal', function (event) {
       var select = $('#idSelectDelete').empty();
     
-      $.get('/api/sklad/pc/get_id', function (response) {
+      $.get('/api/sklad/network/get_id', function (response) {
         response.forEach(function (item) {
           select.append($('<option>', { value: item.id, text: item.id }));
         });
@@ -167,7 +165,7 @@ $(document).ready(function () {
     $('#deleteForm').submit(function (event) {
       event.preventDefault();
     
-      $.post('/api/sklad/pc/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
+      $.post('/api/sklad/network/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
         $('#deleteModal').modal('hide');
         location.reload();
       }).fail(function (error) {
