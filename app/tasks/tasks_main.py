@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, render_template, request
 from flask_login import login_required, current_user
-from app import db, models
+from app import db, models, API_URL
+import requests as req
+import threading
 
 tasks_main = Blueprint('tasks_main', __name__)
 
@@ -26,6 +28,8 @@ def add_task():
         last_id = models.Tasks.query.order_by(models.Tasks.id.desc()).first().id
     except:
         last_id = 0
+    users = models.User.query.filter_by(role='User').all()
+    threading.Thread(target=telegram_new_task, kwargs={'data': data, 'users': users}).start()
     new_row = models.Tasks(**data)
     db.session.add(new_row)
     db.session.commit()
@@ -47,17 +51,22 @@ def get_task_item():
     if id is not None:
         item = models.Tasks.query.filter_by(id=id).first()
         if item:
-            return jsonify({'date': item.date, 'user_init': item.user_init, 'ticket': item.ticket, 'ticket_comment': item.ticket_comment, 'priority': item.priority, 'status': item.status, 'executor': item.executor, 'deadline': item.deadline , 'comment': item.comment})
+            return jsonify(item.serialize())
     return jsonify({'error': 'Item not found'})
 
 
 @tasks_main.route('/api/tasks/update_item', methods=['POST'])
 @login_required
 def update_task_item():
-    id, date, user_init, ticket, ticket_comment, priority, status, executor, deadline, comment = [request.form.get(field) for field in ['id', 'date', 'user_init', 'ticket', 'ticket_comment', 'priority', 'status', 'executor', 'deadline', 'comment']]
-    item = models.Tasks.query.get(id)
-    item.date, item.user_init, item.ticket, item.ticket_comment, item.priority, item.status, item.executor, item.deadline, item.comment = date, user_init, ticket, ticket_comment, priority, status, executor, deadline, comment
+    data = request.form.to_dict()
+    item = models.Tasks.query.get(data['id'])
+    for attribute in models.Tasks.__table__.columns.keys():
+        # Если атрибут есть в request.form, обновляем его значение
+        if attribute in request.form:
+            setattr(item, attribute, request.form[attribute])
     db.session.commit()
+    users = models.User.query.all()
+    threading.Thread(target=telegram_change_task, kwargs={'data': data, 'users': users}).start()
     return jsonify({'success': True})
 
 
@@ -79,3 +88,38 @@ def delete_task_item():
     db.session.commit()
 
     return jsonify({ 'success': True })
+
+def telegram_new_task(data, users):
+    # TODO Добавить chat_id из DB пользователей
+    try:
+        data = f"🛠️ НОВАЯ ЗАДАЧА\n" \
+        f"🕑 Дата: {data['date']}\n" \
+        f"🔨 Задача: \n{data['ticket']}\n" \
+        f"⚒️ Описание задачи: \n{data['ticket_comment']}\n" \
+        f"❗ Приоритет: {data['priority']}\n" \
+        f"📈 Статус: {data['status']}\n" \
+        f"👁️ Исполнитель: {data['executor']}\n" \
+        f"⌛ Дедлайн: {data['deadline']}"
+        for i in users:
+            url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
+            req.get(url)
+    except Exception as e:
+        pass
+    
+def telegram_change_task(data, users):
+    try:
+        data = f"🛠️ ЗАДАЧА ОБНОВЛЕННА\n" \
+        f"🕑 Дата: {data['date']}\n" \
+        f"🔨 Задача: \n{data['ticket']}\n" \
+        f"⚒️ Описание задачи: \n{data['ticket_comment']}\n" \
+        f"❗ Приоритет: {data['priority']}\n" \
+        f"📈 Статус: {data['status']}\n" \
+        f"👁️ Исполнитель: {data['executor']}\n" \
+        f"⌛ Дедлайн: {data['deadline']}"
+        
+        for i in users:
+            url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
+            req.get(url)
+            
+    except Exception as e:
+        pass
