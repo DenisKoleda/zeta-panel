@@ -46,19 +46,33 @@
             </div>
             <div class="mb-3">
               <label for="type" class="form-label">Тип:</label>
-              <input type="text" class="form-control" id="type" name="type" required>
+              <select type="text" class="form-select" id="type" name="type" required>
+                <option value="">--Тип--</option>
+                <option value="DDR3">DDR3</option>
+                <option value="DDR3 ECC REG">DDR3 ECC REG</option>
+                <option value="DDR4">DDR4</option>
+                <option value="DDR4 ECC REG">DDR4 ECC REG</option>
+                <option value="DDR5">DDR5</option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="size" class="form-label">Объем:</label>
-              <input type="text" class="form-control" id="size" name="size" required>
+              <select type="text" class="form-select" id="size" name="size" required>
+                <option value="">--Объем--</option>
+                <option value="4GB">4GB</option>
+                <option value="8GB">8GB</option>
+                <option value="16GB">16GB</option>
+                <option value="32GB">32GB</option>
+                <option value="64GB">64GB</option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="frequency" class="form-label">Частота:</label>
-              <input type="text" class="form-control" id="frequency" name="frequency" required>
+              <input type="text" class="form-control" id="frequency" name="frequency" required required pattern="\d+">
             </div>
             <div class="mb-3">
               <label for="count" class="form-label">Колличество:</label>
-              <input type="text" class="form-control" id="count" name="count" required>
+              <input type="text" class="form-control" id="count" name="count" required required pattern="\d+">
             </div>
           </form>
         </div>
@@ -90,19 +104,33 @@
                     </div>
                     <div class="mb-3">
                         <label for="typeEdit" class="form-label">Тип</label>
-                        <input type="text" class="form-control" id="typeEdit" name="type">
+                        <select type="form-select" class="form-select" id="typeEdit" name="type">
+                          <option value="">--Тип--</option>
+                          <option value="DDR3">DDR3</option>
+                          <option value="DDR3 ECC REG">DDR3 ECC REG</option>
+                          <option value="DDR4">DDR4</option>
+                          <option value="DDR4 ECC REG">DDR4 ECC REG</option>
+                          <option value="DDR5">DDR5</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="sizeEdit" class="form-label">Объем</label>
-                        <input type="text" class="form-control" id="sizeEdit" name="size">
+                        <select type="form-select" class="form-select" id="sizeEdit" name="size">
+                          <option value="">--Объем--</option>
+                          <option value="4GB">4GB</option>
+                          <option value="8GB">8GB</option>
+                          <option value="16GB">16GB</option>
+                          <option value="32GB">32GB</option>
+                          <option value="64GB">64GB</option>
+                      </select>
                     </div>
                     <div class="mb-3">
                         <label for="frequencyEdit" class="form-label">Частота</label>
-                        <input type="text" class="form-control" id="frequencyEdit" name="frequency">
+                        <input type="text" class="form-control" id="frequencyEdit" name="frequency" required pattern="\d+">
                     </div>
                     <div class="mb-3">
                         <label for="countEdit" class="form-label">Колличество</label>
-                        <input type="text" class="form-control" id="countEdit" name="count">
+                        <input type="text" class="form-control" id="countEdit" name="count" required pattern="\d+">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>

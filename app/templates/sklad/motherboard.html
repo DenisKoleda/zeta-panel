@@ -44,15 +44,15 @@
             </div>
             <div class="mb-3">
               <label for="ram" class="form-label">Слоты ОЗУ:</label>
-              <input type="text" class="form-control" id="ram" name="ram" required>
+              <input type="text" class="form-control" id="ram" name="ram" required required pattern="\d+">
             </div>
             <div class="mb-3">
               <label for="m2" class="form-label">Слоты M2:</label>
-              <input type="text" class="form-control" id="m2" name="m2" required>
+              <input type="text" class="form-control" id="m2" name="m2" required required pattern="\d+">
             </div>
             <div class="mb-3">
               <label for="count" class="form-label">Колличество:</label>
-              <input type="text" class="form-control" id="count" name="count" required>
+              <input type="text" class="form-control" id="count" name="count" required required pattern="\d+">
             </div>
           </form>
         </div>
@@ -84,15 +84,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="ramEdit" class="form-label">Слоты ОЗУ</label>
-                        <input type="text" class="form-control" id="ramEdit" name="ram">
+                        <input type="text" class="form-control" id="ramEdit" name="ram" required pattern="\d+">
                     </div>
                     <div class="mb-3">
                         <label for="m2Edit" class="form-label">Слоты M2</label>
-                        <input type="text" class="form-control" id="m2Edit" name="m2">
+                        <input type="text" class="form-control" id="m2Edit" name="m2" required pattern="\d+">
                     </div>
                     <div class="mb-3">
                         <label for="countEdit" class="form-label">Колличество</label>
-                        <input type="text" class="form-control" id="countEdit" name="count">
+                        <input type="text" class="form-control" id="countEdit" name="count" required pattern="\d+">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
