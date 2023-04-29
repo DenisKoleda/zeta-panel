@@ -1,10 +1,10 @@
 {% extends "sklad/sklad_templ.html" %}
 {% block title %}Сервера{% endblock %}
 {% block sklad_js %}
-<script src="{{ url_for('static', filename='js/DataTable_PC.js') }}"></script>
+<script src="{{ url_for('static', filename='js/DataTable_Main.js') }}"></script>
 {% endblock %}
 {% block sklad %}
-  <table id="myTable" class="table table-hover table-bordered" style="width:100%">
+  <table id="myTable" class="table table-striped table-hover table-bordered" style="width:100%">
       <thead>
           <tr>
             <th> ID </th>

@@ -1,5 +1,80 @@
 $(document).ready(function () {
-  var apiEndpoint = '/api/sklad/pc/get';
+
+  var apiEndpoint;
+  var columns = [];
+  switch (window.location.pathname) {
+    case '/sklad/pc':
+      apiEndpoint = '/api/sklad/pc/get';
+      columns = [
+        { data: "id" },
+        { data: "name" },
+        { data: "conf" },
+        { data: "ip" },
+        { data: "user" },
+        { data: "smart" },
+        { data: "comment" }
+      ];
+      break;
+    case '/sklad/badgeev':
+      apiEndpoint = '/api/sklad/badgeev/get';
+      columns = [
+        { data: "id" },
+        { data: "ip" },
+        { data: "vlan" },
+        { data: "cores" },
+        { data: "config" },
+        { data: "status" },
+        { data: "smart" },
+        { data: "switch" },
+        { data: "switch_port" },
+        { data: "rack" },
+        { data: "comment" }
+      ];
+      break;
+    case '/sklad/ram':
+      apiEndpoint = '/api/sklad/ram/get';
+      columns = [
+        { data: "id" },
+        { data: "name" },
+        { data: "type" },
+        { data: "size" },
+        { data: "frequency" },
+        { data: "count" }
+      ];
+      break;
+    case '/sklad/motherboard':
+      apiEndpoint = '/api/sklad/motherboard/get';
+      columns = [
+        { data: "id" },
+        { data: "name" },
+        { data: "ram" },
+        { data: "m2" },
+        { data: "count" }
+      ];
+      break;
+    case '/sklad/harddrive':
+      apiEndpoint = '/api/sklad/harddrive/get';
+      columns = [
+        { data: "id" },
+        { data: "name" },
+        { data: "type" },
+        { data: "size" },
+        { data: "count" }
+      ];
+      break;
+    case '/sklad/network':
+      apiEndpoint = '/api/sklad/network/get';
+      columns = [
+        { data: "id" },
+        { data: "name" },
+        { data: "type" },
+        { data: "ports" },
+        { data: "count" }
+      ];
+      break;
+  }
+
+
   // Клонирование thead таблицы
   $('#myTable thead tr')
     .clone(true)
@@ -12,6 +87,7 @@ $(document).ready(function () {
       orderCellsTop: true,
       // select: true,
       // fixedHeader: true,
+      dom: '<"d-flex justify-content-between align-items-center"lfB><"table-responsive"rt><"d-flex justify-content-between align-items-center"ip>',
       paging: true,
       searching: true,
       ordering: true,
@@ -19,30 +95,36 @@ $(document).ready(function () {
       language: {
         url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
       },
-      columns: [
-        { data: "id" },
-        { data: "name" },
-        { data: "conf" },
-        { data: "ip" },
-        { data: "user" },
-        { data: "smart" },
-        { data: "comment" },
-      ],
+      columns : columns,
       initComplete: function() {
         var dataTable = this.api();
-      
+  
         // Add input elements to table headers
         dataTable.columns().eq(0).each(function(colIndex) {
           var columnHeader = $('.filters th').eq($(dataTable.column(colIndex).header()).index());
           addInputToHeader(columnHeader);
-      
+  
           // Handle input change event
           $('input', columnHeader).on('input', function(event) {
             handleInputChange(dataTable, colIndex, this.value);
           });
         });
-      },        
+  
+        // Add select elements to table footers
+        dataTable.columns().every(function(colIndex) {
+          var column = this;
+          var select = $('<select class="form-select"><option value=""></option></select>')
+            .appendTo($(column.footer()).empty())
+            .on('change', function() {
+              handleInputChange(dataTable, colIndex, '');
+            });
+          column.data().unique().sort().each(function(d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+          });
+        });
+      }
     });
+  
     function addInputToHeader(header) {
       var title = $(header).text();
       $(header).html(`
@@ -51,9 +133,11 @@ $(document).ready(function () {
         </div>
       `);
     }
-    
+  
     function handleInputChange(dataTable, colIndex, value) {
-      var searchValue = value != '' ? '(((' + value + ')))' : '';
+      var inputVal = value != '' ? '(((' + value + ')))' : '';
+      var selectVal = $(dataTable.column(colIndex).footer()).find('select').val();
+      var searchValue = inputVal + (selectVal ? '^' + selectVal + '$' : '');
       dataTable.column(colIndex)
         .search(searchValue, true, false)
         .draw();
@@ -175,11 +259,5 @@ $(document).ready(function () {
       });
     });
     
-    
-  setTimeout(function() {
-    // Получаем элемент таблицы и обертываем его в контейнер с классом "table-responsive"
-    $("#myTable").wrap('<div class="table-responsive"></div>');
-}, 1000);
-
 });
 

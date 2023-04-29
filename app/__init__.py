@@ -7,7 +7,8 @@ from sqlalchemy import or_
 
 db = SQLAlchemy()
 mail = Mail()
-
+TOKEN = '6186246611:AAHtikQ5N_KaYHOdgTsjxnJKt_KX4eFJIKs'
+API_URL = f'https://api.telegram.org/bot{TOKEN}/'
 
 def create_app():
     app = Flask(__name__)
