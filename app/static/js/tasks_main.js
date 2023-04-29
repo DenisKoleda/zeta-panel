@@ -44,6 +44,21 @@ $(document).ready(function () {
           }
         }
       ],
+
+      createdRow: function(row, data, dataIndex) {
+        if (data.status === 'В Работе') {
+          $(row).addClass('table-primary');
+        }
+        if (data.status === 'Выполнено') {
+          $(row).addClass('table-success');
+        }
+        if (data.status === 'Отложено') {
+          $(row).addClass('table-danger');
+        }
+        if (data.status === 'Закрыто') {
+          $(row).addClass('table-info');
+        }
+      },
       
   
       initComplete: function() {
