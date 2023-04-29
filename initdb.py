@@ -14,6 +14,7 @@ class User(Base):
     username = Column(String, nullable=False)
     password = Column(String, nullable=False)
     role = Column(String, nullable=False)
+    telegram = Column(String)
     
 class Motherboard(Base):
     __tablename__ = 'sklad_motherboard'

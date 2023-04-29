@@ -9,6 +9,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(200))  # Пароль
     username = db.Column(db.String(200))  # Имя пользователя
     role = db.Column(db.String(200))  # Роль пользователя
+    telegram = db.Column(db.String()) # Телеграм айди пользователя
 
 class Ram(db.Model):
     __tablename__ = 'sklad_ram'
