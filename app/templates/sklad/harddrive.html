@@ -44,7 +44,13 @@
             </div>
             <div class="mb-3">
               <label for="type" class="form-label">Тип:</label>
-              <input type="text" class="form-control" id="type" name="type" required>
+              <select type="text" class="form-select" id="type" name="type" required>
+                <option value="">--Тип--</option>
+                <option value="SATA">SATA</option>
+                <option value="SAS">SAS</option>
+                <option value="SSD">SSD</option>
+                <option value="SSD M2">SSD M2</option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="size" class="form-label">Объем:</label>
@@ -52,7 +58,7 @@
             </div>
             <div class="mb-3">
               <label for="count" class="form-label">Колличество:</label>
-              <input type="text" class="form-control" id="count" name="count" required>
+              <input type="text" class="form-control" id="count" name="count" required required pattern="\d+">
             </div>
           </form>
         </div>
@@ -84,7 +90,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="typeEdit" class="form-label">Тип</label>
-                        <input type="text" class="form-control" id="typeEdit" name="type">
+                        <select type="text" class="form-select" id="typeEdit" name="type">
+                          <option value="">--Тип--</option>
+                          <option value="SATA">SATA</option>
+                          <option value="SAS">SAS</option>
+                          <option value="SSD">SSD</option>
+                          <option value="SSD M2">SSD M2</option>
+                      </select>
                     </div>
                     <div class="mb-3">
                         <label for="sizeEdit" class="form-label">Объем</label>
@@ -92,7 +104,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="countEdit" class="form-label">Колличество</label>
-                        <input type="text" class="form-control" id="countEdit" name="count">
+                        <input type="text" class="form-control" id="countEdit" name="count" required pattern="\d+">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>

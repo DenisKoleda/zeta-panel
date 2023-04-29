@@ -87,8 +87,8 @@ class PC(db.Model):
     conf = db.Column(db.String(200))
     ip = db.Column(db.String(200))
     user = db.Column(db.String(200))
-    smart = db.Column(db.String(200))
-    comment = db.Column(db.String(200))
+    smart = db.Column(db.Text)
+    comment = db.Column(db.Text)
     
     def serialize(self):
         return {
@@ -141,11 +141,11 @@ class Badgeev(db.Model):
     cores = db.Column(db.String(200))
     config = db.Column(db.String(200))
     status = db.Column(db.String(200))
-    smart = db.Column(db.String(200))
+    smart = db.Column(db.Text)
     switch = db.Column(db.String(200))
     switch_port = db.Column(db.String(200))
     rack = db.Column(db.String(200))
-    comment = db.Column(db.String(200))
+    comment = db.Column(db.Text)
     
     def serialize(self):
         return {

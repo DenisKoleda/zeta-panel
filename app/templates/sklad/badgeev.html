@@ -56,11 +56,11 @@
             </div>
             <div class="mb-3">
               <label for="vlan" class="form-label">VLAN:</label>
-              <input type="text" class="form-control" id="vlan" name="vlan" required>
+              <input type="text" class="form-control" id="vlan" name="vlan" required pattern="\d+">
             </div>
             <div class="mb-3">
               <label for="cores" class="form-label">Ядра:</label>
-              <input type="text" class="form-control" id="cores" name="cores" required>
+              <input type="text" class="form-control" id="cores" name="cores" required pattern="\d+">
             </div>
             <div class="mb-3">
               <label for="config" class="form-label">Конфигурация:</label>
@@ -68,11 +68,16 @@
             </div>
             <div class="mb-3">
               <label for="status" class="form-label">Статус:</label>
-              <input type="text" class="form-control" id="status" name="status" required>
+              <select type="text" class="form-select" id="status" name="status" required>
+              <option value="">--Статус--</option>
+                <option value="Включен">Включен</option>
+                <option value="Выключен">Выключен</option>
+                <option value="Неисправен">Неисправен</option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="smart" class="form-label">Смарт:</label>
-              <input type="text" class="form-control" id="smart" name="smart">
+              <textarea type="text" class="form-control" id="smart" name="smart" rows="3"></textarea>
             </div>
             <div class="mb-3">
               <label for="switch" class="form-label">Коммутатор:</label>
@@ -80,7 +85,7 @@
             </div>
             <div class="mb-3">
               <label for="switch_port" class="form-label">Порт:</label>
-              <input type="text" class="form-control" id="switch_port" name="switch_port" required>
+              <input type="text" class="form-control" id="switch_port" name="switch_port" required required pattern="\d+">
             </div>
             <div class="mb-3">
               <label for="rack" class="form-label">Стойка:</label>
@@ -88,7 +93,7 @@
             </div>
             <div class="mb-3">
               <label for="comment" class="form-label">Комментарий:</label>
-              <input type="text" class="form-control" id="comment" name="comment">
+              <textarea type="text" class="form-control" id="comment" name="comment" rows="3"></textarea>
             </div>
           </form>
         </div>
@@ -120,11 +125,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="vlanEdit" class="form-label">VLAN</label>
-                        <input type="text" class="form-control" id="vlanEdit" name="vlan">
+                        <input type="text" class="form-control" id="vlanEdit" name="vlan" required pattern="\d+">
                     </div>
                     <div class="mb-3">
                         <label for="coresEdit" class="form-label">Ядра</label>
-                        <input type="text" class="form-control" id="coresEdit" name="cores">
+                        <input type="text" class="form-control" id="coresEdit" name="cores" required pattern="\d+">
                     </div>
                     <div class="mb-3">
                         <label for="configEdit" class="form-label">Конфигурация</label>
@@ -132,11 +137,16 @@
                     </div>
                     <div class="mb-3">
                         <label for="statusEdit" class="form-label">Статус</label>
-                        <input type="text" class="form-control" id="statusEdit" name="status">
+                        <select type="text" class="form-select" id="statusEdit" name="status">
+                          <option value="">--Статус--</option>
+                          <option value="Включен">Включен</option>
+                          <option value="Выключен">Выключен</option>
+                          <option value="Неисправен">Неисправен</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="smartEdit" class="form-label">Смарт</label>
-                        <input type="text" class="form-control" id="smartEdit" name="smart">
+                        <textarea type="text" class="form-control" id="smartEdit" name="smart" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="switchEdit" class="form-label">Коммутатор</label>
@@ -144,7 +154,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="switch_portEdit" class="form-label">Порт</label>
-                        <input type="text" class="form-control" id="switch_portEdit" name="switch_port">
+                        <input type="text" class="form-control" id="switch_portEdit" name="switch_port" required pattern="\d+">
                     </div>
                     <div class="mb-3">
                         <label for="rackEdit" class="form-label">Стойка</label>
@@ -152,7 +162,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="commentEdit" class="form-label">Комментарий</label>
-                        <input type="text" class="form-control" id="commentEdit" name="comment">
+                        <textarea type="text" class="form-control" id="commentEdit" name="comment" rows="3"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>

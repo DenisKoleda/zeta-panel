@@ -30,8 +30,8 @@ class PC(Base):
     conf = Column(String(200))
     ip = Column(String(200))
     user = Column(String(200))
-    smart = Column(String(200))
-    comment = Column(String(200))
+    smart = Column(Text)
+    comment = Column(Text)
 
 class Ram(Base):
     __tablename__ = 'sklad_ram'
@@ -83,11 +83,11 @@ class Badgeev(Base):
     cores = Column(String(200))
     config = Column(String(200))
     status = Column(String(200))
-    smart = Column(String(200))
+    smart = Column(Text)
     switch = Column(String(200))
     switch_port = Column(String(200))
     rack = Column(String(200))
-    comment = Column(String(200))
+    comment = Column(Text)
 
 engine = create_engine('sqlite:///' + db_path)
 Base.metadata.create_all(engine)
