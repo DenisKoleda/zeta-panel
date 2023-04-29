@@ -92,14 +92,14 @@ def delete_task_item():
 def telegram_new_task(data, users):
     # TODO Добавить chat_id из DB пользователей
     try:
-        data = f"🛠️ НОВАЯ ЗАДАЧА\n" \
-        f"🕑 Дата: {data['date']}\n" \
-        f"🔨 Задача: \n{data['ticket']}\n" \
-        f"⚒️ Описание задачи: \n{data['ticket_comment']}\n" \
-        f"❗ Приоритет: {data['priority']}\n" \
-        f"📈 Статус: {data['status']}\n" \
-        f"👁️ Исполнитель: {data['executor']}\n" \
-        f"⌛ Дедлайн: {data['deadline']}"
+        data = f"НОВАЯ ЗАДАЧА\n\n" \
+        f"Дата: {data['date']}\n" \
+        f"Задача: \n{data['ticket']}\n" \
+        f"Описание задачи: \n{data['ticket_comment']}\n" \
+        f"Приоритет: {data['priority']}\n" \
+        f"Статус: {data['status']}\n" \
+        f"Исполнитель: {data['executor']}\n" \
+        f"Дедлайн: {data['deadline']}"
         for i in users:
             url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
             req.get(url)
@@ -108,14 +108,14 @@ def telegram_new_task(data, users):
     
 def telegram_change_task(data, users):
     try:
-        data = f"🛠️ ЗАДАЧА ОБНОВЛЕННА\n" \
-        f"🕑 Дата: {data['date']}\n" \
-        f"🔨 Задача: \n{data['ticket']}\n" \
-        f"⚒️ Описание задачи: \n{data['ticket_comment']}\n" \
-        f"❗ Приоритет: {data['priority']}\n" \
-        f"📈 Статус: {data['status']}\n" \
-        f"👁️ Исполнитель: {data['executor']}\n" \
-        f"⌛ Дедлайн: {data['deadline']}"
+        data = f"ЗАДАЧА ОБНОВЛЕННА\n\n" \
+        f"Дата: {data['date']}\n" \
+        f"Задача: \n{data['ticket']}\n" \
+        f"Описание задачи: \n{data['ticket_comment']}\n" \
+        f"Приоритет: {data['priority']}\n" \
+        f"Статус: {data['status']}\n" \
+        f"Исполнитель: {data['executor']}\n" \
+        f"Дедлайн: {data['deadline']}"
         
         for i in users:
             url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
