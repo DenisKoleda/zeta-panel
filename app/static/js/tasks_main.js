@@ -12,6 +12,7 @@ $(document).ready(function () {
       orderCellsTop: true,
       // select: true,
       // fixedHeader: true,
+      dom: '<"d-flex justify-content-between align-items-center"lfB><"table-responsive"rt><"d-flex justify-content-between align-items-center"ip>',
       paging: true,
       searching: true,
       ordering: true,
@@ -47,19 +48,33 @@ $(document).ready(function () {
   
       initComplete: function() {
         var dataTable = this.api();
-      
+  
         // Add input elements to table headers
         dataTable.columns().eq(0).each(function(colIndex) {
           var columnHeader = $('.filters th').eq($(dataTable.column(colIndex).header()).index());
           addInputToHeader(columnHeader);
-      
+  
           // Handle input change event
           $('input', columnHeader).on('input', function(event) {
             handleInputChange(dataTable, colIndex, this.value);
           });
         });
-      },        
+  
+        // Add select elements to table footers
+        dataTable.columns().every(function(colIndex) {
+          var column = this;
+          var select = $('<select class="form-select"><option value=""></option></select>')
+            .appendTo($(column.footer()).empty())
+            .on('change', function() {
+              handleInputChange(dataTable, colIndex, '');
+            });
+          column.data().unique().sort().each(function(d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+          });
+        });
+      }
     });
+  
     function addInputToHeader(header) {
       var title = $(header).text();
       $(header).html(`
@@ -68,13 +83,16 @@ $(document).ready(function () {
         </div>
       `);
     }
-    
+  
     function handleInputChange(dataTable, colIndex, value) {
-      var searchValue = value != '' ? '(((' + value + ')))' : '';
+      var inputVal = value != '' ? '(((' + value + ')))' : '';
+      var selectVal = $(dataTable.column(colIndex).footer()).find('select').val();
+      var searchValue = inputVal + (selectVal ? '^' + selectVal + '$' : '');
       dataTable.column(colIndex)
         .search(searchValue, true, false)
         .draw();
     }
+
     // Форма добавления элемента
     $('#addForm').submit(function (event) {
       event.preventDefault();
@@ -194,10 +212,6 @@ $(document).ready(function () {
     });
     
   });
-  setTimeout(function() {
-    // Получаем элемент таблицы и обертываем его в контейнер с классом "table-responsive"
-    $("#myTable").wrap('<div class="table-responsive"></div>');
-}, 1000);
 
 });
 
