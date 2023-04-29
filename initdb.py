@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, Text
 from sqlalchemy.orm import declarative_base
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -64,13 +64,13 @@ class Tasks(Base):
     date = Column(String(200))
     user_init = Column(String(200))
     ticket = Column(String(200))
-    ticket_comment = Column(String(200))
+    ticket_comment = Column(Text)
     priority = Column(String(200))
     status = Column(String(200))
     executor = Column(String(200))
     # files = Column(String(200)) 
     deadline = Column(String(200))
-    comment = Column(String(200))
+    comment = Column(Text)
     # time_started = Column(Integer(200))
     # time_finished = Column(Integer(200))
     # time_wasted = Column(Integer(200))

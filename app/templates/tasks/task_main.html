@@ -2,6 +2,7 @@
 {% block title %}Задачи{% endblock %}
 {% block tasks_js %}
 <script src="{{ url_for('static', filename='js/tasks_main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tasks_functions.js') }}"></script>
 {% endblock %}
 {% block tasks %}
   <table id="myTable" class="table table-hover table-bordered" style="width:100%">
@@ -50,11 +51,20 @@
           <form id="addForm">
             <div class="mb-3">
               <label for="date" class="form-label">Дата:</label>
-              <input type="text" class="form-control" id="date" name="date" required>
+              <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="mb-3">
+              <label for="deadline" class="form-label">Дедлайн:</label>
+              <input type="date" class="form-control" id="deadline" name="deadline">
             </div>
             <div class="mb-3">
               <label for="user_init" class="form-label">Заказчик:</label>
-              <input type="text" class="form-control" id="user_init" name="user_init" required>
+              <select type="form-control" class="form-control" id="user_init" name="user_init" required>
+                <option value="">--Выберите Заказчика--</option>
+                <option value="Миша">Миша</option>
+                <option value="Андрей">Андрей</option>
+                <option value="Денис">Денис</option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="ticket" class="form-label">Задача:</label>
@@ -62,27 +72,29 @@
             </div>
             <div class="mb-3">
               <label for="ticket_comment" class="form-label">Описание:</label>
-              <input type="text" class="form-control" id="ticket_comment" name="ticket_comment" required>
+              <textarea class="form-control" id="ticket_comment" name="ticket_comment" rows="3"></textarea>
             </div>
             <div class="mb-3">
               <label for="priority" class="form-label">Приоритет:</label>
-              <input type="text" class="form-control" id="priority" name="priority" required>
+              <select type="form-control" class="form-control" id="priority" name="priority" required>
+                <option value="">--Выберите Приоритет--</option>
+                <option value="Низкий">Низкий</option>
+                <option value="Средний">Средний</option>
+                <option value="Высокий">Высокий</option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="status" class="form-label">Статус:</label>
-              <input type="text" class="form-control" id="status" name="status" required>
+              <input type="text" class="form-control" id="status" name="status" value="Новый" readonly required>
             </div>
             <div class="mb-3">
               <label for="executor" class="form-label">Исполнитель:</label>
-              <input type="text" class="form-control" id="executor" name="executor" required>
-            </div>
-            <div class="mb-3">
-              <label for="deadline" class="form-label">Дедлайн:</label>
-              <input type="text" class="form-control" id="deadline" name="deadline" required>
-            </div>
-            <div class="mb-3">
-              <label for="comment" class="form-label">Комментарий:</label>
-              <input type="text" class="form-control" id="comment" name="comment" required>
+              <select type="form-control" class="form-control" id="executor" name="executor" required>
+                <option value="">--Выберите Исполнителя--</option>
+                <option value="Данил">Данил</option>
+                <option value="Александр">Александр</option>
+                <option value="Общий">Общий</option>
+              </select>
             </div>
           </form>
         </div>
@@ -110,11 +122,20 @@
                     </div>
                     <div class="mb-3">
                         <label for="dateEdit" class="form-label">Дата</label>
-                        <input type="text" class="form-control" id="dateEdit" name="date">
+                        <input type="date" class="form-control" id="dateEdit" name="date">
+                    </div>
+                    <div class="mb-3">
+                      <label for="deadlineEdit" class="form-label">Дедлайн</label>
+                      <input type="date" class="form-control" id="deadlineEdit" name="deadline">
                     </div>
                     <div class="mb-3">
                         <label for="user_initEdit" class="form-label">Заказчик</label>
-                        <input type="text" class="form-control" id="user_initEdit" name="user_init">
+                        <select type="text" class="form-control" id="user_initEdit" name="user_init">
+                          <option value="">--Выберите Заказчика--</option>
+                          <option value="Миша">Миша</option>
+                          <option value="Андрей">Андрей</option>
+                          <option value="Денис">Денис</option>
+                      </select>
                     </div>
                     <div class="mb-3">
                         <label for="ticketEdit" class="form-label">Задача</label>
@@ -122,27 +143,39 @@
                     </div>
                     <div class="mb-3">
                         <label for="ticket_commentEdit" class="form-label">Описание</label>
-                        <input type="text" class="form-control" id="ticket_commentEdit" name="ticket_comment">
+                        <textarea type="text" class="form-control" id="ticket_commentEdit" name="ticket_comment" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="priorityEdit" class="form-label">Приоритет</label>
-                        <input type="text" class="form-control" id="priorityEdit" name="priority">
+                        <select type="text" class="form-control" id="priorityEdit" name="priority">
+                          <option value="">--Выберите Приоритет--</option>
+                          <option value="Низкий">Низкий</option>
+                          <option value="Средний">Средний</option>
+                          <option value="Высокий">Высокий</option>
+                      </select>
                     </div>
                     <div class="mb-3">
                         <label for="statusEdit" class="form-label">Статус</label>
                         <input type="text" class="form-control" id="statusEdit" name="status">
+                        <option value="">--Выберите Статус--</option>
+                          <option value="Новый">Новый</option>
+                          <option value="В Работе">В Работе</option>
+                          <option value="Отложено">Отложено</option>
+                          <option value="Завершенно">Завершенно</option>
+                      </select>
                     </div>
                     <div class="mb-3">
                         <label for="executorEdit" class="form-label">Исполнитель</label>
-                        <input type="text" class="form-control" id="executorEdit" name="executor">
-                    </div>
-                    <div class="mb-3">
-                        <label for="deadlineEdit" class="form-label">Дедлайн</label>
-                        <input type="text" class="form-control" id="deadlineEdit" name="deadline">
+                        <select type="text" class="form-control" id="executorEdit" name="executor">
+                          <option value="">--Выберите Исполнителя--</option>
+                          <option value="Данил">Данил</option>
+                          <option value="Александр">Александр</option>
+                          <option value="Общий">Общий</option>
+                      </select>
                     </div>
                     <div class="mb-3">
                         <label for="commentEdit" class="form-label">Комментарий</label>
-                        <input type="text" class="form-control" id="commentEdit" name="comment">
+                        <textarea type="text" class="form-control" id="commentEdit" name="comment" rows="3"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
