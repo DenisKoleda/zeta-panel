@@ -12,7 +12,7 @@ $(document).ready(function () {
       orderCellsTop: true,
       // select: true,
       // fixedHeader: true,
-      dom: '<"d-flex justify-content-between align-items-center"lfB><"table-responsive"rt><"d-flex justify-content-between align-items-center"ip>',
+      dom: '<"justify-content-between align-items-center"lfB><"table-responsive"rt><"justify-content-between align-items-center"ip>',
       paging: true,
       searching: true,
       ordering: true,
