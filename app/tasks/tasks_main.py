@@ -99,6 +99,7 @@ def telegram_new_task(data, users):
         f"⚒️ Описание задачи: \n{data['ticket_comment']}\n" \
         f"❗ Приоритет: {data['priority']}\n" \
         f"📈 Статус: {data['status']}\n" \
+        f"🟥 Заказчик: {data['user_init']}\n" \
         f"👁️ Исполнитель: {data['executor']}\n" \
         f"⌛ Дедлайн: {data['deadline']}"
         for i in users:
@@ -115,6 +116,7 @@ def telegram_change_task(data, users):
         f"⚒️ Описание задачи: \n{data['ticket_comment']}\n" \
         f"❗ Приоритет: {data['priority']}\n" \
         f"📈 Статус: {data['status']}\n" \
+        f"🟥 Заказчик: {data['user_init']}\n" \
         f"👁️ Исполнитель: {data['executor']}\n" \
         f"⌛ Дедлайн: {data['deadline']}"
         
