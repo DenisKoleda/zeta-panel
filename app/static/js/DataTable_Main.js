@@ -85,15 +85,49 @@ $(document).ready(function () {
   $.get(apiEndpoint, function (data) {
     $('#myTable').DataTable({
       orderCellsTop: true,
-      // select: true,
-      // fixedHeader: true,
-      dom: '<"d-flex justify-content-between align-items-center"lfB><"table-responsive"rt><"d-flex justify-content-between align-items-center"ip>',
+      dom: '<"justify-content-between align-items-center"lfB><"table-responsive"rt><"justify-content-between align-items-center"ip>',
+      buttons:[
+        'createState', 'savedStates', 'copy', 'excel', 'print', 'colvis'
+        
+      ],
+      colReorder: true,
+      //responsive: true,
       paging: true,
       searching: true,
       ordering: true,
       data: data,
       language: {
-        url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+          "sProcessing":   "Обработка...",
+          "sLengthMenu":   "Показать _MENU_ записей",
+          "sZeroRecords":  "Записи отсутствуют.",
+          "sInfo":         "Записи с _START_ до _END_ из _TOTAL_ записей",
+          "sInfoEmpty":    "Записи с 0 до 0 из 0 записей",
+          "sInfoFiltered": "(отфильтровано из _MAX_ записей)",
+          "sInfoPostFix":  "",
+          "sSearch":       "Поиск:",
+          "sUrl":          "",
+          "oPaginate": {
+              "sFirst":    "Первая",
+              "sPrevious": "Предыдущая",
+              "sNext":     "Следующая",
+              "sLast":     "Последняя"
+          },
+          "buttons": {
+            "removeState": "Удалить состояние",
+            "updateState": "Обновить состояние",
+            "stateRestore": "Состояние %d",
+            "renameState": "Переименовать состояние",
+            "createState": "Сохранить состояние",
+            "savedStates": "Сохраненные состояния",
+            "create": "Создать",
+            "edit": "Редактировать",
+            "remove": "Удалить",
+            "copy": "Копировать",
+            "csv": "CSV",
+            "excel": "Excel",
+            "print": "Печать",
+            "colvis": "Видимость колонок"
+          }
       },
       columns : columns,
       initComplete: function() {
