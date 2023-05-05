@@ -1,5 +1,6 @@
 import os
 from flask import Flask, jsonify, request
+from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
@@ -9,7 +10,6 @@ db = SQLAlchemy()
 mail = Mail()
 TOKEN = '6186246611:AAHtikQ5N_KaYHOdgTsjxnJKt_KX4eFJIKs'
 API_URL = f'https://api.telegram.org/bot{TOKEN}/'
-
 def create_app():
     app = Flask(__name__)
 
@@ -28,6 +28,7 @@ def create_app():
     # Инициализация экземпляров:
     db.init_app(app)
     mail.init_app(app)
+    migrate = Migrate(app, db)
 
     # Создание экземпляра LoginManager для работы с аутентификацией пользователей:
     login_manager = LoginManager(app)
