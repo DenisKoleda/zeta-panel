@@ -29,6 +29,23 @@ class Ram(db.Model):
             'frequency': self.frequency,
             'count': self.count
         }
+        
+class Miscellaneous(db.Model):
+    __tablename__ = 'sklad_miscellaneous'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200))
+    type = db.Column(db.String(200))
+    conf = db.Column(db.String(200))
+    count = db.Column(db.Integer)
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'type': self.type,
+            'conf': self.conf,
+            'count': self.count
+        }
 
 class Network(db.Model):
     __tablename__ = 'sklad_network'

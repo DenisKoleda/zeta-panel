@@ -36,3 +36,8 @@ def sklad_harddrive():
 @login_required
 def sklad_network():
     return render_template('sklad/network.html')
+
+@skladdb.route('/sklad/miscellaneous')
+@login_required
+def sklad_miscellaneous():
+    return render_template('sklad/miscellaneous.html')
