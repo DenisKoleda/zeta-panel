@@ -38,6 +38,7 @@ pip install -r requirements.txt
 4. Настройте базу данных:
 ```
 flask db init
+flask db migrate
 ```
 5. Миграция бд и обновление
 ```
