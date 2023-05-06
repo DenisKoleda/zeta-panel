@@ -3,7 +3,8 @@ $(document).ready(function() {
     $("#TableBody").on("click", ".action-btn", function() {
         var columnId = $(this).data("id");
         var buttonName = $(this).data("status");
-        var data = {id: columnId, status: buttonName};
+        var userName = $(this).data("name");
+        var data = {id: columnId, status: buttonName, executor: userName};
         $.post('/api/tasks/update_item_status', data, function (response) {
             location.reload();
         }).fail(function (error) {

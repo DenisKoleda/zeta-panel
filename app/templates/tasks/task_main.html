@@ -57,6 +57,7 @@
   </table>
 <script>
   var userRole = '{{ current_user.role }}';
+  var userName = '{{ current_user.username }}';
 </script>
 
 {% if current_user.role == "Admin" %}

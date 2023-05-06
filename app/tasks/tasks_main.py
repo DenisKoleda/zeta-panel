@@ -29,7 +29,7 @@ def add_task():
         last_id = models.Tasks.query.order_by(models.Tasks.id.desc()).first().id
     except:
         last_id = 0
-    users = models.User.query.all()
+    users = models.User.query.filter_by(role='User').all()
     threading.Thread(target=telegram_new_task, kwargs={'data': data, 'users': users}).start()
     new_row = models.Tasks(**data)
     db.session.add(new_row)
@@ -190,6 +190,7 @@ def telegram_update_item_status(data, users):
     try:
         data = f"🛠️ ЗАДАЧА ПЕРЕШЛА В НОВЫЙ СТАТУС\n" \
         f"🕑 Номер задачи: {data['id']}\n" \
+        f"👁️ Исполнитель: {data['executor']}\n" \
         f"📈 Статус: {data['status']}\n" \
         
         for i in users:
