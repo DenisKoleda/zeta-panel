@@ -1,5 +1,16 @@
 // Форма редактирования
 $(document).ready(function () {
+    // получение ссылки на поле ввода
+    var dateInput = document.getElementById('date');
+
+    // создание объекта даты для текущей даты
+    var today = new Date();
+
+    // форматирование даты в строку в формате yyyy-mm-dd
+    var formattedDate = today.toISOString().substr(0, 10);
+
+    // установка значения поля ввода
+    dateInput.value = formattedDate;
 
      // Форма добавления элемента
      $('#addForm').submit(function (event) {
@@ -126,5 +137,16 @@ $(document).ready(function () {
         }).fail(function (error) {
             console.log(error);
         });
+    });
+
+    $("#TableBody").on("click", ".action-btn", function() {
+        var columnId = $(this).data("id");
+        var buttonName = $(this).data("status");
+        var data = {id: columnId, status: buttonName};
+        $.post('/api/tasks/update_item_status', data, function (response) {
+            location.reload();
+        }).fail(function (error) {
+            console.log(error);
+        });       
     });
 });

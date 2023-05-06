@@ -2,9 +2,13 @@ $(document).ready(function() {
     // Назначение обработчика кликов на родительский элемент
     $("#TableBody").on("click", ".action-btn", function() {
         var columnId = $(this).data("id");
-        var buttonName = $(this).text();
-        var data = {id: columnId, text: buttonName};
-        console.log(data);        
+        var buttonName = $(this).data("status");
+        var data = {id: columnId, status: buttonName};
+        $.post('/api/tasks/update_item_status', data, function (response) {
+            location.reload();
+        }).fail(function (error) {
+            console.log(error);
+        });       
     });
 
     $('#editModal').on('show.bs.modal', function (event) {

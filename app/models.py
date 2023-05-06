@@ -133,9 +133,9 @@ class Tasks(db.Model):
     # files = db.Column(db.String(200)) 
     deadline = db.Column(db.String(200))
     comment = db.Column(db.Text)
-    time_started = db.Column(db.Integer)
-    time_finished = db.Column(db.Integer)
-    time_wasted = db.Column(db.Integer)
+    time_started = db.Column(db.String(200))
+    time_finished = db.Column(db.String(200))
+    time_wasted = db.Column(db.String(200))
     
     def serialize(self):
         return {
