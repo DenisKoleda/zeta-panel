@@ -55,7 +55,12 @@ var columns = [
       data: null,
       className: 'exclude',
       render: function(data, type, row, meta) {
-        return '';
+            return'<div class="d-flex mt-2">\
+            <button class="btn btn-warning btn-sm action-btn mx-2" data-bs-toggle="modal" \
+            data-bs-target="#editModal" data-id="' + row.id + '">Редактировать</button>\
+            <button class="btn btn-danger btn-sm action-btn mx-2" data-bs-toggle="modal" \
+            data-bs-target="#deleteModal" data-id="' + row.id + '">Удалить</button>\
+            </div>'
+        }
     } 
-    }
 ]
