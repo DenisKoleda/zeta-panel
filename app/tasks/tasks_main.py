@@ -99,7 +99,6 @@ def update_item_status():
             if attribute == 'status' and request.form[attribute] == 'Выполнено':
                 time_finished = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
                 item.time_finished = time_finished
-            if attribute == 'status' and request.form[attribute] == 'Закрыто':
                 item.time_wasted = str(datetime.datetime.strptime(item.time_finished, '%Y-%m-%d %H:%M') - datetime.datetime.strptime(item.time_started, '%Y-%m-%d %H:%M'))
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
