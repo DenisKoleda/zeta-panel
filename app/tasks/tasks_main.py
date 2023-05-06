@@ -81,7 +81,7 @@ def update_item_comment():
         if attribute in request.form:
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
-    users = models.User.query.all()
+    users = models.User.query.filter_by(role='Admin').all()
     threading.Thread(target=telegram_update_item_comment, kwargs={'data': data, 'users': users}).start()
     return jsonify({ 'success': True })
 
@@ -99,7 +99,6 @@ def update_item_status():
             if attribute == 'status' and request.form[attribute] == 'Выполнено':
                 time_finished = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
                 item.time_finished = time_finished
-            if attribute == 'status' and request.form[attribute] == 'Закрыто':
                 item.time_wasted = str(datetime.datetime.strptime(item.time_finished, '%Y-%m-%d %H:%M') - datetime.datetime.strptime(item.time_started, '%Y-%m-%d %H:%M'))
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
