@@ -2,11 +2,13 @@
 {% block title %}Склад{% endblock %}
 {% block stylesheet %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ url_for('static', filename='js/func_db.js') }}"></script>
-    {% block sklad_js %}
-    {% endblock %}
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+{% block sklad_js %}
+{% endblock %}
+<script src="{{ url_for('static', filename='js/sklad/sklad_buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sklad/sklad_func.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sklad/sklad_main.js') }}"></script>
 <script src="{{ url_for('static', filename='datatables/datatables.js') }}"></script>
+<script src="{{ url_for('static', filename='datatables/database_lang.js') }}"></script>
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='datatables/datatables.css') }}" />
 {% endblock %}
 {% block content %}
@@ -33,6 +35,9 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button {% if request.path == '/sklad/network' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/network'">Сетевое оборудование</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button {% if request.path == '/sklad/miscellaneous' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/miscellaneous'">Разное</button>
             </li>
         </ul>
     </div>

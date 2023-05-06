@@ -29,13 +29,30 @@ class Ram(db.Model):
             'frequency': self.frequency,
             'count': self.count
         }
+        
+class Miscellaneous(db.Model):
+    __tablename__ = 'sklad_miscellaneous'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200))
+    type = db.Column(db.String(200))
+    conf = db.Column(db.String(200))
+    count = db.Column(db.Integer)
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'type': self.type,
+            'conf': self.conf,
+            'count': self.count
+        }
 
 class Network(db.Model):
     __tablename__ = 'sklad_network'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
     type = db.Column(db.String(200))
-    ports = db.Column(db.String(200))
+    ports = db.Column(db.Integer)
     count = db.Column(db.Integer)
     
     def serialize(self):
@@ -116,9 +133,9 @@ class Tasks(db.Model):
     # files = db.Column(db.String(200)) 
     deadline = db.Column(db.String(200))
     comment = db.Column(db.Text)
-    # time_started = db.Column(db.Integer(200))
-    # time_finished = db.Column(db.Integer(200))
-    # time_wasted = db.Column(db.Integer(200))
+    time_started = db.Column(db.String(200))
+    time_finished = db.Column(db.String(200))
+    time_wasted = db.Column(db.String(200))
     
     def serialize(self):
         return {
@@ -131,7 +148,10 @@ class Tasks(db.Model):
             'status': self.status,
             'executor': self.executor,
             'deadline': self.deadline,
-            'comment': self.comment
+            'comment': self.comment,
+            'time_started': self.time_started,
+            'time_finished': self.time_finished,
+            'time_wasted': self.time_wasted
         }
         
 class Badgeev(db.Model):

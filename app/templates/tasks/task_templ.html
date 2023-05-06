@@ -5,6 +5,7 @@
 {% block tasks_js %}
 {% endblock %}
 <script src="{{ url_for('static', filename='datatables/datatables.js') }}"></script>
+<script src="{{ url_for('static', filename='datatables/database_lang.js') }}"></script>
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='datatables/datatables.css') }}" />
 {% endblock %}
 {% block content %}
@@ -13,15 +14,6 @@
 <div class="container">
     <div class="row">
         <h1>Задачи</h1>
-        <!-- #TODO добавить архив с задачами 
-        <ul class="nav nav-tabs my-3" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button {% if request.path == '/sklad/pc' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/pc'">Сервера</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button {% if request.path == '/sklad/badgeev' %}aria-selected="active" class="nav-link active"{% else %}aria-selected="active" class="nav-link"{% endif %} type="button" onclick="window.location.href='/sklad/badgeev'">Бадгеев</button>
-            </li>
-        </ul>-->
     </div>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active">
@@ -32,8 +24,6 @@
                             <button type="button" class="btn btn-success mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
                             <button type="button" class="btn btn-warning mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактировать</button>
                             <button type="button" class="btn btn-danger mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</button>
-                        {% elif current_user.role == "User" %}
-                            <button type="button" class="btn btn-warning mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактировать</button>
                         {% endif %}
                     </div>
                 </div>
