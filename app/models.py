@@ -52,7 +52,7 @@ class Network(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
     type = db.Column(db.String(200))
-    ports = db.Column(db.String(200))
+    ports = db.Column(db.Integer)
     count = db.Column(db.Integer)
     
     def serialize(self):

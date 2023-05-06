@@ -33,7 +33,16 @@ $(document).ready(function() {
                     type: 'GET',
                     data: { id: $('#idSelectEdit').val() },
                     success: function (response) {
-                        $('#commentEdit').val(response.comment);
+                        // Заполняем поля формы данными об элементе
+                        $('*[id$="Edit"]').each(function () {
+                            // Получаем имя элемента формы
+                            var fieldName = $(this).attr('id').replace('Edit', '');
+
+                            // Если имя поля формы соответствует имени свойства в объекте response, заполняем его значением
+                            if (fieldName in response) {
+                                $(this).val(response[fieldName]);
+                            }
+                        });
                     },
                     error: function (error) {
                         console.log(error);
@@ -51,7 +60,16 @@ $(document).ready(function() {
     $('#idSelectEdit').change(function () {
         var itemId = $(this).val();
         $.get('/api/tasks/get_item', { id: itemId }, function (response) {
-            $('#commentEdit').val(response.comment);
+            // Проходим по всем элементам формы, имена которых заканчиваются на "Edit"
+            $('*[id$="Edit"]').each(function () {
+                // Получаем имя элемента формы
+                var fieldName = $(this).attr('id').replace('Edit', '');
+
+                // Если имя поля формы соответствует имени свойства в объекте response, заполняем его значением
+                if (fieldName in response) {
+                    $(this).val(response[fieldName]);
+                }
+            });
         }).fail(function (error) {
             console.log(error);
         });
