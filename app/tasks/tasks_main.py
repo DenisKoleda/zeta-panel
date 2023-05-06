@@ -66,7 +66,7 @@ def update_task_item():
         if attribute in request.form:
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
-    users = models.User.query.all()
+    users = models.User.query.filter_by(role='User').all()
     threading.Thread(target=telegram_change_task, kwargs={'data': data, 'users': users}).start()
     return jsonify({'success': True})
 
@@ -104,10 +104,10 @@ def update_item_status():
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
     if data['status'] != 'Закрыто':
-        users = models.User.query.all()
+        users = models.User.query.filter_by(role='Admin').all()
         threading.Thread(target=telegram_update_item_status, kwargs={'data': data, 'users': users}).start()
     elif data['status'] == 'Возобновлена':
-        users = models.User.query.all()
+        users = models.User.query.filter_by(role='User').all()
         threading.Thread(target=telegram_update_item_status, kwargs={'data': data, 'users': users}).start()
     return jsonify({ 'success': True })
 
