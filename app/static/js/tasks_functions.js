@@ -57,8 +57,8 @@ var columns = [
           redact = '<button class="btn btn-primary btn-sm action-btn">Редактировать</button>';
           return redact;
         } else {
-          btn1 = '<button class="btn btn-warning btn-sm action-btn mx-2">Редактировать</button>';
-          btn2 = '<button class="btn btn-danger btn-sm action-btn mx-2">Удалить</button>';
+          btn1 = '<button class="btn btn-warning btn-sm action-btn mx-2" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' + row.id + '">Редактировать</button>';
+          btn2 = '<button class="btn btn-danger btn-sm action-btn mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="' + row.id + '">Удалить</button>';
           return btn1 + btn2;
         }
       }

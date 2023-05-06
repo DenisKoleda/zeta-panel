@@ -2,12 +2,10 @@
 {% block title %}Склад{% endblock %}
 {% block stylesheet %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ url_for('static', filename='js/func_db.js') }}"></script>
     {% block sklad_js %}
     {% endblock %}
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
 <script src="{{ url_for('static', filename='datatables/datatables.js') }}"></script>
-<script src="{{ url_for('static', filename='js/database_lang.js') }}"></script>
+<script src="{{ url_for('static', filename='datatables/database_lang.js') }}"></script>
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='datatables/datatables.css') }}" />
 {% endblock %}
 {% block content %}
