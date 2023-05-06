@@ -25,7 +25,6 @@ var buttons =[
     'colvis'
     
 ]
-var userRole = '{{ current_user.role }}';
 var columns = [
     { data: "id" },
     { data: "date" },
@@ -42,6 +41,9 @@ var columns = [
     { data: "status" },
     { data: "executor" },
     { data: "deadline" },
+    { data: "time_started" },
+    { data: "time_finished" },
+    { data: "time_wasted" },
     { 
       data: "comment",
       render: function(data, type, row) {
@@ -53,14 +55,7 @@ var columns = [
       data: null,
       className: 'exclude',
       render: function(data, type, row, meta) {
-        if (userRole === 'User') {
-          redact = '<button class="btn btn-primary btn-sm action-btn">Редактировать</button>';
-          return redact;
-        } else {
-          btn1 = '<button class="btn btn-warning btn-sm action-btn mx-2" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' + row.id + '">Редактировать</button>';
-          btn2 = '<button class="btn btn-danger btn-sm action-btn mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="' + row.id + '">Удалить</button>';
-          return btn1 + btn2;
-        }
-      }
+        return '';
+    } 
     }
 ]

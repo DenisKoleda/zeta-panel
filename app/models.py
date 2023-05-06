@@ -133,9 +133,9 @@ class Tasks(db.Model):
     # files = db.Column(db.String(200)) 
     deadline = db.Column(db.String(200))
     comment = db.Column(db.Text)
-    # time_started = db.Column(db.Integer(200))
-    # time_finished = db.Column(db.Integer(200))
-    # time_wasted = db.Column(db.Integer(200))
+    time_started = db.Column(db.Integer)
+    time_finished = db.Column(db.Integer)
+    time_wasted = db.Column(db.Integer)
     
     def serialize(self):
         return {
@@ -148,7 +148,10 @@ class Tasks(db.Model):
             'status': self.status,
             'executor': self.executor,
             'deadline': self.deadline,
-            'comment': self.comment
+            'comment': self.comment,
+            'time_started': self.time_started,
+            'time_finished': self.time_finished,
+            'time_wasted': self.time_wasted
         }
         
 class Badgeev(db.Model):

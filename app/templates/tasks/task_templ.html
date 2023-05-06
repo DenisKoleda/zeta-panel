@@ -33,8 +33,6 @@
                             <button type="button" class="btn btn-success mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
                             <button type="button" class="btn btn-warning mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактировать</button>
                             <button type="button" class="btn btn-danger mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</button>
-                        {% elif current_user.role == "User" %}
-                            <button type="button" class="btn btn-warning mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактировать</button>
                         {% endif %}
                     </div>
                 </div>
