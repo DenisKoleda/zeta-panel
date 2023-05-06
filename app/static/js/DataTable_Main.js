@@ -78,6 +78,17 @@ $(document).ready(function () {
       ];
       path = 'network'
       break;
+    case '/sklad/miscellaneous':
+      apiEndpoint = '/api/sklad/miscellaneous/get';
+      columns = [
+        { data: "id" },
+        { data: "name" },
+        { data: "type" },
+        { data: "conf" },
+        { data: "count" }
+      ];
+      path = 'miscellaneous'
+      break;
   }
 
 

@@ -10,7 +10,7 @@
             <th> ID </th>
             <th> Название </th>
             <th> Тип </th>
-            <th> Характеристики </th>
+            <th> Описание </th>
             <th> Колличество </th>
           </tr>
       </thead>
@@ -21,7 +21,7 @@
           <th> ID </th>
           <th> Название </th>
           <th> Тип </th>
-          <th> Характеристики </th>
+          <th> Описание </th>
           <th> Колличество </th>
         </tr>
       </tfoot>
@@ -39,34 +39,16 @@
         <div class="modal-body">
           <form id="addForm">
             <div class="mb-3">
-              <label for="name" class="form-label">Вендор:</label>
+              <label for="name" class="form-label">Название:</label>
               <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="mb-3">
               <label for="type" class="form-label">Тип:</label>
-              <select type="text" class="form-select" id="type" name="type" required>
-                <option value="">--Тип--</option>
-                <option value="DDR3">DDR3</option>
-                <option value="DDR3 ECC REG">DDR3 ECC REG</option>
-                <option value="DDR4">DDR4</option>
-                <option value="DDR4 ECC REG">DDR4 ECC REG</option>
-                <option value="DDR5">DDR5</option>
-              </select>
+              <input type="text" class="form-control" id="type" name="type" required>
             </div>
             <div class="mb-3">
-              <label for="size" class="form-label">Объем:</label>
-              <select type="text" class="form-select" id="size" name="size" required>
-                <option value="">--Объем--</option>
-                <option value="4GB">4GB</option>
-                <option value="8GB">8GB</option>
-                <option value="16GB">16GB</option>
-                <option value="32GB">32GB</option>
-                <option value="64GB">64GB</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="frequency" class="form-label">Частота:</label>
-              <input type="text" class="form-control" id="frequency" name="frequency" required required pattern="\d+">
+              <label for="size" class="form-label">Описание:</label>
+              <textarea type="text" class="form-control" id="conf" name="conf" required rows="3"></textarea>
             </div>
             <div class="mb-3">
               <label for="count" class="form-label">Колличество:</label>
@@ -97,34 +79,16 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="nameEdit" class="form-label">Вендор</label>
+                        <label for="nameEdit" class="form-label">Название</label>
                         <input type="text" class="form-control" id="nameEdit" name="name">
                     </div>
                     <div class="mb-3">
                         <label for="typeEdit" class="form-label">Тип</label>
-                        <select type="form-select" class="form-select" id="typeEdit" name="type">
-                          <option value="">--Тип--</option>
-                          <option value="DDR3">DDR3</option>
-                          <option value="DDR3 ECC REG">DDR3 ECC REG</option>
-                          <option value="DDR4">DDR4</option>
-                          <option value="DDR4 ECC REG">DDR4 ECC REG</option>
-                          <option value="DDR5">DDR5</option>
-                        </select>
+                        <input type="text" class="form-control" id="typeEdit" name="type">
                     </div>
                     <div class="mb-3">
-                        <label for="sizeEdit" class="form-label">Объем</label>
-                        <select type="form-select" class="form-select" id="sizeEdit" name="size">
-                          <option value="">--Объем--</option>
-                          <option value="4GB">4GB</option>
-                          <option value="8GB">8GB</option>
-                          <option value="16GB">16GB</option>
-                          <option value="32GB">32GB</option>
-                          <option value="64GB">64GB</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="frequencyEdit" class="form-label">Частота</label>
-                        <input type="text" class="form-control" id="frequencyEdit" name="frequency" required pattern="\d+">
+                        <label for="confEdit" class="form-label">Описание</label>
+                        <textarea type="text" class="form-control" id="confEdit" name="conf" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="countEdit" class="form-label">Колличество</label>
