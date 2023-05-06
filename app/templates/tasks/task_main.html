@@ -1,13 +1,13 @@
 {% extends "tasks/task_templ.html" %}
 {% block title %}Задачи{% endblock %}
 {% block tasks_js %}
-<script src="{{ url_for('static', filename='js/tasks_main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tasks/tasks_main.js') }}"></script>
 {% if current_user.role == "Admin" %}
-<script src="{{ url_for('static', filename='js/tasks_buttons_admin.js') }}"></script>
-<script src="{{ url_for('static', filename='js/tasks_data_admin.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tasks/tasks_buttons_admin.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tasks/tasks_data_admin.js') }}"></script>
 {% elif current_user.role == "User" %}
-<script src="{{ url_for('static', filename='js/tasks_buttons_user.js') }}"></script>
-<script src="{{ url_for('static', filename='js/tasks_data_user.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tasks/tasks_buttons_user.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tasks/tasks_data_user.js') }}"></script>
 {% endif %}
 {% endblock %}
 {% block tasks %}
