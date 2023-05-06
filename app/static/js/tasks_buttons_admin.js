@@ -1,5 +1,30 @@
 // Форма редактирования
 $(document).ready(function () {
+
+     // Форма добавления элемента
+     $('#addForm').submit(function (event) {
+        event.preventDefault();
+      
+        // Получение данных из формы
+        var formData = $('#addForm').serialize();
+      
+        // AJAX запрос для добавления строки в базу данных
+        $.ajax({
+          url: '/api/tasks/add',
+          type: 'POST',
+          data: formData,
+          success: function (response) {    
+            // Очистка формы и закрытие модального окна
+            $('#addForm')[0].reset();
+            $('#addModal').modal('hide');
+            location.reload();
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        });
+      });
+
     $('#editModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // кнопка, вызвавшая модальное окно
         var id = button.data('id'); // извлечь значение атрибута "data-id"

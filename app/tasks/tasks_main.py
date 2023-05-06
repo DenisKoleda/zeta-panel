@@ -70,6 +70,21 @@ def update_task_item():
     return jsonify({'success': True})
 
 
+@tasks_main.route('/api/tasks/update_item_comment', methods=['POST'])
+@login_required
+def update_item_comment():
+    data = request.form.to_dict()
+    item = models.Tasks.query.get(data['id'])
+    for attribute in models.Tasks.__table__.columns.keys():
+        # Если атрибут есть в request.form, обновляем его значение
+        if attribute in request.form:
+            setattr(item, attribute, request.form[attribute])
+    db.session.commit()
+    users = models.User.query.all()
+    threading.Thread(target=telegram_update_item_comment, kwargs={'data': data, 'users': users}).start()
+    return jsonify(item.serialize())
+
+
 @tasks_main.route('/api/tasks/delete_item', methods=['POST'])
 @login_required
 def delete_task_item():
@@ -119,6 +134,20 @@ def telegram_change_task(data, users):
         f"🟥 Заказчик: {data['user_init']}\n" \
         f"👁️ Исполнитель: {data['executor']}\n" \
         f"⌛ Дедлайн: {data['deadline']}"
+        
+        for i in users:
+            url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
+            req.get(url)
+            
+    except Exception as e:
+        pass
+    
+    
+def telegram_update_item_comment(data, users):
+    try:
+        data = f"🛠️ В задаче появился комментарий\n" \
+        f"🕑 Номер задачи: {data['id']}\n" \
+        f"🔨 Комментарий: \n{data['comment']}\n" \
         
         for i in users:
             url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
