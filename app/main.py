@@ -17,3 +17,9 @@ def profile():
     return render_template('profile.html', name=current_user.username)
 
 
+@main.route('/changelog')
+@login_required
+def changelog():
+    return render_template('changelog.html', name=current_user.username)
+
+
