@@ -81,7 +81,7 @@ def update_item_comment():
         if attribute in request.form:
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
-    users = models.User.query.all()
+    users = models.User.query.filter_by(role='Admin').all()
     threading.Thread(target=telegram_update_item_comment, kwargs={'data': data, 'users': users}).start()
     return jsonify({ 'success': True })
 
