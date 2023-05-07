@@ -6,7 +6,7 @@ services:
       SQLALCHEMY_DATABASE_URI: sqlite:////data/app.db
       TOKEN: 6186246611:AAHtikQ5N_KaYHOdgTsjxnJKt_KX4eFJIKs
     volumes:
-      - ./data:/data
+      - database:/data
     restart: unless-stopped
 
   nginx:
@@ -19,3 +19,5 @@ services:
       - "80:80"
       - "443:443"
     restart: unless-stopped
+volumes:
+  database:
