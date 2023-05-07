@@ -1,17 +1,17 @@
 #!/bin/bash
 
-echo "Запуск контейнера zeta-panel"
+echo "Creating container Zeta-panel"
 if [ -f data/app.db ]; then
-    echo "Создание базы данных"
+    echo "Creating database"
     flask db init
 fi
 
-echo "Обновление базы данных"
+echo "Updating database"
 flask db migrate
 flask db upgrade
-echo "Обновление базы данных завершено"
+echo "Database updated"
 
-echo "Запуск веб сервера"
+echo "Launching gunicorn"
 gunicorn wsgi:app \
     --bind 0.0.0.0:5000 \
     --workers $(nproc) \
