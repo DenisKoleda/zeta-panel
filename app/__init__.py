@@ -28,7 +28,7 @@ def create_app():
     # Инициализация экземпляров:
     db.init_app(app)
     mail.init_app(app)
-    migrate = Migrate(app, db, "data/migrations")
+    migrate = Migrate(app, db)
 
     # Создание экземпляра LoginManager для работы с аутентификацией пользователей:
     login_manager = LoginManager(app)
