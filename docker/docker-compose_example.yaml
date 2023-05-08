@@ -4,7 +4,7 @@ services:
     image: redgamerr/zeta-panel
     environment:
       SQLALCHEMY_DATABASE_URI: sqlite:////app/data/app.db
-      TOKEN: 6186246611:AAHtikQ5N_KaYHOdgTsjxnJKt_KX4eFJIKs
+      TOKEN: TOKEN
     volumes:
       - database:/app/data
     restart: unless-stopped
