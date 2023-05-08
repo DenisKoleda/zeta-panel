@@ -3,10 +3,9 @@ services:
   app:
     image: redgamerr/zeta-panel
     environment:
-      SQLALCHEMY_DATABASE_URI: sqlite:////app/data/app.db
       TOKEN: TOKEN
     volumes:
-      - database:/app/data
+      - database:/app/instance
     restart: unless-stopped
 
   nginx:
