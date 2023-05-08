@@ -8,7 +8,7 @@ ENV FLASK_APP=app.py
 ENV TOKEN = ""
 
 # Создаем папку для хранения миграций и базы данных
-RUN mkdir /data
+RUN mkdir /app/data
 ENV SQLALCHEMY_DATABASE_URI="sqlite:////app/data/app.db"
 
 COPY . .
