@@ -12,6 +12,8 @@ RUN mkdir /app/instance
 RUN mkdir /app/migration
 ENV SQLALCHEMY_DATABASE_URI="sqlite:////app.db"
 
+RUN mkdir /app/instance
+
 COPY . .
 
 CMD ["sh", "start.sh"]
