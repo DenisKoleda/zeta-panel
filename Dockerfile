@@ -11,6 +11,8 @@ ENV TOKEN = ""
 RUN mkdir /app/data
 ENV SQLALCHEMY_DATABASE_URI="sqlite:////app/data/app.db"
 
+RUN mkdir /app/instance
+
 COPY . .
 
 CMD ["sh", "start.sh"]

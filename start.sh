@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Creating container Zeta-panel"
-if [ ! -f data/app.db ]; then
+if [ ! -f instance/app.db ]; then
     echo "Creating database"
     flask db init
     else
