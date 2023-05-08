@@ -8,7 +8,7 @@ from sqlalchemy import or_
 
 db = SQLAlchemy()
 mail = Mail()
-TOKEN = '6186246611:AAHtikQ5N_KaYHOdgTsjxnJKt_KX4eFJIKs'
+TOKEN = os.environ['TOKEN']
 API_URL = f'https://api.telegram.org/bot{TOKEN}/'
 def create_app():
     app = Flask(__name__)
@@ -22,13 +22,13 @@ def create_app():
         MAIL_USE_TLS=True,
         MAIL_USE_SSL=False,
         SECRET_KEY='0f0809b30cb03b7c90d77ecfb35a10a4',
-        SQLALCHEMY_DATABASE_URI='sqlite:///db.sqlite'
+        SQLALCHEMY_DATABASE_URI=os.environ['SQLALCHEMY_DATABASE_URI']
     )
 
     # Инициализация экземпляров:
     db.init_app(app)
     mail.init_app(app)
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db, "data/migrations")
 
     # Создание экземпляра LoginManager для работы с аутентификацией пользователей:
     login_manager = LoginManager(app)

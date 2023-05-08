@@ -1,15 +1,18 @@
+Dockerfile
+docker-compose.yaml
+README.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
+data/
+docker/
 
 # C extensions
 *.so
 
 # Distribution / packaging
-config/
-data/
 migrations
 .Python
 build/

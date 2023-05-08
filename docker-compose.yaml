@@ -1,0 +1,23 @@
+version: '3'
+services:
+  app:
+    image: redgamerr/zeta-panel
+    environment:
+      SQLALCHEMY_DATABASE_URI: sqlite:////app/data/app.db
+      TOKEN: 6186246611:AAHtikQ5N_KaYHOdgTsjxnJKt_KX4eFJIKs
+    volumes:
+      - database:/app/data
+    restart: unless-stopped
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/cert.pem:/etc/nginx/ssl/cert.pem
+      - ./config/privkey.pem:/etc/nginx/ssl/privkey.pem
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+volumes:
+  database:
