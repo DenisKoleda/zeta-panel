@@ -9,7 +9,7 @@ ENV TOKEN = ""
 
 # Создаем папку для хранения миграций и базы данных
 RUN mkdir /data
-ENV SQLALCHEMY_DATABASE_URI="sqlite:////data/app.db"
+ENV SQLALCHEMY_DATABASE_URI="sqlite:////app/data/app.db"
 
 COPY . .
 
