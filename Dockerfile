@@ -12,7 +12,7 @@ ENV FLASK_APP=app.py
 ENV TOKEN = ""
 ENV SQLALCHEMY_DATABASE_URI="sqlite:///app.db"
 
-RUN MKDIR instance
+RUN mkdir /app/instance
 
 COPY . .
 
