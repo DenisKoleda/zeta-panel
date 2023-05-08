@@ -9,6 +9,7 @@ __pycache__/
 
 # Distribution / packaging
 config/
+data/
 migrations
 .Python
 build/
