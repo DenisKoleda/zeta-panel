@@ -6,7 +6,7 @@ services:
       TOKEN: 6186246611:AAHtikQ5N_KaYHOdgTsjxnJKt_KX4eFJIKs
     volumes:
       - database:/app/instance
-      - database:/app/migration
+      - migrations:/app/migrations
     restart: unless-stopped
 
   nginx:
@@ -21,3 +21,5 @@ services:
     restart: unless-stopped
 volumes:
   database:
+  migrations:
+  
