@@ -1,0 +1,18 @@
+{
+    "name": "ZetaPanel",
+    "short_name": "ZetaPanel",
+    "description": "Панель управления задачами ZetaPanel",
+    "version": "0.3",
+    "icons": [
+      {
+        "src": "/static/png/icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#0078d7"
+  }
+  

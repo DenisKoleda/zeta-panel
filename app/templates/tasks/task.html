@@ -4,6 +4,13 @@
 
 {% block stylesheet %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% if current_user.role == "Admin" %}
+<script src="{{ url_for('static', filename='js/tasks/tasks_buttons_admin.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tasks/tasks_data_admin.js') }}"></script>
+{% elif current_user.role == "User" %}
+<script src="{{ url_for('static', filename='js/tasks/tasks_buttons_user.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tasks/tasks_data_user.js') }}"></script>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -80,37 +87,34 @@
         <div class="card mb-4">
           <div class="card-body">
             <h5 class="card-title">Действия</h5>
-            <div class="btn-group-horizontal d-flex">
+            <div class="btn-group-horizontal d-flex" id="TableBody">
             {% if current_user.role == "Admin" %}
                 {% if task.status == "Выполнено" %}
-                    <button class="btn btn-primary me-1">Возобновить</button>
-                    <button class="btn btn-success mx-1">Закрыть</button>
-                    <button class="btn btn-warning me-1">Редактировать</button>
+                    <button class="btn btn-primary action-btn me-1" data-status="Возобновлена" data-id="{{task.id}}">Возобновить</button>
+                    <button class="btn btn-success action-btn mx-1" data-status="Закрыто" data-id="{{task.id}}">Закрыть</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Редактировать</button>
                 {% elif task.status == "Закрыто" %}
-                    <button class="btn btn-primary me-1">Возобновить</button>
-                    <button class="btn btn-warning mx-1">Редактировать</button>
-                    <button class="btn btn-danger mx-1">Удалить</button>
+                    <button class="btn btn-primary action-btn me-1" data-status="Возобновлена" data-id="{{task.id}}">Возобновить</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Редактировать</button>
                 {% else %}
-                    <button class="btn btn-warning me-1">Редактировать</button>
-                    <button class="btn btn-danger mx-1">Удалить</button>
+                    <button class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Редактировать</button>
                 {% endif %}
             {% else %}
                 {% if task.status == "Новый" or task.status == "Возобновлена" %}
-                    <button class="btn btn-primary me-1">В работу</button>
-                    <button class="btn btn-danger mx-1">Отложить</button>
-                    <button class="btn btn-warning mx-1">Комментарий</button>
+                    <button class="btn btn-primary action-btn me-1" data-status="В Работе" data-name={{current_user.username}} data-id="{{task.id}}">В работу</button>
+                    <button class="btn btn-danger action-btn mx-1" data-status="Отложено" data-name={{current_user.username}} data-id="{{task.id}}">Отложить</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Комментарий</button>
                 {% elif task.status == "В Работе"%}
-                    <button class="btn btn-primary me-1">В работу</button>
-                    <button class="btn btn-danger mx-1">Отложить</button>
-                    <button class="btn btn-warning mx-1">Комментарий</button>
+                    <button class="btn btn-success action-btn me-1"  data-status="Выполнено" data-name={{current_user.username}} data-id="{{task.id}}">Завершить</button>
+                    <button class="btn btn-danger action-btn mx-1" data-status="Отложено" data-name={{current_user.username}} data-id="{{task.id}}">Отложить</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Комментарий</button>
                 {% elif task.status == "Выполнено"%}
-                    <button class="btn btn-primary me-1">В работу</button>
-                    <button class="btn btn-danger mx-1">Отложить</button>
-                    <button class="btn btn-warning mx-1">Комментарий</button>
+                    <button class="btn btn-primary action-btn me-1"  data-status="В Работе" data-name={{current_user.username}} data-id="{{task.id}}">Возобновить</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Комментарий</button>
                 {% elif task.status == "Отложено"%}
-                    <button class="btn btn-primary me-1">В работу</button>
-                    <button class="btn btn-danger mx-1">Отложить</button>
-                    <button class="btn btn-warning mx-1">Комментарий</button>
+                    <button class="btn btn-primary action-btn me-1"  data-status="В Работе" data-name={{current_user.username}} data-id="{{task.id}}">В работу</button>
+                    <button class="btn btn-success action-btn mx-1" data-status="Выполнено" data-name={{current_user.username}} data-id="{{task.id}}">Завершить</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Комментарий</button>
                 {% else %}
                 {% endif %}
             {% endif %}
@@ -119,6 +123,11 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
+{% if current_user.role == "Admin" %}
+{% include "tasks/task_admin.html" %}
+{% elif current_user.role == "User" %}
+{% include "tasks/task_user.html" %}
+{% endif %}
 {% endblock %}
