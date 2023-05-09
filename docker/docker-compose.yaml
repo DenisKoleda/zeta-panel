@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    image: redgamerr/zeta-panel
+    image: redgamerr/zetapanel
     environment:
       TOKEN: TOKEN
     volumes:

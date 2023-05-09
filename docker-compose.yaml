@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    image: redgamerr/zeta-panel
+    image: redgamerr/zetapanel
     environment:
       TOKEN: 6186246611:AAHtikQ5N_KaYHOdgTsjxnJKt_KX4eFJIKs
     volumes:
