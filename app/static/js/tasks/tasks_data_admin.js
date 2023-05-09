@@ -30,13 +30,7 @@ var columns = [
     { data: "date" },
     { data: "user_init" },
     { data: "ticket" },
-    { 
-      data: "ticket_comment",
-      render: function(data, type, row) {
-        // replace \r\n with <br> tag to support line breaks
-        return type === 'display' && data ? data.replace(/\r\n/g, '<br>') : data;
-      }
-    },
+    { data: "ticket_comment"},
     { data: "priority" },
     { data: "status" },
     { data: "executor" },
@@ -44,13 +38,7 @@ var columns = [
     { data: "time_started" },
     { data: "time_finished" },
     { data: "time_wasted" },
-    { 
-      data: "comment",
-      render: function(data, type, row) {
-        // replace \r\n with <br> tag to support line breaks
-        return type === 'display' && data ? data.replace(/\r\n/g, '<br>') : data;
-      }
-    },
+    { data: "comment",},
     {
       data: null,
       className: 'exclude',

@@ -13,6 +13,11 @@ tasks_main = Blueprint('tasks_main', __name__)
 def tasks_maim_page():
     return render_template('tasks/task_main.html')
 
+@tasks_main.route('/tasks/<id>')
+@login_required
+def tasks_page(id):
+    task = models.Tasks.query.filter_by(id=id).first()
+    return render_template('tasks/task.html', id=id, task=task)
 
 @tasks_main.route('/api/tasks/get', methods=['GET'])
 @login_required
