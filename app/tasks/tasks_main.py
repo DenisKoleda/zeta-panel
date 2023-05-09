@@ -34,8 +34,10 @@ def add_task():
         last_id = models.Tasks.query.order_by(models.Tasks.id.desc()).first().id
     except:
         last_id = 0
-    users = models.User.query.filter_by(role='User').all()
-    threading.Thread(target=telegram_new_task, kwargs={'data': data, 'users': users}).start()
+    if data.get('telegram_notification'):
+        del data['telegram_notification']
+        users = models.User.query.filter_by(role='User').all()
+        threading.Thread(target=telegram_new_task, kwargs={'data': data, 'users': users}).start()
     new_row = models.Tasks(**data)
     db.session.add(new_row)
     db.session.commit()
@@ -65,14 +67,17 @@ def get_task_item():
 @login_required
 def update_task_item():
     data = request.form.to_dict()
+    print(data)
     item = models.Tasks.query.get(data['id'])
     for attribute in models.Tasks.__table__.columns.keys():
         # Если атрибут есть в request.form, обновляем его значение
         if attribute in request.form:
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
-    users = models.User.query.filter_by(role='User').all()
-    threading.Thread(target=telegram_change_task, kwargs={'data': data, 'users': users}).start()
+    if data.get('telegram_notification'):
+        del data['telegram_notification']
+        users = models.User.query.filter_by(role='User').all()
+        threading.Thread(target=telegram_change_task, kwargs={'data': data, 'users': users}).start()
     return jsonify({'success': True})
 
 
