@@ -162,7 +162,7 @@ def telegram_change_task(data, users):
         data = f"🛠️ ЗАДАЧА ОБНОВЛЕННА\n" \
         f"🕑 Дата: {data['date']}\n" \
         f"🔨 Задача: {data['ticket']}\n" \
-        f"⚒️ Описание задачи: {data['ticket_comment']}\n" \
+        f"⚒️ Описание задачи: \n{data['ticket_comment']}\n" \
         f"❗ Приоритет: {data['priority']}\n" \
         f"📈 Статус: {data['status']}\n" \
         f"🟥 Заказчик: {data['user_init']}\n" \
