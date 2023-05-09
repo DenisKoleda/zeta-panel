@@ -107,6 +107,7 @@ def update_item_status():
                 item.time_wasted = str(datetime.datetime.strptime(item.time_finished, '%Y-%m-%d %H:%M') - datetime.datetime.strptime(item.time_started, '%Y-%m-%d %H:%M'))
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
+    print(data['status'])
     if data['status'] != 'Закрыто':
         users = models.User.query.filter_by(role='Admin').all()
         threading.Thread(target=telegram_update_item_status, kwargs={'data': data, 'users': users}).start()
@@ -138,8 +139,8 @@ def delete_task_item():
 def time_wasted(time_started, time_finished):
     return datetime.datetime.strptime(time_finished, '%Y-%m-%d %H:%M') - datetime.datetime.strptime(time_started, '%Y-%m-%d %H:%M')
 
+# TODO: Брать из задачи, а не из формы
 def telegram_new_task(data, users):
-    # TODO Добавить chat_id из DB пользователей
     try:
         data = f"🛠️ НОВАЯ ЗАДАЧА\n" \
         f"🕑 Дата: {data['date']}\n" \
@@ -175,7 +176,7 @@ def telegram_change_task(data, users):
     except Exception as e:
         pass
     
-    
+# TODO: Тоже передалать
 def telegram_update_item_comment(data, users):
     try:
         data = f"🛠️ В ЗАДАЧЕ ПОЯВИЛСЯ КОММЕНТАРИЙ\n" \
@@ -189,17 +190,23 @@ def telegram_update_item_comment(data, users):
     except Exception as e:
         pass
     
-    
+
+# TODO: Переделать это на более, нормальный вид
 def telegram_update_item_status(data, users):
     try:
-        data = f"🛠️ ЗАДАЧА ПЕРЕШЛА В НОВЫЙ СТАТУС\n" \
-        f"🕑 Номер задачи: {data['id']}\n" \
-        f"👁️ Исполнитель: {data['executor']}\n" \
-        f"📈 Статус: {data['status']}\n" \
-        
+        if data['status'] != 'Возобновлена':
+            data = f"🛠️ ЗАДАЧА ПЕРЕШЛА В НОВЫЙ СТАТУС\n" \
+            f"🕑 Номер задачи: {data['id']}\n" \
+            f"👁️ Исполнитель: {data['executor']}\n" \
+            f"📈 Статус: {data['status']}\n"
+        else:
+            data = f"🛠️ ЗАДАЧА ВОЗОБНОВЛЕННА\n" \
+            f"🕑 Номер задачи: {data['id']}\n" \
+            f"📈 Статус: {data['status']}\n" 
+                
         for i in users:
             url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
             req.get(url)
-            
+                
     except Exception as e:
         pass
