@@ -17,7 +17,7 @@ def tasks_maim_page():
 @login_required
 def tasks_page(id):
     task = models.Tasks.query.filter_by(id=id).first()
-    return render_template('tasks/task.html', id=id, task=task)
+    return render_template('tasks/task.html', task=task)
 
 @tasks_main.route('/api/tasks/get', methods=['GET'])
 @login_required

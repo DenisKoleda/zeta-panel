@@ -43,7 +43,7 @@ var columns = [
         if (data.status === 'Новый' || data.status === 'Возобновлена') 
         {
             return '<div class="d-flex mt-2">\
-            <button class="btn btn-primary btn-sm action-btn mx-2" data-status="В Работе" data-name="'+ userName +'" data-id="'+ row.id +'">В работу</button>\
+            <button class="btn btn-primary btn-sm action-btn me-2" data-status="В Работе" data-name="'+ userName +'" data-id="'+ row.id +'">В работу</button>\
             <button class="btn btn-danger btn-sm action-btn mx-2" data-status="Отложено" data-name="'+ userName +'" data-id="'+ row.id +'">Отложить</button>\
             <button class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" \
             data-bs-target="#editModal" data-id="' + row.id + '">Комментарий</button>\
@@ -51,7 +51,7 @@ var columns = [
         } else if (data.status === 'В Работе') 
         {
             return '<div class="d-flex mt-2">\
-            <button class="btn btn-success btn-sm action-btn mx-2" data-status="Выполнено" data-name="'+ userName +'" data-id="'+ row.id +'">Завершить</button>\
+            <button class="btn btn-success btn-sm action-btn me-2" data-status="Выполнено" data-name="'+ userName +'" data-id="'+ row.id +'">Завершить</button>\
             <button class="btn btn-danger btn-sm action-btn mx-2" data-status="Отложено" data-name="'+ userName +'" data-id="'+ row.id +'">Отложить</button>\
             <button class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" \
             data-bs-target="#editModal" data-id="' + row.id + '">Комментарий</button>\
@@ -59,7 +59,7 @@ var columns = [
         } else if (data.status === 'Выполнено')
         {
             return '<div class="d-flex mt-2">\
-            <button class="btn btn-primary btn-sm action-btn mx-2" data-status="В Работе" data-name="'+ userName +'" data-id="'+ row.id +'">Возобновить</button>\
+            <button class="btn btn-primary btn-sm action-btn me-2" data-status="В Работе" data-name="'+ userName +'" data-id="'+ row.id +'">Возобновить</button>\
             <button class="btn btn-warning btn-sm action-btn mx-2" data-bs-toggle="modal" \
             data-bs-target="#editModal" data-id="' + row.id + '">Комментарий</button>\
             </div>';
@@ -67,7 +67,7 @@ var columns = [
         } else if (data.status === 'Отложено')
         {
             return '<div class="d-flex mt-2">\
-            <button class="btn btn-primary btn-sm action-btn mx-2" data-status="В Работе" data-name="'+ userName +'" data-id="'+ row.id +'">В работу</button>\
+            <button class="btn btn-primary btn-sm action-btn me-2" data-status="В Работе" data-name="'+ userName +'" data-id="'+ row.id +'">В работу</button>\
             <button class="btn btn-success btn-sm action-btn mx-2" data-status="Выполнено" data-name="'+ userName +'" data-id="'+ row.id +'">Завершить</button>\
             <button class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' + row.id + '">Комментарий</button>\
             </div>';
