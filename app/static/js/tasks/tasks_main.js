@@ -29,9 +29,30 @@ $(document).ready(function () {
           $(row).addClass('table-info');
         }
       },
-      
-    });
 
+      rowCallback: function(row, data, index) {
+        $(row).on('dblclick', function(event) {
+          // Check if the clicked element is in the first column
+          if ($(event.target).closest('td').index() === 0) {
+            return; // Ignore clicks on the first column
+          }
+          // Get the ID of the clicked row
+          var id = table.cell(index, 0).data(); // Assumes the ID is in the first column
+          // Construct the URL and redirect to it
+          window.location.href = '/tasks/' + id;
+        })
+        $(row).doubletap(function(event) {
+          // Check if the clicked element is in the first column
+          if ($(event.target).closest('td').index() === 0) {
+            return; // Ignore clicks on the first column
+          }
+          // Get the ID of the clicked row
+          var id = table.cell(index, 0).data(); // Assumes the ID is in the first column
+          // Construct the URL and redirect to it
+          window.location.href = '/tasks/' + id;
+        })
+      }
+    });
   });
-  });
+});
 

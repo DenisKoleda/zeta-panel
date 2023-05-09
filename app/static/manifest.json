@@ -2,7 +2,7 @@
     "name": "ZetaPanel",
     "short_name": "ZetaPanel",
     "description": "Панель управления задачами ZetaPanel",
-    "version": "0.3",
+    "version": "0.4",
     "icons": [
       {
         "src": "/static/png/icon.png",

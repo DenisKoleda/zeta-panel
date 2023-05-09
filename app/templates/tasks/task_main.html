@@ -2,6 +2,7 @@
 {% block title %}Задачи{% endblock %}
 {% block tasks_js %}
 <script src="{{ url_for('static', filename='js/tasks/tasks_main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-mobile-events.js') }}"></script>
 {% if current_user.role == "Admin" %}
 <script src="{{ url_for('static', filename='js/tasks/tasks_buttons_admin.js') }}"></script>
 <script src="{{ url_for('static', filename='js/tasks/tasks_data_admin.js') }}"></script>
@@ -32,7 +33,7 @@
               <th class="none"> Действия </th>
             </tr>
         </thead>
-      <tbody id="TableBody" style="white-space: pre-line;">
+      <tbody id="TableBody" style="white-space: pre-line; cursor: pointer;">
       </tbody>
       <tfoot>
           <tr>
