@@ -10,6 +10,12 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(200))  # Имя пользователя
     role = db.Column(db.String(200))  # Роль пользователя
     telegram = db.Column(db.String()) # Телеграм айди пользователя
+    
+class Article(db.Model):
+    __tablename__ = 'Article'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(20), nullable=True, default='magic title')
+    content = db.Column(db.Text)
 
 class Ram(db.Model):
     __tablename__ = 'sklad_ram'
