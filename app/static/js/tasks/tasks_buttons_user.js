@@ -81,7 +81,7 @@ $(document).ready(function() {
 
         var data = $(this).serialize();
 
-        $.post('/api/tasks/update_item_comment', data, function (response) {
+        $.post('/api/tasks/update_item', data, function (response) {
             location.reload();
         }).fail(function (error) {
             console.log(error);

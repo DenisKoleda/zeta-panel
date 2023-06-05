@@ -111,18 +111,18 @@
                 {% if task.status == "Новый" or task.status == "Возобновлена" %}
                     <button class="btn btn-primary action-btn me-1" data-status="В Работе" data-name={{current_user.username}} data-id="{{task.id}}">В работу</button>
                     <button class="btn btn-danger action-btn mx-1" data-status="Отложено" data-name={{current_user.username}} data-id="{{task.id}}">Отложить</button>
-                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Комментарий</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Редактировать</button>
                 {% elif task.status == "В Работе"%}
                     <button class="btn btn-success action-btn me-1"  data-status="Выполнено" data-name={{current_user.username}} data-id="{{task.id}}">Завершить</button>
                     <button class="btn btn-danger action-btn mx-1" data-status="Отложено" data-name={{current_user.username}} data-id="{{task.id}}">Отложить</button>
-                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Комментарий</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Редактировать</button>
                 {% elif task.status == "Выполнено"%}
                     <button class="btn btn-primary action-btn me-1"  data-status="В Работе" data-name={{current_user.username}} data-id="{{task.id}}">Возобновить</button>
-                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Комментарий</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Редактировать</button>
                 {% elif task.status == "Отложено"%}
                     <button class="btn btn-primary action-btn me-1"  data-status="В Работе" data-name={{current_user.username}} data-id="{{task.id}}">В работу</button>
                     <button class="btn btn-success action-btn mx-1" data-status="Выполнено" data-name={{current_user.username}} data-id="{{task.id}}">Завершить</button>
-                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Комментарий</button>
+                    <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{task.id}}">Редактировать</button>
                 {% else %}
                 {% endif %}
             {% endif %}

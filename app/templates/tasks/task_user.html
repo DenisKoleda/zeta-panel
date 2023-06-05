@@ -1,3 +1,143 @@
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Добавить задачу</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addForm">
+            <div class="mb-3">
+              <label for="date" class="form-label">Дата:</label>
+              <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="mb-3">
+              <label for="deadline" class="form-label">Дедлайн:</label>
+              <input type="date" class="form-control" id="deadline" name="deadline">
+            </div>
+            <div class="mb-3">
+              <label for="user_init" class="form-label">Заказчик:</label>
+              <select type="text" class="form-select" id="user_init" name="user_init" required>
+                  <option value="">--Заказчик--</option>
+                  <option value="Миша">Миша</option>
+                  <option value="Андрей">Андрей</option>
+                  <option value="Денис">Денис</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="ticket" class="form-label">Задача:</label>
+              <input type="text" class="form-control" id="ticket" name="ticket" required>
+            </div>
+            <div class="mb-3">
+              <label for="ticket_comment" class="form-label">Описание:</label>
+              <textarea class="form-control" id="ticket_comment" name="ticket_comment" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="priority" class="form-label">Приоритет:</label>
+              <select type="form-select" class="form-select" id="priority" name="priority" required>
+                <option value="Низкий">Низкий</option>
+                <option value="Средний">Средний</option>
+                <option value="Высокий">Высокий</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="status" class="form-label">Статус:</label>
+              <input type="text" class="form-control" id="status" name="status" value="Новый" readonly>
+            </div>
+            <div class="mb-3">
+              <label for="executor" class="form-label">Исполнитель:</label>
+              <select type="form-select" class="form-select" id="executor" name="executor" required>
+                <option value="Общая">Общая</option>
+                <option value="Данил">Данил</option>
+                <option value="Александр">Александр</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="submit" form="addForm" class="btn btn-primary">Добавить</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Редактирование задачи</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="mb-3">
+                        <label for="idSelectEdit" class="form-label">ID</label>
+                        <select class="form-select" id="idSelectEdit" name="id" required>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateEdit" class="form-label">Дата</label>
+                        <input type="date" class="form-control" id="dateEdit" name="date" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="deadlineEdit" class="form-label">Дедлайн</label>
+                      <input type="date" class="form-control" id="deadlineEdit" name="deadline">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_initEdit" class="form-label">Заказчик</label>
+                        <select type="text" class="form-select" id="user_initEdit" name="user_init" required>
+                          <option value="">--Заказчик--</option>
+                          <option value="Миша">Миша</option>
+                          <option value="Андрей">Андрей</option>
+                          <option value="Денис">Денис</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketEdit" class="form-label">Задача</label>
+                        <input type="text" class="form-control" id="ticketEdit" name="ticket" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticket_commentEdit" class="form-label">Описание</label>
+                        <textarea type="text" class="form-control" id="ticket_commentEdit" name="ticket_comment" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="priorityEdit" class="form-label">Приоритет</label>
+                        <select type="text" class="form-select" id="priorityEdit" name="priority" required>
+                          <option value="">--Приоритет--</option>
+                          <option value="Низкий">Низкий</option>
+                          <option value="Средний">Средний</option>
+                          <option value="Высокий">Высокий</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="statusEdit" class="form-label">Статус</label>
+                        <input type="text" class="form-control" id="statusEdit" name="status" required readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="executorEdit" class="form-label">Исполнитель</label>
+                        <select type="text" class="form-select" id="executorEdit" name="executor" required>
+                          <option value="">--Исполнитель--</option>
+                          <option value="Общая">Общая</option>
+                          <option value="Данил">Данил</option>
+                          <option value="Александр">Александр</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="commentEdit" class="form-label">Комментарий</label>
+                        <textarea type="text" class="form-control" id="commentEdit" name="comment" rows="3"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -25,3 +165,4 @@
         </div>
     </div>
 </div>
+//-->
