@@ -21,4 +21,4 @@ services:
     restart: unless-stopped
 volumes:
   database:
-  migration:
+  migrations:
