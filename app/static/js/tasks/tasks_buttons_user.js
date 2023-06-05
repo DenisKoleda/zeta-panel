@@ -1,4 +1,41 @@
 $(document).ready(function() {
+
+    // получение ссылки на поле ввода
+    var dateInput = document.getElementById('date');
+
+    // создание объекта даты для текущей даты
+    var today = new Date();
+
+    // форматирование даты в строку в формате yyyy-mm-dd
+    var formattedDate = today.toISOString().substr(0, 10);
+
+    // установка значения поля ввода
+    dateInput.value = formattedDate;
+
+    // Форма добавления элемента
+    $('#addForm').submit(function (event) {
+        event.preventDefault();
+
+        // Получение данных из формы
+        var formData = $('#addForm').serialize();
+
+        // AJAX запрос для добавления строки в базу данных
+        $.ajax({
+            url: '/api/tasks/add',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                // Очистка формы и закрытие модального окна
+                $('#addForm')[0].reset();
+                $('#addModal').modal('hide');
+                location.reload();
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
     // Назначение обработчика кликов на родительский элемент
     $("#TableBody").on("click", ".action-btn", function() {
         var columnId = $(this).data("id");
