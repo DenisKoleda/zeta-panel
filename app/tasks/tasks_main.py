@@ -205,6 +205,7 @@ def telegram_update_item_status(data, users):
             f"🕑 Номер задачи: {data.id}\n" \
             f"🔨 Задача: {data.ticket}\n"
             f"⚒️ Описание задачи: {data.ticket_comment}\n"
+            f"🟥 Заказчик: {data.user_init}\n"
             f"👁️ Исполнитель: {data.executor}\n" \
             f"📈 Статус: {data.status}\n"
             )
@@ -214,6 +215,7 @@ def telegram_update_item_status(data, users):
             f"🕑 Номер задачи: {data.id}\n" \
             f"🔨 Задача: {data.ticket}\n"
             f"⚒️ Описание задачи: {data.ticket_comment}\n"
+            f"🟥 Заказчик: {data.user_init}\n"
             f"📈 Статус: {data.status}\n" 
             )
         
