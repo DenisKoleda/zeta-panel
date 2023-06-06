@@ -30,19 +30,14 @@ def api_get_tasks():
 @login_required
 def add_task():
     data = request.form.to_dict()
-    try:
-        last_id = models.Tasks.query.order_by(models.Tasks.id.desc()).first().id
-    except:
-        last_id = 0
-    if data.get('telegram_notification'):
-        del data['telegram_notification']
-        users = models.User.query.filter_by(role='User').all()
-        threading.Thread(target=telegram_new_task, kwargs={'data': data, 'users': users}).start()
+    tg_notify = data.pop('telegram_notification', False)
     new_row = models.Tasks(**data)
     db.session.add(new_row)
     db.session.commit()
-    return jsonify({'id': last_id + 1, **data})
-
+    if tg_notify:
+        users = models.User.query.filter_by(role='User').all()
+        telegram_new_task(new_row, users)
+    return jsonify({'success': True})
 
 
 @tasks_main.route('/api/tasks/get_id')
@@ -55,71 +50,74 @@ def get_tasks_id():
 @tasks_main.route('/api/tasks/get_item')
 @login_required
 def get_task_item():
-    id = request.args.get('id')
-    if id is not None:
-        item = models.Tasks.query.filter_by(id=id).first()
-        if item:
-            return jsonify(item.serialize())
-    return jsonify({'error': 'Item not found'})
+    task_id = request.args.get('id')
+
+    if task_id:
+        task = models.Tasks.query.filter_by(id=task_id).first()
+
+        if task:
+            return jsonify(task.serialize())
+
+        return jsonify({'error': 'Task not found'})
+    
+    return jsonify({ 'success': False })
 
 
 @tasks_main.route('/api/tasks/update_item', methods=['POST'])
 @login_required
 def update_task_item():
     data = request.form.to_dict()
-    print(data)
+    tg_notify = data.pop('telegram_notification', False)
     item = models.Tasks.query.get(data['id'])
     for attribute in models.Tasks.__table__.columns.keys():
         # Если атрибут есть в request.form, обновляем его значение
         if attribute in request.form:
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
-    if data.get('telegram_notification'):
-        del data['telegram_notification']
+    if tg_notify:
         users = models.User.query.filter_by(role='User').all()
-        threading.Thread(target=telegram_change_task, kwargs={'data': data, 'users': users}).start()
+        telegram_change_task(item, users)
     return jsonify({'success': True})
 
 
-@tasks_main.route('/api/tasks/update_item_comment', methods=['POST'])
-@login_required
-def update_item_comment():
-    data = request.form.to_dict()
-    item = models.Tasks.query.get(data['id'])
-    for attribute in models.Tasks.__table__.columns.keys():
-        # Если атрибут есть в request.form, обновляем его значение
-        if attribute in request.form:
-            setattr(item, attribute, request.form[attribute])
-    db.session.commit()
-    users = models.User.query.filter_by(role='Admin').all()
-    threading.Thread(target=telegram_update_item_comment, kwargs={'data': data, 'users': users}).start()
-    return jsonify({ 'success': True })
+# @tasks_main.route('/api/tasks/update_item_comment', methods=['POST'])
+# @login_required
+# def update_item_comment():
+#     data = request.form.to_dict()
+#     item = models.Tasks.query.get(data['id'])
+#     for attribute in models.Tasks.__table__.columns.keys():
+#         # Если атрибут есть в request.form, обновляем его значение
+#         if attribute in request.form:
+#             setattr(item, attribute, request.form[attribute])
+#     db.session.commit()
+#     users = models.User.query.filter_by(role='Admin').all()
+#     threading.Thread(target=telegram_update_item_comment, kwargs={'data': data, 'users': users}).start()
+#     return jsonify({ 'success': True })
 
 @tasks_main.route('/api/tasks/update_item_status', methods=['POST'])
 @login_required
 def update_item_status():
     data = request.form.to_dict()
-    item = models.Tasks.query.get(data['id'])
-    for attribute in models.Tasks.__table__.columns.keys():
+    item = models.Tasks.query.filter_by(id=data['id']).first()
+    time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    for attribute in request.form:
         # Если атрибут есть в request.form, обновляем его значение
-        if attribute in request.form:
+        if hasattr(item, attribute):
             if attribute == 'status' and request.form[attribute] == 'В Работе' and item.time_started is None:
-                time_started = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-                item.time_started = time_started
+                item.time_started = time_now
             if attribute == 'status' and request.form[attribute] == 'Выполнено':
-                time_finished = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-                item.time_finished = time_finished
+                item.time_finished = time_now
                 item.time_wasted = str(datetime.datetime.strptime(item.time_finished, '%Y-%m-%d %H:%M') - datetime.datetime.strptime(item.time_started, '%Y-%m-%d %H:%M'))
             setattr(item, attribute, request.form[attribute])
     db.session.commit()
-    print(data['status'])
     if data['status'] != 'Закрыто':
         users = models.User.query.filter_by(role='Admin').all()
-        threading.Thread(target=telegram_update_item_status, kwargs={'data': data, 'users': users}).start()
+        telegram_update_item_status(item, users)
     elif data['status'] == 'Возобновлена':
         users = models.User.query.filter_by(role='User').all()
-        threading.Thread(target=telegram_update_item_status, kwargs={'data': data, 'users': users}).start()
+        telegram_update_item_status(item, users)
     return jsonify({ 'success': True })
+
 
 
 @tasks_main.route('/api/tasks/delete_item', methods=['POST'])
@@ -144,74 +142,86 @@ def delete_task_item():
 def time_wasted(time_started, time_finished):
     return datetime.datetime.strptime(time_finished, '%Y-%m-%d %H:%M') - datetime.datetime.strptime(time_started, '%Y-%m-%d %H:%M')
 
-# TODO: Брать из задачи, а не из формы
 def telegram_new_task(data, users):
     try:
-        data = f"🛠️ НОВАЯ ЗАДАЧА\n" \
-        f"🕑 Дата: {data['date']}\n" \
-        f"🔨 Задача: {data['ticket']}\n" \
-        f"⚒️ Описание задачи: {data['ticket_comment']}\n" \
-        f"❗ Приоритет: {data['priority']}\n" \
-        f"📈 Статус: {data['status']}\n" \
-        f"🟥 Заказчик: {data['user_init']}\n" \
-        f"👁️ Исполнитель: {data['executor']}\n" \
-        f"⌛ Дедлайн: {data['deadline']}"
-        for i in users:
-            url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
+        message = (
+            f"🛠️ НОВАЯ ЗАДАЧА\n"
+            f"🕑 Дата: {data.date}\n"
+            f"🔨 Задача: {data.ticket}\n"
+            f"⚒️ Описание задачи: {data.ticket_comment}\n"
+            f"❗ Приоритет: {data.priority}\n"
+            f"📈 Статус: {data.status}\n"
+            f"🟥 Заказчик: {data.user_init}\n"
+            f"👁️ Исполнитель: {data.executor}\n"
+            f"⌛ Дедлайн: {data.deadline}"
+        )
+        for user in users:
+            url = f"{API_URL}sendMessage?chat_id={user.telegram}&text={message}"
             req.get(url)
+            print(f"Send message: new task to {user.username}: {user.telegram}")
     except Exception as e:
-        pass
+        print(f"TG Error: {e}")
     
 def telegram_change_task(data, users):
     try:
-        data = f"🛠️ ЗАДАЧА ОБНОВЛЕННА\n" \
-        f"🕑 Дата: {data['date']}\n" \
-        f"🔨 Задача: {data['ticket']}\n" \
-        f"⚒️ Описание задачи: \n{data['ticket_comment']}\n" \
-        f"❗ Приоритет: {data['priority']}\n" \
-        f"📈 Статус: {data['status']}\n" \
-        f"🟥 Заказчик: {data['user_init']}\n" \
-        f"👁️ Исполнитель: {data['executor']}\n" \
-        f"⌛ Дедлайн: {data['deadline']}"
+        message = (
+            f"🛠️ ЗАДАЧА ОБНОВЛЕННА\n"
+            f"🕑 Дата: {data.date}\n"
+            f"🔨 Задача: {data.ticket}\n"
+            f"⚒️ Описание задачи: {data.ticket_comment}\n"
+            f"❗ Приоритет: {data.priority}\n"
+            f"📈 Статус: {data.status}\n"
+            f"🟥 Заказчик: {data.user_init}\n"
+            f"👁️ Исполнитель: {data.executor}\n"
+            f"⌛ Дедлайн: {data.deadline}"
+        )
         
-        for i in users:
-            url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
+        for user in users:
+            url = f'{API_URL}sendMessage?chat_id={user.telegram}&text={message}'
             req.get(url)
-            
+            print(f"Send message: task updated to {user.username}: {user.telegram}")
     except Exception as e:
-        pass
+        print(f"TG Error: {e}")
     
-# TODO: Тоже передалать
-def telegram_update_item_comment(data, users):
-    try:
-        data = f"🛠️ В ЗАДАЧЕ ПОЯВИЛСЯ КОММЕНТАРИЙ\n" \
-        f"🕑 Номер задачи: {data['id']}\n" \
-        f"🔨 Комментарий: {data['comment']}\n" \
+# def telegram_update_item_comment(data, users):
+#     try:
+#         data = f"🛠️ В ЗАДАЧЕ ПОЯВИЛСЯ КОММЕНТАРИЙ\n" \
+#         f"🕑 Номер задачи: {data['id']}\n" \
+#         f"🔨 Комментарий: {data['comment']}\n" \
         
-        for i in users:
-            url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
-            req.get(url)
+#         for i in users:
+#             url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
+#             req.get(url)
             
-    except Exception as e:
-        pass
+#     except Exception as e:
+#         pass
     
 
-# TODO: Переделать это на более, нормальный вид
 def telegram_update_item_status(data, users):
     try:
-        if data['status'] != 'Возобновлена':
-            data = f"🛠️ ЗАДАЧА ПЕРЕШЛА В НОВЫЙ СТАТУС\n" \
-            f"🕑 Номер задачи: {data['id']}\n" \
-            f"👁️ Исполнитель: {data['executor']}\n" \
-            f"📈 Статус: {data['status']}\n"
+        if data.status != 'Возобновлена':
+            message = (
+            f"🛠️ ЗАДАЧА ПЕРЕШЛА В НОВЫЙ СТАТУС\n" \
+            f"🕑 Номер задачи: {data.id}\n" \
+            f"🔨 Задача: {data.ticket}\n"
+            f"⚒️ Описание задачи: {data.ticket_comment}\n"
+            f"👁️ Исполнитель: {data.executor}\n" \
+            f"📈 Статус: {data.status}\n"
+            )
         else:
-            data = f"🛠️ ЗАДАЧА ВОЗОБНОВЛЕННА\n" \
-            f"🕑 Номер задачи: {data['id']}\n" \
-            f"📈 Статус: {data['status']}\n" 
-                
-        for i in users:
-            url = f'{API_URL}sendMessage?chat_id={i.telegram}&text={data}'
+            message = (
+            f"🛠️ ЗАДАЧА ВОЗОБНОВЛЕННА\n" \
+            f"🕑 Номер задачи: {data.id}\n" \
+            f"🔨 Задача: {data.ticket}\n"
+            f"⚒️ Описание задачи: {data.ticket_comment}\n"
+            f"📈 Статус: {data.status}\n" 
+            )
+        
+        print(message)
+        for user in users:
+            url = f'{API_URL}sendMessage?chat_id={user.telegram}&text={message}'
             req.get(url)
+            print(f"Send message: task status to {user.username}: {user.telegram}")
                 
     except Exception as e:
-        pass
+        print(f"TG Error: {e}")

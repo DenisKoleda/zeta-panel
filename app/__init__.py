@@ -1,6 +1,5 @@
 import os
 from flask import Flask, jsonify, request
-from flask_mdeditor import MDEditor
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
@@ -34,7 +33,6 @@ def create_app():
     db.init_app(app)
     mail.init_app(app)
     Migrate(app, db)
-    MDEditor(app)
 
     # Создание экземпляра LoginManager для работы с аутентификацией пользователей:
     login_manager = LoginManager(app)

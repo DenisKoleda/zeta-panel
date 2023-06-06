@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, redirect, render_template, request
 from flask_login import login_required, current_user
 from app import models, db
-import mistune
 
 wiki_main = Blueprint('wiki_main', __name__)
 
@@ -32,7 +31,4 @@ def wiki_add():
 @wiki_main.route('/wiki/<int:aritlce_id>')
 @login_required
 def wiki_view(aritlce_id):
-    article = models.Article.query.get_or_404(aritlce_id)
-    mk = mistune.html
-    output = mk(article.content)
-    return render_template('wiki/wiki_view.html', article=article, content=output)
+    pass
