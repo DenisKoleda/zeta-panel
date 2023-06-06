@@ -7,6 +7,8 @@ services:
     volumes:
       - database:/app/instance
       - migrations:/app/migrations
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
 
   nginx:
