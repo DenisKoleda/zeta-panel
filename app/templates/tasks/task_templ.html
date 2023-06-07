@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Задачи{% endblock %}
 {% block stylesheet %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.7.0.min.js') }}"></script>
 {% block tasks_js %}
 {% endblock %}
 <script src="{{ url_for('static', filename='datatables/datatables.js') }}"></script>

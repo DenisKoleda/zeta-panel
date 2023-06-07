@@ -3,7 +3,7 @@
 {% block title %}Задача {{task.id}}{% endblock %}
 
 {% block stylesheet %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.7.0.min.js') }}"></script>
 {% if current_user.role == "Admin" %}
 <script src="{{ url_for('static', filename='js/tasks/tasks_buttons_admin.js') }}"></script>
 <script src="{{ url_for('static', filename='js/tasks/tasks_data_admin.js') }}"></script>
