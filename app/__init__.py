@@ -10,7 +10,7 @@ db = SQLAlchemy()
 mail = Mail()
 TOKEN = os.environ['TOKEN']
 API_URL = f'https://api.telegram.org/bot{TOKEN}/'
-basedir = os.path.abspath(os.path.dirname(__file__))
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 def create_app():
     app = Flask(__name__)
@@ -25,8 +25,6 @@ def create_app():
         MAIL_USE_SSL=False,
         SECRET_KEY='0f0809b30cb03b7c90d77ecfb35a10a4',
         SQLALCHEMY_DATABASE_URI=os.environ['SQLALCHEMY_DATABASE_URI'],
-        MDEDITOR_FILE_UPLOADER=os.path.join(basedir, 'uploads'),
-        MDEDITOR_LANGUAGE='en',
     )
 
     # Инициализация экземпляров:
