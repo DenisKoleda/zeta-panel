@@ -35,7 +35,7 @@ def login_post():
         flash('Неверный адрес электронной почты или пароль')
         return redirect(url_for('auth.login'))
     login_user(user, remember=remember)
-    return redirect(url_for('main.profile'))
+    return redirect(url_for('main.index'))
 
 
 @auth.route('/forgot_password')
