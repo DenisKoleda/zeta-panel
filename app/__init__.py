@@ -1,4 +1,5 @@
 import os
+import logging.handlers
 from flask import Flask, jsonify, request
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -11,6 +12,43 @@ mail = Mail()
 TOKEN = os.environ['TOKEN']
 API_URL = f'https://api.telegram.org/bot{TOKEN}/'
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
+
+# Set up log file paths
+APP_LOG_FILE = os.path.join('logs', 'app.log')
+DEBUG_LOG_FILE = os.path.join('logs', 'debug.log')
+ERROR_LOG_FILE = os.path.join('logs', 'errors.log')
+
+# Create rotating file handlers for each log file
+app_handler = logging.handlers.RotatingFileHandler(
+    APP_LOG_FILE, maxBytes=100000000, backupCount=5)
+debug_handler = logging.handlers.RotatingFileHandler(
+    DEBUG_LOG_FILE, maxBytes=100000000, backupCount=5)
+error_handler = logging.handlers.RotatingFileHandler(
+    ERROR_LOG_FILE, maxBytes=100000000, backupCount=5)
+
+# Set log message format
+formatter = logging.Formatter(
+    '%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
+
+# Set level for each handler
+app_handler.setLevel(logging.INFO)
+debug_handler.setLevel(logging.DEBUG)
+error_handler.setLevel(logging.ERROR)
+
+# Set formatter for each handler
+app_handler.setFormatter(formatter)
+debug_handler.setFormatter(formatter)
+error_handler.setFormatter(formatter)
+
+# Set up the root logger with all handlers
+logging.basicConfig(level=logging.DEBUG,
+                    handlers=[app_handler, debug_handler, error_handler])
+
+# Add stderr as a handler for the root logger
+console = logging.StreamHandler()
+console.setFormatter(formatter)
+logging.getLogger().addHandler(console)
+
 
 def create_app():
     app = Flask(__name__)

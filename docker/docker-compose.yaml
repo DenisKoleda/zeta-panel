@@ -7,6 +7,7 @@ services:
     volumes:
       - database:/app/instance
       - migrations:/app/migrations
+      - logs:/app/logs
     restart: unless-stopped
 
   nginx:
@@ -22,3 +23,4 @@ services:
 volumes:
   database:
   migrations:
+  logs:

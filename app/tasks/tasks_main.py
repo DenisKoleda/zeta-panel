@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, render_template, request
 from flask_login import login_required, current_user
 from app import db, models, API_URL
+import logging
 import requests as req
 import threading
 import datetime
@@ -29,12 +30,14 @@ def api_get_tasks():
 @tasks_main.route('/api/tasks/add', methods=['POST'])
 @login_required
 def add_task():
+    logging.info(f"Request add task: {request.form} from {current_user.username} by IP {request.remote_addr}")
     data = request.form.to_dict()
     tg_notify = data.pop('telegram_notification', False)
     new_row = models.Tasks(**data)
     db.session.add(new_row)
     db.session.commit()
     if tg_notify:
+        logging.info(f"Send Telegram notification add task from {current_user.username}")
         users = models.User.query.filter_by(role='User').all()
         telegram_new_task(new_row, users)
     return jsonify({'success': True})
@@ -43,6 +46,7 @@ def add_task():
 @tasks_main.route('/api/tasks/get_id')
 @login_required
 def get_tasks_id():
+    logging.info(f"Request get task id from {current_user.username} by IP {request.remote_addr}")
     items = models.Tasks.query.all()
     items_dict = [{'id': item.id} for item in items]
     return jsonify(items_dict)
@@ -50,6 +54,7 @@ def get_tasks_id():
 @tasks_main.route('/api/tasks/get_item')
 @login_required
 def get_task_item():
+    logging.info(f"Request get task item from {current_user.username} by IP {request.remote_addr}")    
     task_id = request.args.get('id')
 
     if task_id:
@@ -66,6 +71,7 @@ def get_task_item():
 @tasks_main.route('/api/tasks/update_item', methods=['POST'])
 @login_required
 def update_task_item():
+    logging.info(f"Request update task item {request.form} from {current_user.username} by IP {request.remote_addr}")
     data = request.form.to_dict()
     tg_notify = data.pop('telegram_notification', False)
     item = models.Tasks.query.get(data['id'])
@@ -97,6 +103,7 @@ def update_task_item():
 @tasks_main.route('/api/tasks/update_item_status', methods=['POST'])
 @login_required
 def update_item_status():
+    logging.info(f"Request update task status {request.form} from {current_user.username} by IP {request.remote_addr}")
     data = request.form.to_dict()
     item = models.Tasks.query.filter_by(id=data['id']).first()
     time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -123,6 +130,7 @@ def update_item_status():
 @tasks_main.route('/api/tasks/delete_item', methods=['POST'])
 @login_required
 def delete_task_item():
+    logging.info(f"Request delete task item {request.form} from {current_user.username} by IP {request.remote_addr}")
     tasks_id = request.form.get('id')
     tasks_item = models.Tasks.query.filter_by(id=tasks_id).first()
 
@@ -138,9 +146,6 @@ def delete_task_item():
     db.session.commit()
 
     return jsonify({ 'success': True })
-
-def time_wasted(time_started, time_finished):
-    return datetime.datetime.strptime(time_finished, '%Y-%m-%d %H:%M') - datetime.datetime.strptime(time_started, '%Y-%m-%d %H:%M')
 
 def telegram_new_task(data, users):
     try:
@@ -158,9 +163,9 @@ def telegram_new_task(data, users):
         for user in users:
             url = f"{API_URL}sendMessage?chat_id={user.telegram}&text={message}"
             req.get(url)
-            print(f"Send message: new task to {user.username}: {user.telegram}")
+            logging.info(f"Send message: new task to {user.username}: {user.telegram}")
     except Exception as e:
-        print(f"TG Error: {e}")
+        logging.critical(f"TG NEW TASK ERROR: {e}")
     
 def telegram_change_task(data, users):
     try:
@@ -179,9 +184,9 @@ def telegram_change_task(data, users):
         for user in users:
             url = f'{API_URL}sendMessage?chat_id={user.telegram}&text={message}'
             req.get(url)
-            print(f"Send message: task updated to {user.username}: {user.telegram}")
+            logging.info(f"Send message: task updated to {user.username}: {user.telegram}")
     except Exception as e:
-        print(f"TG Error: {e}")
+        logging.critical(f"TG UPDATE TASK ERROR: {e}")
     
 # def telegram_update_item_comment(data, users):
 #     try:
@@ -223,7 +228,7 @@ def telegram_update_item_status(data, users):
         for user in users:
             url = f'{API_URL}sendMessage?chat_id={user.telegram}&text={message}'
             req.get(url)
-            print(f"Send message: task status to {user.username}: {user.telegram}")
+            logging.info(f"Send message: task status to {user.username}: {user.telegram}")
                 
     except Exception as e:
-        print(f"TG Error: {e}")
+        logging.critical(f"TG UPDATE STATUS ERROR: {e}")

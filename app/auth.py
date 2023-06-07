@@ -7,6 +7,7 @@ from flask_mail import Message
 from .models import User
 from . import db, mail
 from flask import current_app
+import logging
 
 auth = Blueprint('auth', __name__)
 
@@ -32,9 +33,11 @@ def login_post():
     user = User.query.filter_by(email=email).first()
 
     if not user or not check_password_hash(user.password, password):
+        logging.warning(f'Login user failed with email {current_user.email} by IP {request.remote_addr}')
         flash('Неверный адрес электронной почты или пароль')
         return redirect(url_for('auth.login'))
     login_user(user, remember=remember)
+    logging.info(f'Login user {current_user.username} with email {current_user.email} by IP {request.remote_addr}')
     return redirect(url_for('main.index'))
 
 
@@ -56,6 +59,7 @@ def forgot_password_post():
     html_body = render_template('reset_password_email.html', reset_link=reset_link)
     send_email('Восстановление пароля', [email], None, html_body)
     flash('Проверьте вашу электронную почту')
+    logging.info(f'Sending recovery email to {email}')
     return redirect(url_for('auth.login'))
 
 
@@ -109,5 +113,6 @@ def reset_password(token):
 @auth.route('/logout')
 @login_required
 def logout():
+    logging.info(f'User {current_user.username} with email {current_user.email} logged out')
     logout_user()
     return redirect(url_for('main.index'))

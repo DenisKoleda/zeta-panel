@@ -12,6 +12,7 @@ docker/
 *.so
 
 # Distribution / packaging
+logs/
 migrations
 .Python
 build/
