@@ -47,9 +47,13 @@ def add_task():
 @login_required
 def get_tasks_id():
     logging.info(f"Request get task id from {current_user.username} by IP {request.remote_addr}")
-    items = models.Tasks.query.all()
+    if current_user.role == 'Admin':
+        items = models.Tasks.query.all()
+    else:
+        items = models.Tasks.query.filter(models.Tasks.status != "Закрыто").all()
     items_dict = [{'id': item.id} for item in items]
     return jsonify(items_dict)
+        
 
 @tasks_main.route('/api/tasks/get_item')
 @login_required
