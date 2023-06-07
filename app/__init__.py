@@ -6,6 +6,8 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
+import sys
+
 
 db = SQLAlchemy()
 mail = Mail()
@@ -45,7 +47,7 @@ logging.basicConfig(level=logging.DEBUG,
                     handlers=[app_handler, debug_handler, error_handler])
 
 # Add stderr as a handler for the root logger
-console = logging.StreamHandler()
+console = logging.StreamHandler(sys.stderr)
 console.setFormatter(formatter)
 logging.getLogger().addHandler(console)
 
