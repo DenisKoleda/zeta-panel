@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from app import db, models, API_URL
 import logging
 import requests as req
+from urllib.parse import quote
 import threading
 import datetime
 
@@ -164,8 +165,9 @@ def telegram_new_task(data, users):
             f"👁️ Исполнитель: {data.executor}\n"
             f"⌛ Дедлайн: {data.deadline}"
         )
+        logging.info(message.replace('\n', ' '))
         for user in users:
-            url = f"{API_URL}sendMessage?chat_id={user.telegram}&text={message}"
+            url = f"{API_URL}sendMessage?chat_id={user.telegram}&text={quote(message)}"
             req.get(url)
             logging.info(f"Send message: new task to {user.username}: {user.telegram}")
     except Exception as e:
@@ -184,9 +186,9 @@ def telegram_change_task(data, users):
             f"👁️ Исполнитель: {data.executor}\n"
             f"⌛ Дедлайн: {data.deadline}"
         )
-        
+        logging.info(message.replace('\n', ' '))
         for user in users:
-            url = f'{API_URL}sendMessage?chat_id={user.telegram}&text={message}'
+            url = f"{API_URL}sendMessage?chat_id={user.telegram}&text={quote(message)}"
             req.get(url)
             logging.info(f"Send message: task updated to {user.username}: {user.telegram}")
     except Exception as e:
@@ -227,10 +229,9 @@ def telegram_update_item_status(data, users):
             f"🟥 Заказчик: {data.user_init}\n"
             f"📈 Статус: {data.status}\n" 
             )
-        
-        print(message)
+        logging.info(message.replace('\n', ' '))
         for user in users:
-            url = f'{API_URL}sendMessage?chat_id={user.telegram}&text={message}'
+            url = f"{API_URL}sendMessage?chat_id={user.telegram}&text={quote(message)}"
             req.get(url)
             logging.info(f"Send message: task status to {user.username}: {user.telegram}")
                 

@@ -37,7 +37,7 @@ def login_post():
         flash('Неверный адрес электронной почты или пароль')
         return redirect(url_for('auth.login'))
     login_user(user, remember=remember)
-    logging.info(f'Login user {current_user.username} with email {current_user.email} by IP {request.remote_addr}')
+    logging.info(f'Login user {user} with email {email} by IP {request.remote_addr}')
     return redirect(url_for('main.index'))
 
 
