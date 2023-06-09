@@ -16,6 +16,13 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20), nullable=True, default='magic title')
     content = db.Column(db.Text)
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'content': self.content
+        }
 
 class Ram(db.Model):
     __tablename__ = 'sklad_ram'

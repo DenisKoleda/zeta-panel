@@ -9,6 +9,11 @@ wiki_main = Blueprint('wiki_main', __name__)
 def wiki():
     return render_template('wiki/wiki_main.html', name=current_user.username)
 
+@wiki_main.route('/wiki/get')
+@login_required
+def wiki_get():
+    return jsonify(models.Article.query.all())
+
 @wiki_main.route('/wiki/save', methods=['GET', 'POST'])
 @login_required
 def wiki_save():

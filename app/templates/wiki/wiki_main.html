@@ -2,14 +2,28 @@
 {% block title %}База знаний{% endblock %}
 {% block content %}
 {% include "header.html" %}
-<div class="container text-center mt-5">
-  <h1 class="title">
-    ZetaPanel
+<div class="container mt-5">
+  <h1 class="title mb-5">
+    База знаний
   </h1>
-  <h2 class="subtitle mt-5">
-    Привет {{ name }}, база знаний все ещё в разработке!
-  </h2>
+  <table id="myTable" class="table table-hover text-center table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th data-column-id="id" > ID </th>
+            <th data-column-id="title" > Название </th>
+          </tr>
+      </thead>
+    <tbody id="TableBody" style="white-space: pre-line; cursor: pointer;">
+    </tbody>
+    <tfoot>
+        <tr>
+            <th> ID </th>
+            <th> Название </th>
+        </tr>
+    </tfoot>
+  </table>
 </div>
+
 {% endblock %}
 
 {% block footer %}
