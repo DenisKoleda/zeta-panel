@@ -1,24 +1,19 @@
 {% extends "base.html" %}
 {% block title %}База знаний - Создать{% endblock %}
-{% block stylesheet %}
+{% block content %}
+{% include "header.html" %}
 <script src="{{ url_for('static', filename='js/jquery-3.7.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery-mobile-events.js') }}"></script>
 <script src="{{ url_for('static', filename='js/wiki/wiki_markdown.js') }}"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css">
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
-{% endblock %}
-{% block content %}
-{% include "header.html" %}
 
 <div class="container mt-5">
   <h1 class="title mb-5">
     База знаний
   </h1>
-  <div id="editor">
-    <textarea style="display:none;"></textarea>
+  <div>
+  <h1>Markdown Preview</h1>
+  <div>{{ html | safe }}</div>
   </div>
 </div>
-
 
 {% endblock %}

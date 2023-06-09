@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, redirect, render_template, request
 from flask_login import login_required, current_user
 from app import models, db
+import markdown
 
 wiki_main = Blueprint('wiki_main', __name__)
 
@@ -9,10 +10,11 @@ wiki_main = Blueprint('wiki_main', __name__)
 def wiki():
     return render_template('wiki/wiki_main.html', name=current_user.username)
 
-@wiki_main.route('/wiki/get')
+@wiki_main.route('/api/wiki/get')
 @login_required
 def wiki_get():
-    return jsonify(models.Article.query.all())
+    data_list = models.Article.query.all()
+    return jsonify([data.serialize() for data in data_list])
 
 @wiki_main.route('/wiki/save', methods=['GET', 'POST'])
 @login_required
@@ -28,12 +30,17 @@ def wiki_save():
         db.session.commit()
         return redirect ('/wiki')
 
-@wiki_main.route('/wiki/add')
+@wiki_main.route('/wiki/add', methods=['GET', 'POST'])
 @login_required
 def wiki_add():
+    if request.method == 'POST':
+        markdown_text = request.form['markdown']
+        html = markdown.markdown(markdown_text)
+        return render_template('wiki/wiki_preview.html', html=html)
     return render_template('wiki/wiki_add.html')
 
-@wiki_main.route('/wiki/<int:aritlce_id>')
+
+@wiki_main.route('/wiki/<int:id>')
 @login_required
-def wiki_view(aritlce_id):
-    pass
+def wiki_view(id):
+    return redirect ('/wiki')

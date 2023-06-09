@@ -4,7 +4,6 @@ from app import db, models, API_URL
 import logging
 import requests as req
 from urllib.parse import quote
-import threading
 import datetime
 
 tasks_main = Blueprint('tasks_main', __name__)
