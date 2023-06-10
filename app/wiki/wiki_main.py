@@ -20,14 +20,15 @@ def wiki_get():
 @login_required
 def wiki_save():
     data = request.get_json()
-    print(data)
+    print(f'Dict: {data}')
+    print(f'Key: {data["content"]}')
     return jsonify({'data':'success'})
         
 
 @wiki_main.route('/wiki/add')
 @login_required
 def wiki_add():
-    text = ''
+    text = '# Создайте свою инструкцию'
     return render_template('wiki/wiki_add.html', text=text)
 
 

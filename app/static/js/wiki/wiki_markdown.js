@@ -128,10 +128,13 @@ $(document).ready(function() {
     
     $('#save').click(function() {
         var data = mdeditor.getMarkdown();
+        var senddata = {
+            "content": data
+        }
         $.ajax({
             url: '/wiki/save',
             type: 'POST',
-            data: JSON.stringify(data),
+            data: JSON.stringify(senddata),
             contentType: 'application/json',
             success: function(response) {
               console.log(response);
@@ -141,10 +144,6 @@ $(document).ready(function() {
             }
           });
     });
-
-    var initialContent = $('#markdown-content').text();
-    var editor = new SimpleMDE({ element: document.getElementById("editor") });
-    editor.value(initialContent);
 
   });
   
