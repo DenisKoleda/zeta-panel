@@ -5,6 +5,10 @@ $(document).ready(function() {
         path: "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/",
         height: 640,
         saveHTMLToTextarea: true,
+        // Добавляем настройки для загрузки изображений
+        imageUpload : true,
+        imageFormats : ["jpg", "jpeg", "gif", "png"],
+        imageUploadURL : "/api/upload", // URL для загрузки изображений на сервер
         lang : {
           name : "ru",
           description : "Онлайн-редактор.",
@@ -99,6 +103,26 @@ $(document).ready(function() {
                   title : "Help"
               }
           }
+        },
+        onImageUpload : function(file) {
+            var formData = new FormData();
+            formData.append("editormd-image-file", file);
+    
+            $.ajax({
+                url: editor.settings.imageUploadURL,
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(result) {
+                    if (result.success === 1) {
+                        var url = result.url;
+                        editor.insertValue("![" + file.name + "](" + url + ")");
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            });
         }
     });
     
@@ -117,6 +141,10 @@ $(document).ready(function() {
             }
           });
     });
+
+    var initialContent = $('#markdown-content').text();
+    var editor = new SimpleMDE({ element: document.getElementById("editor") });
+    editor.value(initialContent);
 
   });
   

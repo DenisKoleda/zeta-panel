@@ -24,14 +24,11 @@ def wiki_save():
     return jsonify({'data':'success'})
         
 
-@wiki_main.route('/wiki/add', methods=['GET', 'POST'])
+@wiki_main.route('/wiki/add')
 @login_required
 def wiki_add():
-    if request.method == 'POST':
-        markdown_text = request.form['markdown']
-        #html = markdown.markdown(markdown_text)
-        #return render_template('wiki/wiki_preview.html', html=html)
-    return render_template('wiki/wiki_add.html')
+    text = ''
+    return render_template('wiki/wiki_add.html', text=text)
 
 
 @wiki_main.route('/wiki/<int:id>')
@@ -39,10 +36,7 @@ def wiki_add():
 def wiki_view(id):
     arcticle = models.Article.query.filter_by(id=id).first()
     data = arcticle.content
-    
-    #data = '# Hello\n- some\n- added\n- points\n\n![Image](https://avatars.mds.yandex.net/i?id=4de1a7b9544801737181c156572caf1e584f9906-8199407-images-thumbs&ref=rim&n=33&w=150&h=150 "Image")\n\nCat\n\nand some code\n\n```python\n@wiki_main.route(\'/api/wiki/get\')\n@login_required\ndef wiki_get():\n    data_list = models.Article.query.all()\n    return jsonify([data.serialize() for data in data_list])\n```'
     extensions = ['markdown.extensions.codehilite', 'markdown.extensions.fenced_code']
     data = markdown.markdown(data, extensions=extensions)
-    print (data)
     
     return render_template('wiki/wiki_preview.html', data=data)
