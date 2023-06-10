@@ -139,15 +139,36 @@ $(document).ready(function() {
             data: JSON.stringify(senddata),
             contentType: 'application/json',
             success: function(response) {
-                alert('Информация сохраненна!');
-                window.location.replace('/wiki');
+                success_alert(id)
             },
             error: function(error) {
-                alert('Ошибка информация может быть потеряна, проверьте логи!');
+                error_alert();
                 console.log(error);
             }
           });
     });
+    function success_alert(id) {
+        Swal.fire({
+          title: 'Успешно',
+          text: 'Информация сохранена!',
+          icon: 'success',
+          confirmButtonText: 'Закрыть'
+        }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.replace('/wiki/' + id);
+            }
+        });
+      };
+    
+    function error_alert() {
+        Swal.fire({
+            title: 'Ошибка',
+            text: 'Информация может быть потеряна! Попробуйте еще раз!',
+            icon: 'error',
+            confirmButtonText: 'Закрыть'
+        });
+    }
+      
 
   });
   
