@@ -29,4 +29,6 @@ var buttons =[
 var columns = [
     { data: "id" },
     { data: "title" },
+    { data: "description" },
+    { data: "tags" },
 ]

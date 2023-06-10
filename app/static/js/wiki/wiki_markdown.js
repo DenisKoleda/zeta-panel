@@ -128,7 +128,9 @@ $(document).ready(function() {
     
     $('#save').click(function() {
         var data = mdeditor.getMarkdown();
+        var id = $(this).attr('name');
         var senddata = {
+            "id": id,
             "content": data
         }
         $.ajax({
@@ -137,10 +139,12 @@ $(document).ready(function() {
             data: JSON.stringify(senddata),
             contentType: 'application/json',
             success: function(response) {
-              console.log(response);
+                alert('Информация сохраненна!');
+                window.location.replace('/wiki');
             },
             error: function(error) {
-              console.log(error);
+                alert('Ошибка информация может быть потеряна, проверьте логи!');
+                console.log(error);
             }
           });
     });

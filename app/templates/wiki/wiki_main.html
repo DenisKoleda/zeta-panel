@@ -8,20 +8,32 @@
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='datatables/datatables.min.css') }}" />
 <script src="{{ url_for('static', filename='js/wiki/wiki_data.js') }}"></script>
 <script src="{{ url_for('static', filename='js/wiki/wiki_main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/wiki/wiki_buttons.js') }}"></script>
 {% endblock %}
 {% block content %}
 {% include "header.html" %}
 
 
 <div class="container mt-5">
-  <h1 class="title mb-5">
+  <h1 class="title mb-3">
     База знаний
   </h1>
-  <table id="myTable" class="table table-hover text-center table-bordered" style="width:100%">
+
+<div class="tab-content" id="myTabContent">
+  <div class="mb-3">
+    <button class="btn btn-success mb-2 mb-sm-2" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
+    <button class="btn btn-warning mb-2 mb-sm-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактировать</button>
+    <button class="btn btn-danger mb-2 mb-sm-2" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</button>
+  </div>
+</div>
+
+  <table id="myTable" class="table table-hover table-bordered" style="width:100%">
     <thead>
         <tr>
             <th data-column-id="id" > ID </th>
             <th data-column-id="title" > Название </th>
+            <th data-column-id="description" > Описание </th>
+            <th data-column-id="tags" > Теги </th>
           </tr>
       </thead>
     <tbody id="TableBody" style="white-space: pre-line; cursor: pointer;">
@@ -30,9 +42,13 @@
         <tr>
             <th> ID </th>
             <th> Название </th>
+            <th> Описание </th>
+            <th> Теги </th>
         </tr>
     </tfoot>
   </table>
 </div>
+
+{% include "wiki/wiki_buttons.html" %}
 
 {% endblock %}

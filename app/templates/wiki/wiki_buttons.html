@@ -1,0 +1,90 @@
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Добавить инструкцию</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addForm">
+            <div class="mb-3">
+              <label for="title" class="form-label">Название:</label>
+              <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Описание:</label>
+              <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="tags" class="form-label">Тэги:</label>
+                <textarea class="form-control" id="tags" name="tags" rows="3"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="submit" form="addForm" class="btn btn-primary">Добавить</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Редактирование Инструкции</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="mb-3">
+                        <label for="idSelectEdit" class="form-label">ID</label>
+                        <select class="form-select" id="idSelectEdit" name="id" required>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="titleEdit" class="form-label">Название</label>
+                        <input type="text" class="form-control" id="titleEdit" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descriptionEdit" class="form-label">Описание</label>
+                        <textarea type="text" class="form-control" id="descriptionEdit" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tagsEdit" class="form-label">Тэги</label>
+                        <textarea type="text" class="form-control" id="tagsEdit" name="tags" rows="3"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Удалить инструкцию</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteForm">
+          <div class="form-group">
+            <label for="idSelectDelete">Выберите ID для удаления:</label>
+            <select class="form-control mt-2" id="idSelectDelete"></select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
