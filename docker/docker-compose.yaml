@@ -7,6 +7,7 @@ services:
     volumes:
       - database:/app/instance
       - migrations:/app/migrations
+      - upload:/app/static/upload
       - logs:/app/logs
     restart: unless-stopped
 
@@ -23,4 +24,5 @@ services:
 volumes:
   database:
   migrations:
+  upload:
   logs:
