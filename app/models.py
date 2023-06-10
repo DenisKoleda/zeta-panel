@@ -15,7 +15,7 @@ class Article(db.Model):
     __tablename__ = 'Article'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20), nullable=True, default='magic title')
-    content = db.Column(db.Text)
+    content = db.Column(db.String)
     
     def serialize(self):
         return {

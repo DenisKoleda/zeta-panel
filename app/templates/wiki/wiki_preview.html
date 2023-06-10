@@ -4,16 +4,15 @@
 {% include "header.html" %}
 <script src="{{ url_for('static', filename='js/jquery-3.7.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery-mobile-events.js') }}"></script>
-<script src="{{ url_for('static', filename='js/wiki/wiki_markdown.js') }}"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 
 <div class="container mt-5">
   <h1 class="title mb-5">
     База знаний
   </h1>
-  <div>
-  <h1>Markdown Preview</h1>
-  <div>{{ html | safe }}</div>
-  </div>
+  <div>{{ data|safe }}</div>
 </div>
 
 {% endblock %}

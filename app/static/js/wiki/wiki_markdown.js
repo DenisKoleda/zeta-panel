@@ -1,36 +1,36 @@
 $(document).ready(function() {
     
-    var editor = editormd({
+    var mdeditor = editormd({
         id: "editor",
         path: "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/",
         height: 640,
         saveHTMLToTextarea: true,
         lang : {
           name : "ru",
-          description : "Open source online Markdown editor.",
-          tocTitle    : "Table of Contents",
+          description : "Онлайн-редактор.",
+          tocTitle    : "Оглавление",
           toolbar : {
-              undo             : "Undo(Ctrl+Z)",
-              redo             : "Redo(Ctrl+Y)",
-              bold             : "Bold",
-              del              : "Strikethrough",
-              italic           : "Italic",
-              quote            : "Block quote",
-              ucwords          : "Words first letter convert to uppercase",
-              uppercase        : "Selection text convert to uppercase",
-              lowercase        : "Selection text convert to lowercase",
-              h1               : "Heading 1",
-              h2               : "Heading 2",
-              h3               : "Heading 3",
-              h4               : "Heading 4",
-              h5               : "Heading 5",
-              h6               : "Heading 6",
-              "list-ul"        : "Unordered list",
-              "list-ol"        : "Ordered list",
-              hr               : "Horizontal rule",
-              link             : "Link",
-              "reference-link" : "Reference link",
-              image            : "Image",
+              undo             : "Отменить(Ctrl+Z)",
+              redo             : "Повторить(Ctrl+Y)",
+              bold             : "Жирный",
+              del              : "Зачеркнутый",
+              italic           : "Курсив",
+              quote            : "Цитата",
+              ucwords          : "Первая буква слова преобразуется в верхний регистр",
+              uppercase        : "Выделенный текст преобразуется в верхний регистр",
+              lowercase        : "Выделенный текст преобразуется в нижний регистр",
+              h1               : "Заголовок 1",
+              h2               : "Заголовок 2",
+              h3               : "Заголовок 3",
+              h4               : "Заголовок 4",
+              h5               : "Заголовок 5",
+              h6               : "Заголовок 6",
+              "list-ul"        : "Неупорядоченный список",
+              "list-ol"        : "Упорядоченный список",
+              hr               : "Горизонтальный разделитель",
+              link             : "Ссылка",
+              "reference-link" : "Якорная ссылка",
+              image            : "Изображение",
               code             : "Code inline",
               "preformatted-text" : "Preformatted text / Code block (Tab indent)",
               "code-block"     : "Code block (Multi-languages)",
@@ -101,6 +101,22 @@ $(document).ready(function() {
           }
         }
     });
- 
+    
+    $('#save').click(function() {
+        var data = mdeditor.getMarkdown();
+        $.ajax({
+            url: '/wiki/save',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+              console.log(response);
+            },
+            error: function(error) {
+              console.log(error);
+            }
+          });
+    });
+
   });
   
