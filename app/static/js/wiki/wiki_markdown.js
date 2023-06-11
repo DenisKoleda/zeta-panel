@@ -10,7 +10,7 @@ $(document).ready(function() {
         imageFormats : ["jpg", "jpeg", "gif", "png"],
         imageUploadURL : "/api/upload", // URL для загрузки изображений на сервер
         lang : {
-          name : "ru",
+          name : "en",
           description : "Онлайн-редактор.",
           tocTitle    : "Оглавление",
           toolbar : {
