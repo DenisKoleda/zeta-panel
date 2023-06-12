@@ -16,7 +16,16 @@ $(document).ready(function () {
       columns: columns,
 
       rowCallback: function(row, data, index) {
-        // Double tap == Double click
+        $(row).on('dblclick', function(event) {
+          // Check if the clicked element is in the first column
+          if ($(event.target).closest('td').index() === 0) {
+            return; // Ignore clicks on the first column
+          }
+          // Get the ID of the clicked row
+          var id = $(row).find('td:eq(0)').text(); // Assumes the ID is in the first column
+          // Construct the URL and redirect to it
+          window.location.href = '/wiki/' + id;
+        })
         $(row).doubletap(function(event) {
           // Check if the clicked element is in the first column
           if ($(event.target).closest('td').index() === 0) {
