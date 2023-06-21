@@ -113,6 +113,6 @@ def reset_password(token):
 @auth.route('/logout')
 @login_required
 def logout():
-    logging.info(f'User {current_user.username} with email {current_user.email} by IP {request.remote_addr}' logged out')
+    logging.info(f'User {current_user.username} with email {current_user.email} by IP {request.remote_addr} logged out')
     logout_user()
     return redirect(url_for('main.index'))
