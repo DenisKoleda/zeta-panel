@@ -33,11 +33,11 @@ def login_post():
     user = User.query.filter_by(email=email).first()
 
     if not user or not check_password_hash(user.password, password):
-        logging.warning(f'Login user failed with email {current_user.email} by IP {request.remote_addr}')
+        logging.warning(f'Login user failed with email {email} by IP {request.remote_addr}')
         flash('Неверный адрес электронной почты или пароль')
         return redirect(url_for('auth.login'))
     login_user(user, remember=remember)
-    logging.info(f'Login user {user} with email {email} by IP {request.remote_addr}')
+    logging.info(f'Login user {user.username} with email {email} by IP {request.remote_addr}')
     return redirect(url_for('main.index'))
 
 
@@ -113,6 +113,6 @@ def reset_password(token):
 @auth.route('/logout')
 @login_required
 def logout():
-    logging.info(f'User {current_user.username} with email {current_user.email} logged out')
+    logging.info(f'User {current_user.username} with email {current_user.email} by IP {request.remote_addr}' logged out')
     logout_user()
     return redirect(url_for('main.index'))
