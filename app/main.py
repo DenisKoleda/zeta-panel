@@ -1,3 +1,4 @@
+import uuid
 from flask import Blueprint, jsonify, render_template, request, send_from_directory
 from flask_login import login_required, current_user
 from . import db, models, os, BASEDIR
@@ -36,10 +37,10 @@ def upload_image():
         return jsonify({'success': 0, 'message': 'No file selected'})
     
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
+        filename = secure_filename(str(uuid.uuid4()) + '.' + file.filename.rsplit('.', 1)[1])
         file.save(os.path.join(os.path.join(BASEDIR, 'static', 'upload'), filename))
         
-        # Возвращаем URL загруженного изображения в формате, ожидаемом Editor.md
+        # Return the URL of the uploaded image in the expected format for Editor.md
         return jsonify({'success': 1, 'url': '/static/images/' + filename})
     
     return jsonify({'success': 0, 'message': 'Invalid file format'})
