@@ -16,6 +16,9 @@ $(document).ready(function() {
     $('#addForm').submit(function (event) {
         event.preventDefault();
 
+        // Отключение кнопки
+        $('#submitButton').prop('disabled', true);
+
         // Получение данных из формы
         var formData = $('#addForm').serialize();
 
@@ -115,6 +118,9 @@ $(document).ready(function() {
 
     $('#editForm').submit(function (event) {
         event.preventDefault();
+
+        // Отключение кнопки
+        $('#submitButton').prop('disabled', true);
 
         var data = $(this).serialize();
 
