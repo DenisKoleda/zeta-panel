@@ -177,7 +177,7 @@ async def telegram_new_task(data, users):
                 task = asyncio.create_task(send_telegram_message(session, url))
                 tasks.append(task)
             await asyncio.gather(*tasks)
-            logging.info(f"Send message: new task to {', '.join(user.username for user in users)}")
+            logging.info(f"Send message: new task to {', '.join(user.username for user in users)}: {', '.join(user.telegram for user in users)}")
     except Exception as e:
         logging.critical(f"TG NEW TASK ERROR: {e}")
 
@@ -202,7 +202,7 @@ async def telegram_change_task(data, users):
                 task = asyncio.create_task(send_telegram_message(session, url))
                 tasks.append(task)
             await asyncio.gather(*tasks)
-            logging.info(f"Send message: task updated to {', '.join(user.username for user in users)}")
+            logging.info(f"Send message: task updated to {', '.join(user.username for user in users)}: {', '.join(user.telegram for user in users)}")
     except Exception as e:
         logging.critical(f"TG UPDATE TASK ERROR: {e}")
 
