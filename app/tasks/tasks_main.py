@@ -4,7 +4,6 @@ from flask_login import login_required, current_user
 from app import db, models, API_URL
 import logging
 from urllib.parse import quote
-import requests as req
 import datetime
 import asyncio
 
