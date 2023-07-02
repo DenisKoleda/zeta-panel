@@ -153,8 +153,6 @@ async def delete_task_item():
 
     return jsonify({ 'success': True })
 
-import aiohttp
-
 async def telegram_new_task(data, users):
     try:
         message = (
@@ -205,11 +203,6 @@ async def telegram_change_task(data, users):
     except Exception as e:
         logging.critical(f"TG UPDATE TASK ERROR: {e}")
 
-async def send_telegram_message(session, url):
-    async with session.get(url) as response:
-        response_text = await response.text()
-        # Process the response as needed
-
     
 # def telegram_update_item_comment(data, users):
 #     try:
@@ -258,3 +251,9 @@ async def telegram_update_item_status(data, users):
 
     except Exception as e:
         logging.critical(f"TG UPDATE STATUS ERROR: {e}")
+        
+        
+async def send_telegram_message(session, url):
+    async with session.get(url) as response:
+        response_text = await response.text()
+        # Process the response as needed
