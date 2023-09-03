@@ -24,6 +24,18 @@ def changelog():
     return render_template('changelog.html', name=current_user.username)
 
 
+@main.route('/download')
+@login_required
+def show_files():
+    folder_path = os.path.join(os.path.join(BASEDIR, 'static', 'download'))
+    files = os.listdir(folder_path)
+    return render_template('files.html', files=files)
+
+@main.route('/download/<filename>', methods=['GET'])
+@login_required
+def download_file(filename):
+    return send_from_directory(os.path.join(os.path.join(BASEDIR, 'static', 'download')), filename)
+
 @main.route('/api/upload', methods=['POST'])
 @login_required
 def upload_image():

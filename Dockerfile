@@ -11,6 +11,7 @@ ENV SQLALCHEMY_DATABASE_URI="sqlite:///app.db"
 RUN mkdir /app/instance
 RUN mkdir /app/migrations
 RUN mkdir -p /app/app/static/upload
+RUN mkdir -p /app/app/static/download
 RUN mkdir /app/logs
 
 COPY . .
