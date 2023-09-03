@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Загрузить файлы</title>
-</head>
-<body>
-    <h1>Файлы доступные для загрузки:</h1>
+{% extends "base.html" %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+{% include "header.html" %}
+    <div class="container mt-5">
+    <h1 class="mt-5">Файлы доступные для загрузки:</h1>
     <ul>
         {% for file in files %}
-            <li><a href="/download/{{ file }}">{{ file }}</a></li>
+            <li><a class="h5" href="/download/{{ file }}">{{ file }}</a></li>
         {% endfor %}
     </ul>
-</body>
-</html>
+    </div>
+{% endblock %}
+
+{% block footer %}
+<div class="container fixed-bottom bg-light py-3 text-center">
+    <p class="mb-0">ZetaPanel &copy; 2023</p>
+</div>
+{% endblock %}
