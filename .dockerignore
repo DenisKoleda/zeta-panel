@@ -12,6 +12,8 @@ docker/
 *.so
 
 # Distribution / packaging
+app/static/upload
+logs/
 migrations
 .Python
 build/

@@ -2,6 +2,7 @@ var buttons =[
     {
       extend: 'searchPanes',
       config: {
+        columns: [1,2,3,5,6,7],
         cascadePanes: true,
         viewTotal: true,
       }
@@ -46,7 +47,7 @@ var columns = [
             <button class="btn btn-primary btn-sm action-btn me-2" data-status="В Работе" data-name="'+ userName +'" data-id="'+ row.id +'">В работу</button>\
             <button class="btn btn-danger btn-sm action-btn mx-2" data-status="Отложено" data-name="'+ userName +'" data-id="'+ row.id +'">Отложить</button>\
             <button class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" \
-            data-bs-target="#editModal" data-id="' + row.id + '">Комментарий</button>\
+            data-bs-target="#editModal" data-id="' + row.id + '">Редактировать</button>\
             </div>';
         } else if (data.status === 'В Работе') 
         {
@@ -54,14 +55,14 @@ var columns = [
             <button class="btn btn-success btn-sm action-btn me-2" data-status="Выполнено" data-name="'+ userName +'" data-id="'+ row.id +'">Завершить</button>\
             <button class="btn btn-danger btn-sm action-btn mx-2" data-status="Отложено" data-name="'+ userName +'" data-id="'+ row.id +'">Отложить</button>\
             <button class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" \
-            data-bs-target="#editModal" data-id="' + row.id + '">Комментарий</button>\
+            data-bs-target="#editModal" data-id="' + row.id + '">Редактировать</button>\
             </div>';
         } else if (data.status === 'Выполнено')
         {
             return '<div class="d-flex mt-2">\
             <button class="btn btn-primary btn-sm action-btn me-2" data-status="В Работе" data-name="'+ userName +'" data-id="'+ row.id +'">Возобновить</button>\
             <button class="btn btn-warning btn-sm action-btn mx-2" data-bs-toggle="modal" \
-            data-bs-target="#editModal" data-id="' + row.id + '">Комментарий</button>\
+            data-bs-target="#editModal" data-id="' + row.id + '">Редактировать</button>\
             </div>';
             
         } else if (data.status === 'Отложено')
@@ -69,7 +70,7 @@ var columns = [
             return '<div class="d-flex mt-2">\
             <button class="btn btn-primary btn-sm action-btn me-2" data-status="В Работе" data-name="'+ userName +'" data-id="'+ row.id +'">В работу</button>\
             <button class="btn btn-success btn-sm action-btn mx-2" data-status="Выполнено" data-name="'+ userName +'" data-id="'+ row.id +'">Завершить</button>\
-            <button class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' + row.id + '">Комментарий</button>\
+            <button class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' + row.id + '">Редактировать</button>\
             </div>';
         }
         return '';

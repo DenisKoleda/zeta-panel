@@ -1,37 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Задачи{% endblock %}
 {% block stylesheet %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.7.0.min.js') }}"></script>
 {% block tasks_js %}
 {% endblock %}
-<script src="{{ url_for('static', filename='datatables/datatables.js') }}"></script>
+<script src="{{ url_for('static', filename='datatables/datatables.min.js') }}"></script>
 <script src="{{ url_for('static', filename='datatables/database_lang.js') }}"></script>
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='datatables/datatables.css') }}" />
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='datatables/datatables.min.css') }}" />
 {% endblock %}
 {% block content %}
 {% include "header.html" %}
 
 <div class="container">
-    <div class="row">
+    <div class="title mb-3">
         <h1>Задачи</h1>
     </div>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active">
-            <div class="input-group my-3">
-                <div class="container">
-                    <div class="d-flex flex-column flex-sm-row">
-                        {% if current_user.role == "Admin" %}
-                            <button class="btn btn-success mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
-                            <button class="btn btn-warning mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактировать</button>
-                            <button class="btn btn-danger mb-2 mb-sm-2 ms-sm-2" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</button>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            
-            {% block tasks %}
-            {% endblock %}
+        <div class="mb-3">
+            {% if current_user.role == "Admin" %}
+                <button class="btn btn-success mb-2 mb-sm-2" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
+                <button class="btn btn-warning mb-2 mb-sm-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактировать</button>
+                <button class="btn btn-danger mb-2 mb-sm-2" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</button>
+            {% else %}
+                <button class="btn btn-success mb-2 mb-sm-2" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
+                <button class="btn btn-warning mb-2 mb-sm-2" data-bs-toggle="modal" data-bs-target="#editModal">Редактировать</button>
+            {% endif %}
         </div>
+    
+        {% block tasks %}
+        {% endblock %}
+        
     </div>
 </div>
 {% endblock %}

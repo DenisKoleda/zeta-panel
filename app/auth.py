@@ -7,6 +7,7 @@ from flask_mail import Message
 from .models import User
 from . import db, mail
 from flask import current_app
+import logging
 
 auth = Blueprint('auth', __name__)
 
@@ -20,6 +21,8 @@ def send_email(subject, recipients, text_body, html_body):
 
 @auth.route('/login')
 def login():
+    if not User.query.all():
+        return render_template('registraion.html')
     return render_template('login.html')
 
 
@@ -32,10 +35,12 @@ def login_post():
     user = User.query.filter_by(email=email).first()
 
     if not user or not check_password_hash(user.password, password):
+        logging.warning(f'Login user failed with email {email} by IP {request.remote_addr}')
         flash('Неверный адрес электронной почты или пароль')
         return redirect(url_for('auth.login'))
     login_user(user, remember=remember)
-    return redirect(url_for('main.profile'))
+    logging.info(f'Login user {user.username} with email {email} by IP {request.remote_addr}')
+    return redirect(url_for('main.index'))
 
 
 @auth.route('/forgot_password')
@@ -56,6 +61,7 @@ def forgot_password_post():
     html_body = render_template('reset_password_email.html', reset_link=reset_link)
     send_email('Восстановление пароля', [email], None, html_body)
     flash('Проверьте вашу электронную почту')
+    logging.info(f'Sending recovery email to {email}')
     return redirect(url_for('auth.login'))
 
 
@@ -76,38 +82,34 @@ def reset_password(token):
         return redirect(url_for('auth.login'))
     return render_template('reset_password.html', token=token)
 
-# @auth.route('/signup')
-# def signup():
-#     return render_template('signup.html')
+@auth.route('/signup', methods=['POST'])
+def signup_post():
+    if not User.query.all():
+        email = request.form.get('email')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        role = 'Admin'
 
-# @auth.route('/signup', methods=['POST'])
-# def signup_post():
-#     email = request.form.get('email')
-#     username = request.form.get('username')
-#     password = request.form.get('password')
-#     role = 'User'
+        user = User.query.filter_by(
+            email=email).first()
 
-#     user = User.query.filter_by(
-#         email=email).first()
+        if user:
+            flash('Адрес электронной почты уже существует')
+            return redirect(url_for('auth.signup'))
 
-#     if user:
-#         flash('Адрес электронной почты уже существует')
-#         return redirect(url_for('auth.signup'))
+        new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256') , role=role)
 
-#     new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256') , role=role)
+        db.session.add(new_user)
+        db.session.commit()
 
-#     db.session.add(new_user)
-#     db.session.commit()
-
-#     return redirect(url_for('auth.login'))
-
-# <p class="text-center">
-#     <a href={{ url_for('auth.signup') }}>Регистрация</a>
-# </p>
+        return redirect(url_for('auth.login'))
+    else:
+        return {'success': False, 'message': 'Admin already exists'}
 
 
 @auth.route('/logout')
 @login_required
 def logout():
+    logging.info(f'User {current_user.username} with email {current_user.email} by IP {request.remote_addr} logged out')
     logout_user()
     return redirect(url_for('main.index'))

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Изменение - {{ title }}{% endblock %}
+{% block stylesheet %}
+<script src="{{ url_for('static', filename='js/jquery-3.7.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-mobile-events.js') }}"></script>
+<script src="{{ url_for('static', filename='js/wiki/wiki_markdown.js') }}"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.min.css">
+{% endblock %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="container mt-5">
+  <h1 class="title mb-3">
+    База знаний - {{ title }}
+  </h1>
+  <div id="editor">
+    <textarea>{{ text }}</textarea>
+  </div>
+  <button id="save" name="{{id}}" class="btn btn-primary mt-2 save">Сохранить</button>
+</div>
+
+
+{% endblock %}

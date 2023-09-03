@@ -19,6 +19,7 @@ gunicorn wsgi:app \
     --workers $(nproc) \
     --threads $(nproc) \
     --worker-class=gthread \
-    --access-logfile - \
-    --error-logfile - \
-    --log-level info
+    --access-logfile=logs/gunicorn_access.log \
+    --error-logfile=logs/gunicorn_error.log \
+    --log-level debug \
+    --log-file=logs/gunicorn.log

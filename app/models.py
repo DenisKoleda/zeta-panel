@@ -14,8 +14,19 @@ class User(UserMixin, db.Model):
 class Article(db.Model):
     __tablename__ = 'Article'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(20), nullable=True, default='magic title')
+    title = db.Column(db.String(20), nullable=True)
     content = db.Column(db.Text)
+    description = db.Column(db.Text)
+    tags = db.Column(db.String)
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'content': self.content,
+            'description': self.description,
+            'tags': self.tags            
+        }
 
 class Ram(db.Model):
     __tablename__ = 'sklad_ram'

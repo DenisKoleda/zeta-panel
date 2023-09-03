@@ -7,6 +7,10 @@ services:
     volumes:
       - database:/app/instance
       - migrations:/app/migrations
+      - upload:/app/app/static/upload
+      - logs:/app/logs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
 
   nginx:
@@ -22,4 +26,6 @@ services:
 volumes:
   database:
   migrations:
+  upload:
+  logs:
   
