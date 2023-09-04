@@ -12,6 +12,7 @@ docker/
 *.so
 
 # Distribution / packaging
+app/static/download
 app/static/upload
 logs/
 migrations
