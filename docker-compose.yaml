@@ -8,7 +8,6 @@ services:
       - database:/app/instance
       - migrations:/app/migrations
       - upload:/app/app/static/upload
-      - download:/app/app/static/download
       - logs:/app/logs
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -27,7 +26,6 @@ services:
 volumes:
   database:
   migrations:
-  download:
   upload:
   logs:
   
