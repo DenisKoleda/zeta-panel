@@ -18,7 +18,7 @@
     База знаний - {{ title }}
   </h1>
   <div id="editor">
-    <textarea>{{ text }}</textarea>
+    <textarea>{{ text | safe }}</textarea>
   </div>
   <button id="save" name="{{id}}" class="btn btn-primary mt-2 save">Сохранить</button>
 </div>

@@ -16,4 +16,6 @@ RUN mkdir /app/logs
 
 COPY . .
 
+EXPOSE 5000
+
 CMD ["sh", "start.sh"]

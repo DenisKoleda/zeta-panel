@@ -23,6 +23,7 @@ def wiki_save():
     data = request.get_json()
     article = models.Article.query.filter_by(id=data['id']).first()
     article.content = data['content']
+    article.content_html = data['contentHTML']
     db.session.commit()
     return jsonify({'data':'success'})
         
@@ -42,7 +43,7 @@ def wiki_add(id):
 @login_required
 def wiki_view(id):
     article = models.Article.query.filter_by(id=id).first()
-    data = article.content
+    data = article.content_html
     if data:
         extensions = ['markdown.extensions.codehilite', 'markdown.extensions.fenced_code']
         data = markdown.markdown(data, extensions=extensions)

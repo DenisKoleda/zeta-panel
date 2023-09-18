@@ -16,6 +16,7 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20), nullable=True)
     content = db.Column(db.Text)
+    content_html = db.Column(db.Text)
     description = db.Column(db.Text)
     tags = db.Column(db.String)
     
@@ -24,6 +25,7 @@ class Article(db.Model):
             'id': self.id,
             'title': self.title,
             'content': self.content,
+            'content_html': self.content_html,
             'description': self.description,
             'tags': self.tags            
         }

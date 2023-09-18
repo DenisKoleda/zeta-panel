@@ -128,10 +128,12 @@ $(document).ready(function() {
     
     $('#save').click(function() {
         var data = mdeditor.getMarkdown();
+        var dataHTML = mdeditor.getHTML();
         var id = $(this).attr('name');
         var senddata = {
             "id": id,
-            "content": data
+            "content": data,
+            "contentHTML": dataHTML
         }
         $.ajax({
             url: '/wiki/save',
