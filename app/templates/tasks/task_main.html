@@ -1,6 +1,7 @@
 {% extends "tasks/task_templ.html" %}
 {% block title %}Задачи{% endblock %}
 {% block tasks_js %}
+<script>var apiEndpoint = '/api/tasks/get';</script>
 <script src="{{ url_for('static', filename='js/tasks/tasks_main.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery-mobile-events.js') }}"></script>
 {% if current_user.role == "Admin" %}

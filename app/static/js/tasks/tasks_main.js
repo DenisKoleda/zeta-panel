@@ -1,5 +1,4 @@
-$(document).ready(function () {
-  var apiEndpoint = '/api/tasks/get'; 
+$(document).ready(function () { 
 
   // отправляем GET запрос на сервер и получаем данные
   $.get(apiEndpoint, function (data) {
@@ -14,6 +13,7 @@ $(document).ready(function () {
       data: data,
       language: language,
       columns: columns,
+      order: [[0, 'desc']],
 
       createdRow: function(row, data, dataIndex) {
         if (data.status === 'В Работе') {
