@@ -1,4 +1,5 @@
-$(document).ready(function () { 
+$(document).ready(function () {
+  var apiEndpoint = '/api/tasks/get'; 
 
   // отправляем GET запрос на сервер и получаем данные
   $.get(apiEndpoint, function (data) {
