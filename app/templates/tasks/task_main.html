@@ -1,7 +1,6 @@
 {% extends "tasks/task_templ.html" %}
 {% block title %}Задачи{% endblock %}
 {% block tasks_js %}
-<script src="{{ url_for('static', filename='js/tasks/tasks_main.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery-mobile-events.js') }}"></script>
 {% if current_user.role == "Admin" %}
 <script src="{{ url_for('static', filename='js/tasks/tasks_buttons_admin.js') }}"></script>
@@ -60,7 +59,7 @@
   var userRole = '{{ current_user.role }}';
   var userName = '{{ current_user.username }}';
 </script>
-
+<script src="{{ url_for('static', filename='js/tasks/tasks_main.js') }}"></script>
 {% if current_user.role == "Admin" %}
 {% include "tasks/task_admin.html" %}
 {% elif current_user.role == "User" %}
