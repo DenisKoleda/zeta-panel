@@ -7,6 +7,7 @@ $.ajax({
     console.log('Успешный запрос:');
     table.rows.add(data);
     table.draw();
+    table.responsive.recalc();
   },
   error: function(xhr, status, error) {
     // Функция, которая выполняется при ошибке запроса
