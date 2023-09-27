@@ -33,7 +33,7 @@ async def api_get_tasks():
 @tasks_main.route('/api/tasks_bot/add', methods=['POST'])
 async def add_task_bot():
     logging.info(f"Request add task: {request} from tg_bot by IP {request.remote_addr}")
-    data = request.json()
+    data = request.json
     logging.info(data)
     new_row = models.Tasks(**data)
     db.session.add(new_row)
