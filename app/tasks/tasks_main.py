@@ -30,6 +30,16 @@ async def api_get_tasks():
     return jsonify([task.serialize() for task in task_list])
 
 
+@tasks_main.route('/api/tasks_bot/add', methods=['POST'])
+async def add_task_bot():
+    logging.info(f"Request add task: {request} from tg_bot by IP {request.remote_addr}")
+    data = request.json()
+    logging.info(data)
+    new_row = models.Tasks(**data)
+    db.session.add(new_row)
+    db.session.commit()
+    return jsonify({'success': True})
+
 @tasks_main.route('/api/tasks/add', methods=['POST'])
 @login_required
 async def add_task():
