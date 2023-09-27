@@ -4,9 +4,10 @@ $.ajax({
   dataType: 'json', // Ожидаемый тип данных (может быть 'json', 'xml', 'html' и другие)
   success: function(data) {
     // Функция, которая выполняется при успешном выполнении запроса
-    console.log('Успешный запрос:');
+    console.log('Успешный запрос');
     table.rows.add(data);
     table.draw();
+    table.responsive.recalc();
   },
   error: function(xhr, status, error) {
     // Функция, которая выполняется при ошибке запроса
