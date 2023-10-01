@@ -14,7 +14,12 @@ loop = asyncio.get_event_loop()
 
 @tasks_main.route('/tasks')
 @login_required
-def tasks_maim_page():
+def tasks_main_page():
+    return render_template('tasks/task_main.html')
+
+@tasks_main.route('/all_tasks')
+@login_required
+def tasks_main_page_all():
     return render_template('tasks/task_main.html')
 
 @tasks_main.route('/tasks/<id>')
@@ -23,10 +28,16 @@ def tasks_page(id):
     task = models.Tasks.query.filter_by(id=id).first()
     return render_template('tasks/task.html', task=task)
 
+@tasks_main.route('/api/tasks/get_all', methods=['GET'])
+@login_required
+async def api_get_tasks_all():
+    task_list = models.Tasks.query.all()
+    return jsonify([task.serialize() for task in task_list])
+
 @tasks_main.route('/api/tasks/get', methods=['GET'])
 @login_required
 async def api_get_tasks():
-    task_list = models.Tasks.query.all()
+    task_list = models.Tasks.query.filter(models.Tasks.status.notin_(["Закрыто", "Выполнено"])).all()
     return jsonify([task.serialize() for task in task_list])
 
 

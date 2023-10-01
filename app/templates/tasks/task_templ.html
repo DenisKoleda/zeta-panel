@@ -15,6 +15,14 @@
     <div class="title mb-3">
         <h1>Задачи</h1>
     </div>
+    <ul class="nav nav-tabs my-3" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link {% if request.path == url_for('tasks_main.tasks_main_page') %}active{% endif %}" href="{{ url_for('tasks_main.tasks_main_page') }}">Актуальные</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link {% if request.path == url_for('tasks_main.tasks_main_page_all') %}active{% endif %}" href="{{ url_for('tasks_main.tasks_main_page_all') }}">Все задачи</a>
+        </li>
+      </ul>   
     <div class="tab-content" id="myTabContent">
         <div class="mb-3">
             {% if current_user.role == "Admin" %}
