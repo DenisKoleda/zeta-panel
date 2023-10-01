@@ -9,9 +9,27 @@ if (currentUrl.includes('/all_tasks')) {
   endpoint = '/api/tasks/get_all';
 }
 
-// отправляем GET запрос на сервер и получаем данные
-$.get(endpoint, function (data) {
-  var table = $('#myTable').DataTable({
+// Глобальная переменная для хранения текущей страницы
+var currentPage = 1;
+var table;
+
+// Функция для обновления данных таблицы
+function updateTable() {
+  $.get(endpoint, function (data) {
+    // Получите текущую страницу перед обновлением
+    currentPage = table.page();
+
+    // Очистите старую таблицу и обновите данные
+    table.clear().rows.add(data).draw();
+
+    // Восстановите текущую страницу после обновления
+    table.page(currentPage).draw(false);
+  });
+}
+
+// Создание DataTable и установка интервала обновления в 5 секунд
+$(document).ready(function() {
+  table = $('#myTable').DataTable({
     dom: '<"justify-content-between align-items-center"lfB><"table-responsive"rt><"justify-content-between align-items-center"ip>',
     buttons: buttons,
     stateSave: true,
@@ -19,7 +37,7 @@ $.get(endpoint, function (data) {
     pagingType: 'simple',
     searching: true,
     ordering: true,
-    data: data,
+    data: [], // Пустой массив данных
     language: language,
     columns: columns,
     order: [[0, 'desc']],
@@ -63,4 +81,8 @@ $.get(endpoint, function (data) {
       })
     }
   });
+
+  // Вызовите функцию обновления данных для первоначальной загрузки и установки интервала
+  updateTable();
+  setInterval(updateTable, 5000); // 5000 миллисекунд = 5 секунд
 });
