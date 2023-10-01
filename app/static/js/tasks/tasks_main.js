@@ -48,7 +48,7 @@ $.get(endpoint, function (data) {
         // Get the ID of the clicked row
         var id = $(row).find('td:eq(0)').text(); // Assumes the ID is in the first column
         // Construct the URL and redirect to it
-        window.location.href = '/tasks/' + id;
+        window.location.href = '/task/' + id;
       })
       // Double tap == Double click
       $(row).doubletap(function(event) {
@@ -59,7 +59,7 @@ $.get(endpoint, function (data) {
         // Get the ID of the clicked row
         var id = $(row).find('td:eq(0)').text(); // Assumes the ID is in the first column
         // Construct the URL and redirect to it
-        window.location.href = '/tasks/' + id;
+        window.location.href = '/task/' + id;
       })
     }
   });

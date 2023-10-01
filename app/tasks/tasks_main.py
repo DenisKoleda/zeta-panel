@@ -22,7 +22,7 @@ def tasks_main_page():
 def tasks_main_page_all():
     return render_template('tasks/task_main.html')
 
-@tasks_main.route('/tasks/<id>')
+@tasks_main.route('/task/<id>')
 @login_required
 def tasks_page(id):
     task = models.Tasks.query.filter_by(id=id).first()
