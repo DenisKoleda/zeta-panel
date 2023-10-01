@@ -30,7 +30,7 @@ async def api_get_tasks():
     return jsonify([task.serialize() for task in task_list])
 
 
-@tasks_main.route('/api/tasks_bot/add', methods=['POST'])
+@tasks_main.route('/api/bot/task/add', methods=['POST'])
 async def add_task_bot():
     logging.info(f"Request add task: {request} from tg_bot by IP {request.remote_addr}")
     data = request.json
@@ -38,7 +38,33 @@ async def add_task_bot():
     new_row = models.Tasks(**data)
     db.session.add(new_row)
     db.session.commit()
-    return jsonify({'success': True})
+    return jsonify({'success': True, 'taskID': new_row.id})
+
+@tasks_main.route('/api/bot/task/delete', methods=['POST'])
+async def delete_task_bot():
+    logging.info(f"Request delete task item {request} from tg_bot by IP {request.remote_addr}")
+    tasks_id = request.json
+    logging.info(tasks_id)
+    tasks_item = models.Tasks.query.filter_by(id=tasks_id['taskID']).first()
+
+    if not tasks_item:
+        return jsonify({ 'success': False, 'taskID': 'Задача не найдена' })
+
+    db.session.delete(tasks_item)
+    db.session.commit()
+
+    # Сдвигаем ID других элементов, чтобы избежать проблем с отсутствующими ID
+    for i, item in enumerate(models.Tasks.query.all(), 1):
+        item.id = i
+    db.session.commit()
+
+    return jsonify({ 'success': True, 'taskID': f"Задача с ID {tasks_id['taskID']} удалена" })
+
+@tasks_main.route('/api/bot/tasks/get', methods=['GET'])
+async def get_tasks_bot():
+    task_list = models.Tasks.query.filter(models.Tasks.status.notin_(["Закрыто", "Выполнено"])).all()
+    print(task_list)
+    return jsonify([task.serialize() for task in task_list])
 
 @tasks_main.route('/api/tasks/add', methods=['POST'])
 @login_required
