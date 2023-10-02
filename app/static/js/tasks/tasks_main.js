@@ -33,19 +33,7 @@ $(document).ready(function() {
     dom: '<"justify-content-between align-items-center"lfB><"table-responsive"rt><"justify-content-between align-items-center"ip>',
     buttons: buttons,
     stateSave: true,
-    responsive: {
-      details: {
-          display: DataTable.Responsive.display.modal({
-              header: function (row) {
-                  var data = row.data();
-                  return 'Details for ' + data[0] + ' ' + data[1];
-              }
-          }),
-          renderer: DataTable.Responsive.renderer.tableAll({
-              tableClass: 'table'
-          })
-      }
-  },
+    responsive: true,
     pagingType: 'simple',
     searching: true,
     ordering: true,
@@ -96,5 +84,5 @@ $(document).ready(function() {
 
   // Вызовите функцию обновления данных для первоначальной загрузки и установки интервала
   updateTable();
-  setInterval(updateTable, 5000); // 5000 миллисекунд = 5 секунд
+  // setInterval(updateTable, 5000); // 5000 миллисекунд = 5 секунд
 });
