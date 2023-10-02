@@ -9,7 +9,9 @@
 <script src="{{ url_for('static', filename='js/sklad/sklad_main.js') }}"></script>
 <script src="{{ url_for('static', filename='datatables/datatables.min.js') }}"></script>
 <script src="{{ url_for('static', filename='datatables/database_lang.js') }}"></script>
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='datatables/datatables.min.css') }}" />
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+<link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+<link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
 {% endblock %}
 {% block content %}
 {% include "header.html" %}
