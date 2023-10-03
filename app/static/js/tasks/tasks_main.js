@@ -9,24 +9,6 @@ if (currentUrl.includes('/all_tasks')) {
   endpoint = '/api/tasks/get_all';
 }
 
-// Глобальная переменная для хранения текущей страницы
-var currentPage = 1;
-var table;
-
-// Функция для обновления данных таблицы
-function updateTable() {
-  $.get(endpoint, function (data) {
-    // Получите текущую страницу перед обновлением
-    currentPage = table.page();
-
-    // Очистите старую таблицу и обновите данные
-    table.clear().rows.add(data).draw();
-
-    // Восстановите текущую страницу после обновления
-    table.page(currentPage).draw(false);
-  });
-}
-
 // Создание DataTable и установка интервала обновления в 5 секунд
 $(document).ready(function() {
   table = $('#myTable').DataTable({
@@ -86,7 +68,4 @@ $(document).ready(function() {
     }
   });
 
-  // Вызовите функцию обновления данных для первоначальной загрузки и установки интервала
-  // updateTable();
-  // setInterval(updateTable, 5000); // 5000 миллисекунд = 5 секунд
 });

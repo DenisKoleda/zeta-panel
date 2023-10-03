@@ -37,9 +37,34 @@ async def api_get_tasks_all():
     search = request.args.get('search[value]')
     if search:
         query = query.filter(db.or_(
-            models.Tasks.executor.like(f'%{search}%'),
+            models.Tasks.id.like(f'%{search}%'),
+            models.Tasks.user_init.like(f'%{search}%'),
+            models.Tasks.ticket.like(f'%{search}%'),
+            models.Tasks.ticket_comment.like(f'%{search}%'),
+            models.Tasks.priority.like(f'%{search}%'),
+            models.Tasks.status.like(f'%{search}%'),
+            models.Tasks.executor.like(f'%{search}%'),            
         ))
     total_filtered = query.count()
+    
+    # sorting
+    order = []
+    i = 0
+    while True:
+        col_index = request.args.get(f'order[{i}][column]')
+        if col_index is None:
+            break
+        col_name = request.args.get(f'columns[{col_index}][data]')
+        if col_name not in ['id', 'date', 'user_init', 'ticket', 'ticket_comment', 'priority', 'status', 'executor']:
+            col_name = 'id'
+        descending = request.args.get(f'order[{i}][dir]') == 'desc'
+        col = getattr(models.Tasks, col_name)
+        if descending:
+            col = col.desc()
+        order.append(col)
+        i += 1
+    if order:
+        query = query.order_by(*order)
     
     start = request.args.get('start', type=int)
     length = request.args.get('length', type=int)
@@ -56,8 +81,52 @@ async def api_get_tasks_all():
 @tasks_main.route('/api/tasks/get', methods=['GET'])
 @login_required
 async def api_get_tasks():
-    task_list = models.Tasks.query.filter(models.Tasks.status.notin_(["Закрыто", "Выполнено"])).all()
-    return jsonify([task.serialize() for task in task_list])
+    query = models.Tasks.query.filter(models.Tasks.status.notin_(["Закрыто", "Выполнено"]))
+
+    # search filter
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(db.or_(
+            models.Tasks.id.like(f'%{search}%'),
+            models.Tasks.user_init.like(f'%{search}%'),
+            models.Tasks.ticket.like(f'%{search}%'),
+            models.Tasks.ticket_comment.like(f'%{search}%'),
+            models.Tasks.priority.like(f'%{search}%'),
+            models.Tasks.status.like(f'%{search}%'),
+            models.Tasks.executor.like(f'%{search}%'),            
+        ))
+    total_filtered = query.count()
+    
+    # sorting
+    order = []
+    i = 0
+    while True:
+        col_index = request.args.get(f'order[{i}][column]')
+        if col_index is None:
+            break
+        col_name = request.args.get(f'columns[{col_index}][data]')
+        if col_name not in ['id', 'date', 'user_init', 'ticket', 'ticket_comment', 'priority', 'status', 'executor']:
+            col_name = 'id'
+        descending = request.args.get(f'order[{i}][dir]') == 'desc'
+        col = getattr(models.Tasks, col_name)
+        if descending:
+            col = col.desc()
+        order.append(col)
+        i += 1
+    if order:
+        query = query.order_by(*order)
+    
+    start = request.args.get('start', type=int)
+    length = request.args.get('length', type=int)
+    query = query.offset(start).limit(length)
+    
+    # response
+    return {
+        'data': [task.serialize() for task in query],
+        'recordsFiltered': total_filtered,
+        'recordsTotal': models.Tasks.query.count(),
+        'draw': request.args.get('draw', type=int),
+    }
 
 
 @tasks_main.route('/api/bot/task/add', methods=['POST'])
