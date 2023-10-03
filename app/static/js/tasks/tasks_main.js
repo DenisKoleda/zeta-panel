@@ -66,5 +66,9 @@ $(document).ready(function() {
       })
     }
   });
+  // Assuming this is inside the $(document).ready() block
+  $('#refreshTableBtn').on('click', function() {
+    table.ajax.reload();
+  });
 
 });
