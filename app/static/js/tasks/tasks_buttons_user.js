@@ -31,7 +31,7 @@ $(document).ready(function() {
                 // Очистка формы и закрытие модального окна
                 $('#addForm')[0].reset();
                 $('#addModal').modal('hide');
-                location.reload();
+                table.ajax.reload();
             },
             error: function (error) {
                 console.log(error);
@@ -46,7 +46,7 @@ $(document).ready(function() {
         var userName = $(this).data("name");
         var data = {id: columnId, status: buttonName, executor: userName};
         $.post('/api/tasks/update_item_status', data, function (response) {
-            location.reload();
+            table.ajax.reload();
         }).fail(function (error) {
             console.log(error);
         });       
@@ -125,7 +125,7 @@ $(document).ready(function() {
         var data = $(this).serialize();
 
         $.post('/api/tasks/update_item', data, function (response) {
-            location.reload();
+            table.ajax.reload();
         }).fail(function (error) {
             console.log(error);
         });

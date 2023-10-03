@@ -31,7 +31,7 @@ $(document).ready(function () {
                 // Очистка формы и закрытие модального окна
                 $('#addForm')[0].reset();
                 $('#addModal').modal('hide');
-                location.reload();
+                table.ajax.reload();
             },
             error: function (error) {
                 console.log(error);
@@ -106,13 +106,13 @@ $(document).ready(function () {
     $('#editForm').submit(function (event) {
         event.preventDefault();
 
-        // Отключение кнопки
-        $('#submitButton').prop('disabled', true);
+        $('#editForm')[0].reset();
+        $('#editModal').modal('hide');
 
         var data = $(this).serialize();
 
         $.post('/api/tasks/update_item', data, function (response) {
-            location.reload();
+            table.ajax.reload();
         }).fail(function (error) {
             console.log(error);
         });
@@ -143,8 +143,9 @@ $(document).ready(function () {
         $('#submitButton').prop('disabled', true);
 
         $.post('/api/tasks/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
+            $('#deleteForm')[0].reset();
             $('#deleteModal').modal('hide');
-            location.reload();
+            table.ajax.reload();
         }).fail(function (error) {
             console.log(error);
         });
@@ -155,7 +156,7 @@ $(document).ready(function () {
         var buttonName = $(this).data("status");
         var data = { id: columnId, status: buttonName };
         $.post('/api/tasks/update_item_status', data, function (response) {
-            location.reload();
+            table.ajax.reload();
         }).fail(function (error) {
             console.log(error);
         });
