@@ -34,6 +34,7 @@ $(document).ready(function() {
     buttons: buttons,
     stateSave: true,
     responsive: true,
+    lengthChange: false,
     pagingType: 'simple',
     searching: true,
     ordering: true,
