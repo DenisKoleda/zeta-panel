@@ -12,11 +12,10 @@ if (currentUrl.includes('/all_tasks')) {
 // Создание DataTable и установка интервала обновления в 5 секунд
 $(document).ready(function() {
   table = $('#myTable').DataTable({
-    dom: '<"justify-content-between align-items-center"lfB><"table-responsive"rt><"justify-content-between align-items-center"ip>',
+    dom: '<"top"lfB><"bottom"rt><"clear"ip>',
     buttons: buttons,
     stateSave: true,
     responsive: true,
-    lengthChange: false,
     pagingType: 'simple',
     searching: true,
     ordering: true,

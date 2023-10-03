@@ -28,12 +28,42 @@ def tasks_page(id):
     task = models.Tasks.query.filter_by(id=id).first()
     return render_template('tasks/task.html', task=task)
 
-@tasks_main.route('/api/tasks/get_all', methods=['GET'])
+@tasks_main.route('/api/tasks/get_all', methods=['GET', 'POST'])
 @login_required
 async def api_get_tasks_all():
     query = models.Tasks.query
 
-    # search filter
+    # SearchPanes
+    searchpanes = {'options': {}}
+    sp_fields = ['id', 'date', 'user_init', 'ticket', 'ticket_comment', 'priority', 'status', 'executor']
+    
+    for sp_field in sp_fields:
+        # Init SearchPanes
+        names = [row[0] for row in db.session.query(getattr(models.Tasks, sp_field).distinct()).all()]
+        searchpanes['options'][sp_field] = []
+        for name in names:
+            name_d = {
+                "label": name,
+                "total": query.filter(getattr(models.Tasks, sp_field).like(f'%{name}%')).count(),
+                "value": name,
+                "count": query.filter(getattr(models.Tasks, sp_field).like(f'%{name}%')).count()
+            }
+            searchpanes['options'][sp_field].append(name_d)
+            
+        # SearchPanes filter
+        if request.args.get(f'searchPanes[{sp_field}][0]'):
+            sp_filter = []
+            i = 0
+            while True:
+                col_name = request.args.get(f'searchPanes[{sp_field}][{i}]')
+                print(col_name)
+                if col_name is None:
+                    break
+                sp_filter.append(col_name)
+                i += 1
+            query = query.filter(getattr(models.Tasks, sp_field).in_(sp_filter))
+
+    # Search
     search = request.args.get('search[value]')
     if search:
         query = query.filter(db.or_(
@@ -43,11 +73,12 @@ async def api_get_tasks_all():
             models.Tasks.ticket_comment.like(f'%{search}%'),
             models.Tasks.priority.like(f'%{search}%'),
             models.Tasks.status.like(f'%{search}%'),
-            models.Tasks.executor.like(f'%{search}%'),            
+            models.Tasks.executor.like(f'%{search}%'),
         ))
+
     total_filtered = query.count()
-    
-    # sorting
+
+    # Sorting
     order = []
     i = 0
     while True:
@@ -65,17 +96,18 @@ async def api_get_tasks_all():
         i += 1
     if order:
         query = query.order_by(*order)
-    
+
     start = request.args.get('start', type=int)
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
-    
-    # response
+
+    # Response
     return {
         'data': [task.serialize() for task in query],
         'recordsFiltered': total_filtered,
         'recordsTotal': models.Tasks.query.count(),
         'draw': request.args.get('draw', type=int),
+        'searchPanes': searchpanes
     }
 
 @tasks_main.route('/api/tasks/get', methods=['GET'])

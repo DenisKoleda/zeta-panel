@@ -2,8 +2,7 @@ var buttons =[
     {
       extend: 'searchPanes',
       config: {
-        columns: [1,2,3,5,6,7],
-        cascadePanes: true,
+        columns: [1,2,5,6,7],
         viewTotal: true,
       }
     },
