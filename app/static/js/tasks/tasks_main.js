@@ -39,6 +39,9 @@ $(document).ready(function() {
     searching: true,
     ordering: true,
     data: [], // Пустой массив данных
+    ajax: endpoint,
+    serverSide: true,
+    processing: true,
     language: language,
     columns: columns,
     order: [[0, 'desc']],
@@ -84,6 +87,6 @@ $(document).ready(function() {
   });
 
   // Вызовите функцию обновления данных для первоначальной загрузки и установки интервала
-  updateTable();
+  // updateTable();
   // setInterval(updateTable, 5000); // 5000 миллисекунд = 5 секунд
 });

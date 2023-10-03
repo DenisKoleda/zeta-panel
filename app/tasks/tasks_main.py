@@ -31,8 +31,27 @@ def tasks_page(id):
 @tasks_main.route('/api/tasks/get_all', methods=['GET'])
 @login_required
 async def api_get_tasks_all():
-    task_list = models.Tasks.query.all()
-    return jsonify([task.serialize() for task in task_list])
+    query = models.Tasks.query
+
+    # search filter
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(db.or_(
+            models.Tasks.executor.like(f'%{search}%'),
+        ))
+    total_filtered = query.count()
+    
+    start = request.args.get('start', type=int)
+    length = request.args.get('length', type=int)
+    query = query.offset(start).limit(length)
+    
+    # response
+    return {
+        'data': [task.serialize() for task in query],
+        'recordsFiltered': total_filtered,
+        'recordsTotal': models.Tasks.query.count(),
+        'draw': request.args.get('draw', type=int),
+    }
 
 @tasks_main.route('/api/tasks/get', methods=['GET'])
 @login_required
