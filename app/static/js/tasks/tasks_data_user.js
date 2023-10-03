@@ -2,12 +2,27 @@ var buttons =[
     {
       extend: 'searchPanes',
       config: {
-        columns: [1,2,3,5,6,7],
-        cascadePanes: true,
+        columns: [1,2,5,6,7],
         viewTotal: true,
       }
     },
-      'createState', 'savedStates', 'copy', 
+    {
+      extend: 'createState',
+      config: {
+          creationModal: true,
+          toggle: {
+              columns:{
+                  search: true,
+                  visible: true
+              },
+              length: true,
+              order: true,
+              paging: true,
+              search: true,
+            }
+        }
+    }, 
+    'savedStates', 'copy', 
     {
       extend: 'excelHtml5',
       autoFilter: true,

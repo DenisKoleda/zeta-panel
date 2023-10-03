@@ -22,7 +22,7 @@ var buttons =[
             }
         }
     },
-   'savedStates', 'copy', 
+    'savedStates', 'copy', 
     {
       extend: 'excelHtml5',
       autoFilter: true,
