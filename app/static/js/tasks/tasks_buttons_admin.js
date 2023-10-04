@@ -106,12 +106,11 @@ $(document).ready(function () {
     $('#editForm').submit(function (event) {
         event.preventDefault();
 
-        $('#editForm')[0].reset();
-        $('#editModal').modal('hide');
-
         var data = $(this).serialize();
 
         $.post('/api/tasks/update_item', data, function (response) {
+            $('#editForm')[0].reset();
+            $('#editModal').modal('hide');
             table.ajax.reload();
         }).fail(function (error) {
             console.log(error);
@@ -139,8 +138,6 @@ $(document).ready(function () {
     $('#deleteForm').submit(function (event) {
         event.preventDefault();
 
-        // Отключение кнопки
-        $('#submitButton').prop('disabled', true);
 
         $.post('/api/tasks/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
             $('#deleteForm')[0].reset();
