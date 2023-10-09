@@ -43,8 +43,9 @@
             <label for="executor" class="form-label">Исполнитель:</label>
             <select type="form-select" class="form-select" id="executor" name="executor" required>
               <option value="Общая">Общая</option>
-              <option value="Данил">Данил</option>
-              <option value="Саша">Саша</option>
+              {% for user in listusers %}
+              <option value="{{ user }}">{{ user }}</option>
+              {% endfor %}
             </select>
           </div>
           <div class="col-md-6">
@@ -90,9 +91,9 @@
                     <label for="user_initEdit" class="form-label">Заказчик</label>
                     <select type="text" class="form-select" id="user_initEdit" name="user_init" required>
                         <option value="">--Заказчик--</option>
-                        <option value="Миша">Миша</option>
-                        <option value="Андрей">Андрей</option>
-                        <option value="Денис">Денис</option>
+                        {% for user in listusers %}
+                        <option value="{{ user }}">{{ user }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                   <div class="col-md-6">
@@ -133,8 +134,9 @@
                       <select type="text" class="form-select" id="executorEdit" name="executor" required>
                           <option value="">--Исполнитель--</option>
                           <option value="Общая">Общая</option>
-                          <option value="Данил">Данил</option>
-                          <option value="Саша">Саша</option>
+                          {% for user in listusers %}
+                          <option value="{{ user }}">{{ user }}</option>
+                          {% endfor %}
                       </select>
                   </div>
                   <div class="col-md-6">

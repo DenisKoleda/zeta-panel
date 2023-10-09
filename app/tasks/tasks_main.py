@@ -15,7 +15,10 @@ loop = asyncio.get_event_loop()
 @tasks_main.route('/tasks')
 @login_required
 def tasks_main_page():
-    return render_template('tasks/task_main.html')
+    users = models.User.query.filter_by(role="User")
+    admins = models.User.query.filter_by(role="Admin")
+    listusers=[] + [admin.username for admin in admins] + [user.username for user in users]
+    return render_template('tasks/task_main.html', listusers=listusers)
 
 @tasks_main.route('/all_tasks')
 @login_required
