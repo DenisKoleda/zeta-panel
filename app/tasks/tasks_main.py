@@ -217,9 +217,9 @@ async def delete_task_bot():
     db.session.commit()
 
     # Сдвигаем ID других элементов, чтобы избежать проблем с отсутствующими ID
-    for i, item in enumerate(models.Tasks.query.all(), 1):
-        item.id = i
-    db.session.commit()
+    # for i, item in enumerate(models.Tasks.query.all(), 1):
+    #     item.id = i
+    # db.session.commit()
 
     return jsonify({ 'success': True, 'taskID': f"Задача с ID {tasks_id['taskID']} удалена" })
 
@@ -346,9 +346,9 @@ async def delete_task_item():
     db.session.commit()
 
     # Сдвигаем ID других элементов, чтобы избежать проблем с отсутствующими ID
-    for i, item in enumerate(models.Tasks.query.all(), 1):
-        item.id = i
-    db.session.commit()
+    # for i, item in enumerate(models.Tasks.query.all(), 1):
+    #     item.id = i
+    # db.session.commit()
 
     return jsonify({ 'success': True })
 

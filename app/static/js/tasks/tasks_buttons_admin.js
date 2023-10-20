@@ -16,8 +16,6 @@ $(document).ready(function () {
     $('#addForm').submit(function (event) {
         event.preventDefault();
 
-        // Отключение кнопки
-        $('#submitButton').prop('disabled', true);
 
         // Получение данных из формы
         var formData = $('#addForm').serialize();
@@ -31,6 +29,8 @@ $(document).ready(function () {
                 // Очистка формы и закрытие модального окна
                 $('#addForm')[0].reset();
                 $('#addModal').modal('hide');
+                // установка значения поля ввода
+                dateInput.value = formattedDate;
                 table.ajax.reload();
             },
             error: function (error) {
