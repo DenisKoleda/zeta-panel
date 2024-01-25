@@ -74,10 +74,7 @@ def add_wiki():
 @login_required
 def get_wikis_id():
     logging.info(f"Request get wiki id from {current_user.username} by IP {request.remote_addr}")
-    if current_user.role == 'Admin':
-        items = models.Article.query.all()
-    else:
-        items = models.Article.query.filter(models.Article.status != "Закрыто").all()
+    items = models.Article.query.all()
     items_dict = [{'id': item.id} for item in items]
     return jsonify(items_dict)
         
