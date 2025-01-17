@@ -39,35 +39,40 @@ def tasks_page(id):
 async def api_get_tasks_all():
     query = models.Tasks.query
 
-    # SearchPanes
+    # SearchPanes - only include necessary fields
+    sp_fields = ['priority', 'status', 'executor', 'user_init']
     searchpanes = {'options': {}}
-    sp_fields = ['id', 'date', 'user_init', 'ticket', 'ticket_comment', 'priority', 'status', 'executor']
     
+    # Get distinct values and counts for each field in a single query
     for sp_field in sp_fields:
-        # Init SearchPanes
-        names = [row[0] for row in db.session.query(getattr(models.Tasks, sp_field).distinct()).all()]
+        subquery = db.session.query(
+            getattr(models.Tasks, sp_field),
+            db.func.count(models.Tasks.id).label('count')
+        ).group_by(getattr(models.Tasks, sp_field)).having(getattr(models.Tasks, sp_field).isnot(None))
+        
         searchpanes['options'][sp_field] = []
-        for name in names:
-            name_d = {
-                "label": name,
-                "total": query.filter(getattr(models.Tasks, sp_field).like(f'%{name}%')).count(),
-                "value": name,
-                "count": query.filter(getattr(models.Tasks, sp_field).like(f'%{name}%')).count()
-            }
-            searchpanes['options'][sp_field].append(name_d)
+        for value, count in subquery.all():
+            if value:  # Skip empty values
+                name_d = {
+                    "label": value,
+                    "total": count,
+                    "value": value,
+                    "count": count
+                }
+                searchpanes['options'][sp_field].append(name_d)
             
-        # SearchPanes filter
+        # Apply SearchPanes filter if present
         if request.args.get(f'searchPanes[{sp_field}][0]'):
             sp_filter = []
             i = 0
             while True:
                 col_name = request.args.get(f'searchPanes[{sp_field}][{i}]')
-                print(col_name)
                 if col_name is None:
                     break
                 sp_filter.append(col_name)
                 i += 1
-            query = query.filter(getattr(models.Tasks, sp_field).in_(sp_filter))
+            if sp_filter:
+                query = query.filter(getattr(models.Tasks, sp_field).in_(sp_filter))
 
     # Search
     search = request.args.get('search[value]')

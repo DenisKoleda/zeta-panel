@@ -1,3 +1,9 @@
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
 from app import create_app
 from werkzeug.middleware.proxy_fix import ProxyFix
 from gunicorn.app.base import Application
