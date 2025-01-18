@@ -32,7 +32,10 @@ def tasks_main_page_all():
 @login_required
 def tasks_page(id):
     task = models.Tasks.query.filter_by(id=id).first()
-    return render_template('tasks/task.html', task=task)
+    users = models.User.query.filter_by(role="User")
+    admins = models.User.query.filter_by(role="Admin")
+    listusers = [] + [admin.username for admin in admins] + [user.username for user in users]
+    return render_template('tasks/task.html', task=task, listusers=listusers)
 
 @tasks_main.route('/api/tasks/get_all', methods=['GET', 'POST'])
 @login_required

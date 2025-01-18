@@ -140,6 +140,8 @@
 {% if current_user.role == "Admin" %}
 {% include "tasks/task_admin.html" %}
 {% elif current_user.role == "User" %}
+{% with listusers=listusers %}
 {% include "tasks/task_user.html" %}
+{% endwith %}
 {% endif %}
 {% endblock %}
