@@ -2,6 +2,7 @@
 {% block title %}Задачи{% endblock %}
 {% block tasks_js %}
 <script src="{{ url_for('static', filename='js/jquery-mobile-events.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"></script>
 {% if current_user.role == "Admin" %}
 <script src="{{ url_for('static', filename='js/tasks/tasks_buttons_admin.js') }}"></script>
 <script src="{{ url_for('static', filename='js/tasks/tasks_data_admin.js') }}"></script>

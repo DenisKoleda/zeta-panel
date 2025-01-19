@@ -168,6 +168,65 @@ $(document).ready(function () {
     // Обработка контекстного меню
     var selectedTaskId = null;
 
+    // Функция показа контекстного меню
+    function showContextMenu(e, row) {
+        selectedTaskId = row.id;
+
+        // Позиционируем и показываем меню
+        var pageX = e.pageX || e.originalEvent.touches[0].pageX;
+        var pageY = e.pageY || e.originalEvent.touches[0].pageY;
+
+        $("#contextMenu").css({
+            top: pageY + "px",
+            left: pageX + "px"
+        }).show();
+
+        // Предотвращаем выход меню за пределы экрана
+        var menuWidth = $("#contextMenu").width();
+        var menuHeight = $("#contextMenu").height();
+        var windowWidth = $(window).width();
+        var windowHeight = $(window).height();
+
+        if (pageX + menuWidth > windowWidth) {
+            $("#contextMenu").css("left", (windowWidth - menuWidth) + "px");
+        }
+        if (pageY + menuHeight > windowHeight) {
+            $("#contextMenu").css("top", (windowHeight - menuHeight) + "px");
+        }
+    }
+
+    // Обработка правого клика
+    $('#myTable tbody').on('contextmenu', 'tr', function (e) {
+        e.preventDefault();
+        var row = table.row(this).data();
+        if (row) {
+            showContextMenu(e, row);
+        }
+    });
+
+    // Обработка длительного нажатия для мобильных устройств
+    $('#myTable tbody').on('taphold', 'tr', function (e) {
+        e.preventDefault();
+        var row = table.row(this).data();
+        if (row) {
+            showContextMenu(e, row);
+        }
+    });
+
+    // Предотвращаем появление стандартного контекстного меню на мобильных
+    document.addEventListener('touchmove', function (e) {
+        if ($("#contextMenu").is(":visible")) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Закрываем меню при тапе в любом месте
+    $(document).on('tap click', function (e) {
+        if (!$(e.target).closest('#contextMenu').length) {
+            $("#contextMenu").hide();
+        }
+    });
+
     // Отключаем стандартное контекстное меню на таблице
     $('#myTable tbody').on('contextmenu', 'tr', function (e) {
         e.preventDefault();
