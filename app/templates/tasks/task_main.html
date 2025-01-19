@@ -14,6 +14,14 @@
 {% block tasks %}
   <div class="context-menu" id="contextMenu" style="display: none; position: absolute; z-index: 1000;">
     <div class="list-group">
+      {% if current_user.role == "Admin" %}
+      <button class="list-group-item list-group-item-action edit-task">
+        <i class="bi bi-pencil-square"></i> Редактировать
+      </button>
+      <button class="list-group-item list-group-item-action delete-task">
+        <i class="bi bi-trash"></i> Удалить
+      </button>
+      {% else %}
       <button class="list-group-item list-group-item-action edit-task">
         <i class="bi bi-pencil-square"></i> Редактировать
       </button>
@@ -32,6 +40,7 @@
       <button class="list-group-item list-group-item-action delete-task">
         <i class="bi bi-trash"></i> Удалить
       </button>
+      {% endif %}
     </div>
   </div>
 

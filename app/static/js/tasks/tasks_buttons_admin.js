@@ -168,7 +168,7 @@ $(document).ready(function () {
     // Обработка контекстного меню
     var selectedTaskId = null;
 
-    // Функция показа контекстного меню
+    // Функция показа контекстного меню для админа (упрощенная версия)
     function showContextMenu(e, row) {
         selectedTaskId = row.id;
 

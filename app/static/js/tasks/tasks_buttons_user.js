@@ -244,13 +244,10 @@ $(document).ready(function () {
             $('.action-btn').prop('disabled', true);
             var data = {
                 id: selectedTaskId,
-                status: "Новый",
-                executor: "Общая",
-                time_started: null,
-                time_finished: null,
-                time_wasted: null
+                status: "Отложено",
+                executor: "Общая"
             };
-            $.post('/api/tasks.update_item_status', data, function (response) {
+            $.post('/api/tasks/update_item_status', data, function (response) {
                 table.ajax.reload();
             })
                 .fail(function (error) {
@@ -278,8 +275,10 @@ $(document).ready(function () {
                 $(".take-task, .postpone-task").show();
             } else if (row.status === "В Работе") {
                 $(".complete-task, .postpone-task, .free-task").show();
-            } else if (row.status === "Отложено") {
+            } else if (row.status === "Отложено" && row.executor !== "Общая") {
                 $(".take-task, .complete-task, .free-task").show();
+            } else if (row.status === "Отложено") {
+                $(".take-task, .complete-task").show();
             }
 
             $("#contextMenu").css({
