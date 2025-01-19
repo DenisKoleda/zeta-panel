@@ -12,7 +12,17 @@
 {% endif %}
 {% endblock %}
 {% block tasks %}
-  <div class="context-menu" id="contextMenu" style="display: none; position: absolute; z-index: 1000;">
+  <style>
+    .no-select {
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none;   /* Safari */
+      -khtml-user-select: none;    /* Konqueror HTML */
+      -moz-user-select: none;      /* Old versions of Firefox */
+      -ms-user-select: none;       /* Internet Explorer/Edge */
+      user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+    }
+  </style>
+  <div class="context-menu no-select" id="contextMenu" style="display: none; position: absolute; z-index: 1000;">
     <div class="list-group">
       {% if current_user.role == "Admin" %}
       <button class="list-group-item list-group-item-action edit-task">
@@ -44,7 +54,7 @@
     </div>
   </div>
 
-  <table id="myTable" class="table table-hover table-bordered" style="width:100%">
+  <table id="myTable" class="table table-hover table-bordered no-select" style="width:100%">
       <thead>
           <tr>
               <th data-column-id="id" > ID </th>
