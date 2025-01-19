@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     // получение ссылки на поле ввода
     var dateInput = document.getElementById('date');
@@ -16,8 +16,8 @@ $(document).ready(function() {
     $('#addForm').submit(function (event) {
         event.preventDefault();
 
-        // Отключение кнопки
-        $('#submitButton').prop('disabled', true);
+        // Отключаем все кнопки отправки форм
+        $('.btn[type="submit"]').prop('disabled', true);
 
         // Получение данных из формы
         var formData = $('#addForm').serialize();
@@ -35,21 +35,35 @@ $(document).ready(function() {
             },
             error: function (error) {
                 console.log(error);
+            },
+            complete: function () {
+                // Включаем обратно все кнопки отправки форм
+                $('.btn[type="submit"]').prop('disabled', false);
             }
         });
     });
 
     // Назначение обработчика кликов на родительский элемент
-    $("#TableBody").on("click", ".action-btn", function() {
-        var columnId = $(this).data("id");
-        var buttonName = $(this).data("status");
-        var userName = $(this).data("name");
-        var data = {id: columnId, status: buttonName, executor: userName};
+    $("#TableBody").on("click", ".action-btn", function () {
+        var $button = $(this);
+        var columnId = $button.data("id");
+        var buttonName = $button.data("status");
+        var userName = $button.data("name");
+
+        // Блокируем все кнопки действий
+        $('.action-btn').prop('disabled', true);
+
+        var data = { id: columnId, status: buttonName, executor: userName };
         $.post('/api/tasks/update_item_status', data, function (response) {
             table.ajax.reload();
-        }).fail(function (error) {
-            console.log(error);
-        });       
+        })
+            .fail(function (error) {
+                console.log(error);
+            })
+            .always(function () {
+                // Разблокируем все кнопки действий
+                $('.action-btn').prop('disabled', false);
+            });
     });
 
     $('#editModal').on('show.bs.modal', function (event) {
@@ -119,16 +133,21 @@ $(document).ready(function() {
     $('#editForm').submit(function (event) {
         event.preventDefault();
 
-        // Отключение кнопки
-        $('#submitButton').prop('disabled', true);
+        // Блокируем все кнопки отправки форм
+        $('.btn[type="submit"]').prop('disabled', true);
 
         var data = $(this).serialize();
 
         $.post('/api/tasks/update_item', data, function (response) {
             table.ajax.reload();
-        }).fail(function (error) {
-            console.log(error);
-        });
+        })
+            .fail(function (error) {
+                console.log(error);
+            })
+            .always(function () {
+                // Разблокируем все кнопки отправки форм
+                $('.btn[type="submit"]').prop('disabled', false);
+            });
     });
 
-  });
+});
