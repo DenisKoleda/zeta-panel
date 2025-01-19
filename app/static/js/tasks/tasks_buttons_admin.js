@@ -16,8 +16,6 @@ $(document).ready(function () {
     $('#addForm').submit(function (event) {
         event.preventDefault();
 
-        // Блокируем все кнопки отправки форм
-        $('.btn[type="submit"]').prop('disabled', true);
 
         // Получение данных из формы
         var formData = $('#addForm').serialize();
@@ -37,10 +35,6 @@ $(document).ready(function () {
             },
             error: function (error) {
                 console.log(error);
-            },
-            complete: function () {
-                // Разблокируем все кнопки отправки форм
-                $('.btn[type="submit"]').prop('disabled', false);
             }
         });
     });
@@ -112,23 +106,15 @@ $(document).ready(function () {
     $('#editForm').submit(function (event) {
         event.preventDefault();
 
-        // Блокируем все кнопки отправки форм
-        $('.btn[type="submit"]').prop('disabled', true);
-
         var data = $(this).serialize();
 
         $.post('/api/tasks/update_item', data, function (response) {
             $('#editForm')[0].reset();
             $('#editModal').modal('hide');
             table.ajax.reload();
-        })
-            .fail(function (error) {
-                console.log(error);
-            })
-            .always(function () {
-                // Разблокируем все кнопки отправки форм
-                $('.btn[type="submit"]').prop('disabled', false);
-            });
+        }).fail(function (error) {
+            console.log(error);
+        });
     });
 
     // TODO Добавить вывод информации об удаляемом элементе
@@ -152,41 +138,24 @@ $(document).ready(function () {
     $('#deleteForm').submit(function (event) {
         event.preventDefault();
 
-        // Блокируем все кнопки отправки форм
-        $('.btn[type="submit"]').prop('disabled', true);
 
         $.post('/api/tasks/delete_item', { id: $('#idSelectDelete').val() }, function (response) {
             $('#deleteForm')[0].reset();
             $('#deleteModal').modal('hide');
             table.ajax.reload();
-        })
-            .fail(function (error) {
-                console.log(error);
-            })
-            .always(function () {
-                // Разблокируем все кнопки отправки форм
-                $('.btn[type="submit"]').prop('disabled', false);
-            });
+        }).fail(function (error) {
+            console.log(error);
+        });
     });
 
     $("#TableBody").on("click", ".action-btn", function () {
-        var $button = $(this);
-        var columnId = $button.data("id");
-        var buttonName = $button.data("status");
-
-        // Блокируем все кнопки действий
-        $('.action-btn').prop('disabled', true);
-
+        var columnId = $(this).data("id");
+        var buttonName = $(this).data("status");
         var data = { id: columnId, status: buttonName };
         $.post('/api/tasks/update_item_status', data, function (response) {
             table.ajax.reload();
-        })
-            .fail(function (error) {
-                console.log(error);
-            })
-            .always(function () {
-                // Разблокируем все кнопки действий
-                $('.action-btn').prop('disabled', false);
-            });
+        }).fail(function (error) {
+            console.log(error);
+        });
     });
 });
