@@ -11,6 +11,29 @@
 {% endif %}
 {% endblock %}
 {% block tasks %}
+  <div class="context-menu" id="contextMenu" style="display: none; position: absolute; z-index: 1000;">
+    <div class="list-group">
+      <button class="list-group-item list-group-item-action edit-task">
+        <i class="bi bi-pencil-square"></i> Редактировать
+      </button>
+      <button class="list-group-item list-group-item-action take-task">
+        <i class="bi bi-play-fill"></i> Взять в работу
+      </button>
+      <button class="list-group-item list-group-item-action complete-task">
+        <i class="bi bi-check-lg"></i> Завершить
+      </button>
+      <button class="list-group-item list-group-item-action postpone-task">
+        <i class="bi bi-clock"></i> Отложить
+      </button>
+      <button class="list-group-item list-group-item-action free-task">
+        <i class="bi bi-unlock"></i> Освободить
+      </button>
+      <button class="list-group-item list-group-item-action delete-task">
+        <i class="bi bi-trash"></i> Удалить
+      </button>
+    </div>
+  </div>
+
   <table id="myTable" class="table table-hover table-bordered" style="width:100%">
       <thead>
           <tr>
