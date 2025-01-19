@@ -31,9 +31,14 @@ $(document).ready(function () {
                 // Очистка формы и закрытие модального окна
                 $('#addForm')[0].reset();
                 $('#addModal').modal('hide');
-                // установка значения поля ввода
-                dateInput.value = formattedDate;
                 table.ajax.reload();
+                // Заново устанавливаем текущую дату после сброса формы
+                var today = new Date();
+                var formattedDate = today.toISOString().substr(0, 10);
+                dateInput.value = formattedDate;
+                // Удаляем класс modal-open и backdrop
+                $('body').removeClass('modal-open').css('padding-right', '');
+                $('.modal-backdrop').remove();
             },
             error: function (error) {
                 console.log(error);
@@ -96,6 +101,9 @@ $(document).ready(function () {
             $('#editForm')[0].reset();
             $('#editModal').modal('hide');
             table.ajax.reload();
+            // Удаляем класс modal-open и backdrop
+            $('body').removeClass('modal-open').css('padding-right', '');
+            $('.modal-backdrop').remove();
         })
             .fail(function (error) {
                 console.log(error);

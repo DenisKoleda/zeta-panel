@@ -32,6 +32,13 @@ $(document).ready(function () {
                 $('#addForm')[0].reset();
                 $('#addModal').modal('hide');
                 table.ajax.reload();
+                // Заново устанавливаем текущую дату после сброса формы
+                var today = new Date();
+                var formattedDate = today.toISOString().substr(0, 10);
+                dateInput.value = formattedDate;
+                // Удаляем класс modal-open и backdrop
+                $('body').removeClass('modal-open').css('padding-right', '');
+                $('.modal-backdrop').remove();
             },
             error: function (error) {
                 console.log(error);
@@ -115,6 +122,10 @@ $(document).ready(function () {
 
         $.post('/api/tasks/update_item', data, function (response) {
             table.ajax.reload();
+            $('#editModal').modal('hide');
+            // Удаляем класс modal-open и backdrop
+            $('body').removeClass('modal-open').css('padding-right', '');
+            $('.modal-backdrop').remove();
         })
             .fail(function (error) {
                 console.log(error);
