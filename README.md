@@ -1,5 +1,7 @@
 # Zeta-Panel - Панель управления задачами и складом
 
+📘 English version: [README_EN.md](README_EN.md)
+
 Zeta-Panel - это инструмент для управления задачами и складом в системе Zetalink. Он использует технологии Bootstrap 5, Flask, SQLAlchemy, Jquery, и Datatables JS для предоставления удобного и эффективного пользовательского интерфейса с поддержкой Telegram
 
 ## Особенности
